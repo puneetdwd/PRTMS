@@ -1,0 +1,1 @@
+ALTER TABLE `test_records` ADD `lot_no` VARCHAR(50) NULL DEFAULT NULL AFTER `no_of_observations`;

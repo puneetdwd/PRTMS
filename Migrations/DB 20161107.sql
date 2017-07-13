@@ -1,0 +1,1 @@
+ALTER TABLE `monthly_plan` ADD `schedule_date` DATE NULL DEFAULT NULL AFTER `test_id`;
