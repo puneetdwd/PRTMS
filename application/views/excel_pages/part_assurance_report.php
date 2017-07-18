@@ -61,8 +61,11 @@
                         </table>
                         <table class="table table-hover table-light" border="2">
                             <tr>
-                                <td colspan="9"><b>Judgement &nbsp;&nbsp;: </b>
+                                <td colspan="6"><b>Judgement &nbsp;&nbsp;: </b>
                                     <?php echo $judgement; ?>
+                                </td>
+								<td colspan="3"><b>Event &nbsp;&nbsp;: </b>
+                                    <?php echo $reports_event['name'];  ?>
                                 </td>
                             </tr>
                         </table>
@@ -101,8 +104,8 @@
                                         <td width="25%" style="vertical-align:middle;"><?php echo $report['method']; ?></td>
                                         <td width="15%" align="center" style="vertical-align:middle;"><?php echo $report['judgement']; ?></td>
                                         <td width="5%" align="center" style="vertical-align:middle;"><?php echo $report['samples']; ?></td>
-                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo explode(" ",$report['start_date'])[0]; ?></td>
-                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo explode(" ",$report['end_date'])[0]; ?></td>
+                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('jS M, y', strtotime($report['start_date'])); ?></td>
+                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('jS M, y', strtotime($report['end_date'])); ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo strtoupper($report['observation_result']); ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo " "; ?></td>
                                     </tr>
