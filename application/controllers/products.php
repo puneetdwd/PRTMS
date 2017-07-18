@@ -175,16 +175,41 @@ class Products extends Admin_Controller {
         if($this->input->post()) {
             $post_data = $this->input->post();
             $post_data['product_id'] = $product['id'];
-            
-            $response = $this->Product_model->update_product_part($post_data, $part_id); 
+            //print_r($post_data);exit;
+            		
+        
+        
+		$fullpath = 'assets/part reference files/';
+		//for Product directory
+		// print_r($_FILES);exit;
+		if($_FILES['img_file']['name'] != '') {			
+			//echo $_FILES['img_file']['name'];exit;
+		 
+			
+			$config['upload_path'] = $fullpath;
+			$config['allowed_types'] = 'jpg|jpeg|png|pdf|ppt';
+			$config['file_name'] = uniqid() .$_FILES['img_file']['name'];
+            $post_data['img_file'] = $config['file_name'];
+			
+			//Load upload library and initialize configuration
+			$this->load->library('upload',$config);
+			$this->upload->initialize($config);
+			
+			if($this->upload->do_upload('img_file')){
+				$uploadData = $this->upload->data();
+				$img_file = $uploadData['file_name'];
+			}
+		}///end img/file upload
+		
+		$response = $this->Product_model->update_product_part($post_data, $part_id); 
             if($response) {
                 $this->session->set_flashdata('success', 'Product part successfully '.(($part_id) ? 'updated' : 'added').'.');
                 redirect(base_url().'products/parts/'.$product_id);
             } else {
                 $data['error'] = 'Something went wrong, Please try again';
-            }
-        }
-        
+            }	
+		
+		}
         $this->template->write_view('content', 'products/add_product_part', $data);
         $this->template->render();
     }
@@ -255,6 +280,33 @@ class Products extends Admin_Controller {
         
         echo json_encode($data);
     }
+	public function get_part_number_by_part() {
+        $data = array('parts' => array());
+        
+        if($this->input->post('part')) {
+            $this->load->model('Product_model');
+            $data['parts'] = $this->Product_model->get_part_num_by_part($this->input->post('part'),$this->input->post('product'));
+			
+			//echo $this->db->last_query(); exit;
+        }
+			// echo $this->input->post('part').'123';print_r($data['parts']);exit;
+        
+        echo json_encode($data);
+    }
+	
+	 public function get_suppliers_by_part() {
+        $data = array('suppliers' => array());
+        
+        if($this->input->post('part')) {
+            $this->load->model('Supplier_model');
+            $data['parts'] = $this->Supplier_model->get_suppliers_by_part($this->input->post('part'));
+
+			//echo $this->db->last_query(); exit;
+           }
+        
+        echo json_encode($data);
+    }
+    
 
     private function parse_ptc_master_old($product_id, $file_name) {
         //$file_name = 'assets/masters/'.$file_name;
@@ -630,8 +682,7 @@ class Products extends Admin_Controller {
         
         //get only the Cell Collection
         $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
-        $arr = $objPHPExcel->getActiveSheet()->toArray(null, true,true,true);
-        
+        $arr = $objPHPExcel->getActiveSheet()->toArray(null, true,true,true,true);
         if(empty($arr) || !isset($arr[1])) {
             return FALSE;
         }
@@ -658,6 +709,8 @@ class Products extends Admin_Controller {
             $temp['category']       = $category;
             $temp['code']           = trim($row['B']);
             $temp['name']           = trim($row['C']);
+            $temp['part_no']        = trim($row['D']);
+            $temp['img_file']       = trim($row['E']);
             $temp['created']        = date("Y-m-d H:i:s");
             
             $exists = $this->Product_model->get_product_part_by_code($temp['product_id'], $temp['code']);
@@ -670,6 +723,7 @@ class Products extends Admin_Controller {
             }
             
         }
+        // print_r($temp);exit;
 
         $this->load->model('Product_model');
         $this->Product_model->insert_parts($parts, $product_id);

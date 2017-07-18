@@ -139,9 +139,15 @@ class reports extends Admin_Controller {
         $_SESSION['par_filters'] = $filters;
         
         if(!empty($filters)){
-            
+            // print_r($filters);exit;
+			// Array ( [month] => 4 [year] => 2017 [stage_id] => 3 [product_id] => 2 [part_id] => PCB Assembly Main [part_id1] => 7 [supplier_id] => 14 ) 
             $this->load->model('report_model');
             $data['reports_common'] = $this->report_model->get_common_details_part_based_test_report($filters);
+			//echo "<pre>"; print_r($filters); exit;
+			//echo $this->db->last_query(); exit;
+            $data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
+			//$data['reports_common']['event_name'] = $data['reports_event']['name'];
+			///print_r($data['reports_common']);exit;
             $data['reports'] = $this->report_model->get_part_based_test_report($filters);
             $samples = 0;
             $judgement = 'OK';

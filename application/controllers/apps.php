@@ -28,6 +28,8 @@ class Apps extends Admin_Controller {
         $this->load->model('Stage_model');
         $data['stages'] = $this->Stage_model->get_all_stages();
         
+		// print_r();exit;
+		
         if($this->input->post()) {
             $this->load->library('form_validation');
 
@@ -45,12 +47,13 @@ class Apps extends Admin_Controller {
 
             if($validate->run() === TRUE) {
                 $post_data = $this->input->post();
-                
+				
                 $post_data['start_date'] = date('Y-m-d H:i:s');
                 $post_data['end_date'] = date('Y-m-d H:i:s', strtotime('+'.($post_data['duration']).' hours'));
                 $post_data['no_of_observations'] = floor($post_data['duration']/$post_data['observation_frequency'])+1;
                 
-                $response = $this->Apps_model->update_test($post_data);
+               $response = $this->Apps_model->update_test($post_data);
+			   
                 if($response) {
                     $this->Apps_model->add_observation(array('observation_index' => 0, 'test_id' => $response));
 
@@ -72,6 +75,7 @@ class Apps extends Admin_Controller {
         $data = array();
         $this->load->model('Apps_model');
         $data['test'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), $code);
+		//echo '<pre>';print_r($data['test']);exit;
         if(empty($data['test'])) {
             redirect(base_url());
         }
@@ -265,6 +269,7 @@ class Apps extends Admin_Controller {
     }
     
     public function mark_as_complete($code) {
+		// print_r($_FILES);exit;
         $this->load->model('Apps_model');
         $on_going = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), $code);
         if(empty($on_going)) {
@@ -340,14 +345,39 @@ class Apps extends Admin_Controller {
     }
     
     public function add_observation($code) {
+		//print_r($_FILES);exit;
         if($this->input->post()) {
+            $post_data = $this->input->post();
+			
+				//test Image Upload
+				$test_img = $_FILES['test_img']['name'];      
+				$fullpath = 'assets/test images/';				
+				if($_FILES['test_img']['name'] != '') {			
+					$config['upload_path'] = $fullpath;
+					$config['allowed_types'] = 'jpg|jpeg|png|gif';
+					$config['file_name'] = uniqid() .$_FILES['test_img']['name'];
+					
+					//Load upload library and initialize configuration
+					$this->load->library('upload',$config);
+					$this->upload->initialize($config);
+					
+					if($this->upload->do_upload('test_img')){
+						$uploadData = $this->upload->data();
+						$test_img = $uploadData['file_name'];
+					}
+				}
+				if($test_img){
+					$post_data['test_img'] = $test_img;
+				}				
+				//End Image Upload
+				
+			
             $this->load->model('Apps_model');
             $on_going = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), $code);
             if(empty($on_going)) {
                 redirect($_SERVER['HTTP_REFERER']);
             }
             
-            $post_data = $this->input->post();
 
             $post_data['test_id'] = $on_going['id'];
             $post_data['observation_at'] = date('Y-m-d H:i:s');
@@ -356,6 +386,7 @@ class Apps extends Admin_Controller {
             $exists = $this->Apps_model->observation_index_exists($on_going['id'], $observation_index);
             
             $id = !empty($exists) ? $exists['id'] : '';
+			//print_r($post_data);exit;
             $response = $this->Apps_model->add_observation($post_data, $id);
             if($response) {
                 $this->session->set_flashdata('success', 'Test successfully marked aborted.');
