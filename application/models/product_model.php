@@ -39,6 +39,16 @@ class Product_model extends CI_Model {
         return $this->db->query($sql, array($product_id))->result_array();
     }
     
+	function get_part_num_by_part($part_name,$product_id) {
+		$sql = "SELECT pp.*
+        FROM product_parts pp
+        WHERE pp.is_deleted = 0
+        AND pp.name like ? AND pp.product_id = ?
+        ORDER BY pp.name";        
+		
+        return $this->db->query($sql, array($part_name,$product_id))->result_array();
+    }
+    
     function get_all_parts() {
        $sql = "SELECT pp.*, p.name as product_name, 
        p.code as product_code
@@ -83,9 +93,9 @@ class Product_model extends CI_Model {
     }
     
     function update_product_part($data, $part_id){
-        $needed_array = array('code', 'name', 'category', 'product_id', 'is_deleted');
+        $needed_array = array('code', 'name', 'part_no','img_file', 'category', 'product_id', 'is_deleted');
         $data = array_intersect_key($data, array_flip($needed_array));
-
+		// print_r($data);exit;
         if(empty($part_id)) {
             $data['created'] = date("Y-m-d H:i:s");
             return (($this->db->insert('product_parts', $data)) ? $this->db->insert_id() : False);
@@ -95,6 +105,7 @@ class Product_model extends CI_Model {
             
             return (($this->db->update('product_parts', $data)) ? $part_id : False);
         }
+		echo 'ok';
     }
 
     function insert_parts($parts, $product_id) {

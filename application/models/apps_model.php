@@ -4,8 +4,9 @@ class Apps_model extends CI_Model {
     function update_test($data, $id = ''){
         $needed_array = array('chamber_id', 'product_id', 'part_id', 'part_no', 'supplier_id', 
         'test_id', 'samples', 'duration', 'observation_frequency', 'no_of_observations', 'start_date', 'end_date',
-        'aborted', 'completed', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no');
+        'aborted', 'completed', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img');
         $data = array_intersect_key($data, array_flip($needed_array));
+		//echo '<pre>';print_r($data);exit;
 
         if(empty($id)) {
             $data['created'] = date("Y-m-d H:i:s");
@@ -33,7 +34,7 @@ class Apps_model extends CI_Model {
     }
     
     function on_going_test($chamber_ids, $date, $code = '', $limit = '') {
-        $sql = "SELECT tr.*, p.name as product_name,
+        $sql = "SELECT tr.*, p.name as product_name, pp.img_file as img_file,
         pp.name as part_name, s.name as supplier_name,
         t.name as test_name, t.method as test_method, t.judgement as test_judgement,
         c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
@@ -101,9 +102,9 @@ class Apps_model extends CI_Model {
     }
 
     function add_observation($data, $id = '') {
-        $needed_array = array('observation_index', 'test_id', 'observation_at', 'observation_result', 'check_items', 'display_temp_set', 'display_temp_act', 'humidity_set', 'humidity_act', 'pressure_set', 'pressure_act', 'ph_act', 'appearance', 'current', 'set_volt', 'power_watt', 'act_volt', 'torque_rpm', 'rust', 'colour', 'crack', 'adhesion', 'fog', 'salt_water_level', 'assistant_name');
+        $needed_array = array('observation_index', 'test_id', 'observation_at', 'observation_result', 'check_items', 'display_temp_set', 'display_temp_act', 'humidity_set', 'humidity_act', 'pressure_set', 'pressure_act', 'ph_act', 'appearance', 'current', 'set_volt', 'power_watt', 'act_volt', 'torque_rpm', 'rust', 'colour', 'crack', 'adhesion', 'fog', 'salt_water_level', 'test_img', 'assistant_name');
         $data = array_intersect_key($data, array_flip($needed_array));
-
+		// print_r($data);exit;
         if(empty($id)) {
             $data['created'] = date("Y-m-d H:i:s");
             return (($this->db->insert('test_observations', $data)) ? $this->db->insert_id() : False);
