@@ -187,7 +187,7 @@ class Products extends Admin_Controller {
 		 
 			
 			$config['upload_path'] = $fullpath;
-			$config['allowed_types'] = 'jpg|jpeg|png|pdf|ppt';
+			$config['allowed_types'] = 'jpg|jpeg|png';
 			$config['file_name'] = uniqid() .$_FILES['img_file']['name'];
             $post_data['img_file'] = $config['file_name'];
 			
