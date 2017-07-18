@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="portlet-body form">
-                    <form role="form" class="validate-form" method="post">
+                    <form role="form" class="validate-form" method="post" enctype="multipart/form-data">
                         <div class="form-body">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-close="alert"></button>
@@ -92,6 +92,39 @@
                                         value="<?php echo isset($part['name']) ? $part['name'] : ''; ?>">
                                         <span class="help-block">
                                         </span>
+                                    </div>
+                                </div>
+                            </div>
+							
+							<div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="part_no">Part Number:
+                                        <span class="required">*</span></label>
+                                        <input type="text" class="required form-control" name="part_no"
+                                        value="<?php echo isset($part['part_no']) ? $part['part_no'] : ''; ?>">
+                                        <span class="help-block">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+							<div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="img_file">
+											Image/File:<span class="required">*</span>
+										</label>
+                                        <input type="file" class="required form-control" name="img_file" id="img_file"
+                                        value='<?php if(!empty($part['img_file'])) { echo $part['img_file'];} ?>'>
+                                        <span class="help-block">Only jpg|jpeg|png files are allowed</span>
+										<?php
+										if(!empty($part['img_file']))
+										{	?>
+											<a href="<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>" target='_blank'>View Uploaded Image</a>
+											<?php
+										}
+										?>
                                     </div>
                                 </div>
                             </div>

@@ -59,6 +59,8 @@
                                     <th>Category</th>
                                     <th>Part Code</th>
                                     <th>Part Name</th>
+                                    <th>Part Number</th>
+                                    <th>Image/File</th>
                                     <th class="no_sort" style="width:100px;"></th>
                                 </tr>
                             </thead>
@@ -68,6 +70,12 @@
                                         <td><?php echo $part['category']; ?></td>
                                         <td><?php echo $part['code']; ?></td>
                                         <td><?php echo $part['name']; ?></td>
+                                        <td><?php echo $part['part_no']; ?></td>
+                                        <td>
+										<?php if(!empty($part['img_file'])){ ?>
+											<a href="<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>" target='_blank'>View Image</a>
+										<?php } ?>	
+										</td>
                                         <td nowrap>
                                             <a class="button small gray" 
                                                 href="<?php echo base_url()."products/add_product_part/".$product['id'].'/'.$part['id'];?>">
