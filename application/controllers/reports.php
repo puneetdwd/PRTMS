@@ -188,11 +188,13 @@ class reports extends Admin_Controller {
                     $judgement = 'NG';
                 }
             }
+			$data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
             $data['samples'] = $samples;
             $data['judgement'] = $judgement;
             $data['month'] = $filters['month'];
             $data['year'] = $filters['year'];
             $data['export'] = true;
+			// echo "<pre>";print_r($data);
             $str = $this->load->view('excel_pages/part_assurance_report', $data, true);
             
             header('Content-Type: application/force-download');
