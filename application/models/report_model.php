@@ -28,6 +28,11 @@ class report_model extends CI_Model {
 
         return $this->db->get('tests')->row_array();
     }
+	function get_event($id) {
+        $this->db->where('id', $id);
+
+        return $this->db->get('stages')->row_array();
+    }
     
     function get_completed_test_report($filters = array()){
         
@@ -214,8 +219,7 @@ class report_model extends CI_Model {
     }
     
     function get_common_details_part_based_test_report($filters = array()){
-        
-        $sql = "SELECT t.part_no, t.lot_no, p.name as product_name, pp.name as part_name, s.name as supplier_name, 
+        $sql = "SELECT pp.part_no, t.lot_no,st.name as event, p.name as product_name, pp.name as part_name, s.name as supplier_name, 
                 t.samples
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 
@@ -233,12 +237,11 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['product_id'];
         }
         
-        if(!empty($filters['part_id'])) {
-            $sql .= ' AND t.part_id = ?';
-            $pass_array[] = $filters['part_id'];
+        if(!empty($filters['part_id1'])) {
+			$sql .= ' AND t.part_id = ?';
+            $pass_array[] = $filters['part_id1'];
         }
-        
-        if(!empty($filters['chamber_id'])) {
+		if(!empty($filters['chamber_id'])) {
             $sql .= ' AND t.chamber_id = ?';
             $pass_array[] = $filters['chamber_id'];
         }
@@ -249,6 +252,7 @@ class report_model extends CI_Model {
         }
         
         if(!empty($filters['stage_id'])) {
+			
             $sql .= ' AND t.stage_id = ?';
             $pass_array[] = $filters['stage_id'];
         }
@@ -258,21 +262,23 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['start_date'];
         }
         
+        if(!empty($filters['supplier_id'])) {
+            $sql .= ' AND t.supplier_id = ?';
+            $pass_array[] = $filters['supplier_id'];
+        } 
+        
         if(!empty($filters['end_date'])) {
             $sql .= ' AND t.start_date <= ?';
             $pass_array[] = $filters['end_date'];
         }
         
-        $sql .= " limit 0,1";
-        
-        //echo $sql; exit;
-        
-        return $this->db->query($sql, $pass_array)->row_array();
-    }
+        $sql .= " ORDER by t.part_id DESC limit 0,1";
+         return $this->db->query($sql, $pass_array)->row_array();
+	}
     
     function get_part_based_test_report($filters = array()){
         
-        $sql = "SELECT t.id as test_record_id, t.code, t.samples, ts.name as test_name, ts.method, ts.judgement, c.name as chamber_name, 
+		$sql = "SELECT t.id as test_record_id, t.code, t.samples, ts.name as test_name, ts.method, ts.judgement, c.name as chamber_name, 
                 t.start_date, t.end_date, tt.observation_result, c.category as chamber_category, st.name as stage_name
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 
@@ -291,16 +297,10 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['product_id'];
         }
         
-        if(!empty($filters['part_id'])) {
-            $sql .= ' AND t.part_id = ?';
-            $pass_array[] = $filters['part_id'];
-        }
-        
         if(!empty($filters['part_id1'])) {
             $sql .= ' AND t.part_id = ?';
             $pass_array[] = $filters['part_id1'];
-        }
-        
+        } 
         if(!empty($filters['chamber_id'])) {
             $sql .= ' AND t.chamber_id = ?';
             $pass_array[] = $filters['chamber_id'];
@@ -326,10 +326,8 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['year']."-".$filters['month']."-01";
             $pass_array[] = $filters['year']."-".$filters['month']."-".date('t', strtotime($filters['year']."-".$filters['month']."-15"));
         }
-        
-        //echo $sql."<br><pre>"; print_r($pass_array); exit;
-        
+        $sql .= ' GROUP BY t.id';
         return $this->db->query($sql, $pass_array)->result_array();
-    }
+	}
     
 }
