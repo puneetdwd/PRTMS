@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="portlet-body form">
-                    <form role="form" class="validate-form" method="post">
+                    <form role="form" class="validate-form" method="post" enctype='multipart/form-data'>
                         <div class="form-body">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-close="alert"></button>
@@ -279,6 +279,7 @@
                                         </span>
                                     </div>
                                 </div>
+                              
                             </div>
                             
                         </div>

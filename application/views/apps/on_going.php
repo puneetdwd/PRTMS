@@ -13,7 +13,9 @@
     }
 </style>
 
-<?php $category = $test['chamber_category']; ?>
+<?php 
+	$category = $test['chamber_category']; 
+?>
 <div class="page-content">
     <!-- BEGIN PAGE HEADER-->
     <div class="breadcrumbs">
@@ -59,7 +61,7 @@
                 </div>
 
                 <div class="portlet-body form">
-                    <form role="form" class="" method="post">
+                    <form role="form" class="" method="post" enctype='multipart/form-data'>
                         <div class="form-body">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-close="alert"></button>
@@ -283,7 +285,22 @@
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <i class="icon-puzzle font-grey-gallery"></i>
-                                        <span class="caption-subject bold font-grey-gallery uppercase"> Observations </span>
+                                        <span class="caption-subject bold font-grey-gallery uppercase"> Observations</span>
+										 
+										 <?php if(!empty($test["img_file"])){ ?>
+											<button style='border: none;background-color: #fff;color: black;font-size: 16px;' type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">(View Reference Image)</button>
+
+											<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											  <div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-body">
+														<img src='<?php echo base_url()."assets/part reference files/".$test["img_file"]; ?>' class="img-responsive">
+													</div>
+												</div>
+											  </div>
+											</div>
+											
+										 <?php } ?>
                                     </div>
                                     <div class="tools">
                                     </div>
@@ -296,7 +313,8 @@
                                                 <td style="width:100px;">Day</td>
                                                 
                                                 <?php for($i=0; $i<$test['no_of_observations']; $i++) { ?>
-                                                    <td colspan="<?php echo $test['samples']; ?>" class="text-center"><?php echo $i; ?></td>
+                                                    <td colspan="<?php echo $test['samples']; ?>" class="text-center"><?php echo $i; 
+													?></td>
                                                 <?php } ?>
                                             </tr>
                                             <tr>
@@ -586,7 +604,7 @@
                                                 <?php foreach($observations['allowed'] as $ind => $ob) { ?>
                                                     <?php if($ob == 'Yes') { ?>
                                                         <td class="text-center">
-                                                            <button type="button" class="button small observation-modal-btn" data-index="<?php echo $ind; ?>">
+                                                            <button type="button" class="button small observation-modal-btn" data-index="<?php echo $ind; ?>" id="<?php echo $ind; ?>">
                                                                 Add Observation
                                                             </button>
                                                         </td>
@@ -597,6 +615,8 @@
                                     </div>
                                 </div>
                             </div>
+							
+							
                             
                             <div class="form-actions text-center">
                                 <a data-toggle="modal" href="#switch-chamber-modal" class="button gray">
@@ -708,7 +728,7 @@
 
 <div class="modal fade bs-modal-lg" id="observation-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="validate-form" id="observation-form" action="<?php echo base_url().'apps/add_observation/'.$test['code']; ?>" method="post">
+        <form class="validate-form" id="observation-form" action="<?php echo base_url().'apps/add_observation/'.$test['code']; ?>" method="post" enctype='multipart/form-data'>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -999,6 +1019,24 @@
                     </table>
                 
                     <div class="row" style="margin-top:10px;">
+							
+			
+						<?php 
+							$max_observation =  $test['no_of_observations'] * $test['samples']; 
+						
+						if($max_observation - 1 ){ ?>
+						<input type="hidden" name="max_observation" id="max_observation" value='<?php echo $max_observation; ?>' />
+                    
+						<div class="form-group img_test">
+                            <label for="test_img" class="col-md-2 col-md-offset-6" style="margin-top: 7px;">Test Image</label>
+                            <div class="col-md-4">
+                                <input type="file" class="form-control" name="test_img" placeholder="Choose Image">
+								<span class="help-block">Only jpg|png files are allowed.
+								</span>
+                            </div>
+                        </div>
+						<?php } ?>
+                   
                         <div class="form-group">
                             <label for="assistant_name" class="col-md-2 col-md-offset-6" style="margin-top: 7px;">Assistant Name</label>
                             <div class="col-md-4">
@@ -1017,3 +1055,18 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+<script>
+$(".observation-modal-btn").click(function() {
+    var obs_button = this.id; // or alert($(this).attr('id'));
+    var max_obs = document.getElementById("max_observation").value;
+	var max = max_obs -1;
+	if(obs_button == max){
+		$('.img_test').show();
+		$(".img_test>div>input").addClass("required");
+	}else{
+		//$('.img_test').remove("CLASS_NAME");
+		$('.img_test').hide();
+	}
+});
+</script>
