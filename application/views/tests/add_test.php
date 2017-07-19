@@ -104,6 +104,18 @@
                                         </span>
                                     </div>
                                 </div>
+								
+								<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="test_set">Set:
+                                        <span class="required">*</span></label>
+                                        <input type="text" class="required form-control" name="test_set"
+                                        value="<?php echo isset($test['test_set']) ? $test['test_set'] : ''; ?>">
+                                        <span class="help-block">
+                                        </span>
+                                    </div>
+                                </div>
+								
                             </div>
                         </div>
                             
