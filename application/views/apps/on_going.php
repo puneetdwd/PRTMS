@@ -370,7 +370,8 @@
                                                     <td>Set Volt</td>
                                                     
                                                     <?php foreach($observations['set_volt'] as $ob) { ?>
-                                                        <td><?php echo $ob; ?></td>
+                                                        <td><?php //echo $ob;
+																echo $test['test_set'];?></td>
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
