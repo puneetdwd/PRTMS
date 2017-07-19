@@ -2,10 +2,9 @@
 class Test_model extends CI_Model {
 
     function add_test($data, $test_id){
-        $needed_array = array('code', 'name', 'method', 'judgement', 'duration');
+        $needed_array = array('code', 'name', 'method', 'judgement', 'duration', 'test_set');
         $data = array_intersect_key($data, array_flip($needed_array));
-
-        if(empty($test_id)) {
+		if(empty($test_id)) {
             $data['created'] = date("Y-m-d H:i:s");
             return (($this->db->insert('tests', $data)) ? $this->db->insert_id() : False);
         } else {

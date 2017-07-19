@@ -36,7 +36,7 @@ class Apps_model extends CI_Model {
     function on_going_test($chamber_ids, $date, $code = '', $limit = '') {
         $sql = "SELECT tr.*, p.name as product_name, pp.img_file as img_file,
         pp.name as part_name, s.name as supplier_name,
-        t.name as test_name, t.method as test_method, t.judgement as test_judgement,
+        t.name as test_name, t.method as test_method, t.judgement as test_judgement,t.test_set as test_set,
         c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
         st.name as stage_name, st.code as stage_code,
         MAX(o.observation_index) as max_index, MAX(o.observation_at) as max_observation_at,
