@@ -105,7 +105,7 @@ class report_model extends CI_Model {
     }
     
     function completed_test_count_report($filters = array()){
-        
+         print_r($filters);exit;
         $sql = "SELECT t.chamber_id, c.name as chamber_name, c.category as chamber_category, COUNT(t.id) as test_record_count
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 
