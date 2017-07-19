@@ -70,7 +70,7 @@
                                     <div class="form-group" id="ptc-mappings-product-search-error">
                                         <label class="control-label">Select Product:</label>
                                                 
-                                        <select name="product_id" class="form-control select2me" id="product-part-selector"
+                                        <select name="product_id" class="form-control select2me" id="product-part-selector1"
                                             data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
                                             <option></option>
                                             <?php foreach($products as $product) { ?>
@@ -88,7 +88,7 @@
                                     <div class="form-group" id="ptc-mappings-part-search-error">
                                         <label class="control-label">Select Part:</label>
                                                 
-                                        <select name="part_id" class="form-control select2me" id="part-selector"
+                                        <select name="part_id" class="form-control select2me" id="part-selector1"
                                             data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>

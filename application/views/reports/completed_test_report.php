@@ -88,7 +88,7 @@
                                             data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['name']; ?>
                                                 </option>
                                             <?php } ?>        
@@ -100,7 +100,7 @@
                                     <div class="form-group" id="ptc-mappings-part-search-error">
                                         <label class="control-label">Select Part Number:</label>
                                                 
-                                        <select name="part_id1" class="form-control select2me" id="part-selector"
+                                        <select name="part_id1" class="form-control select2me" id="part-selector_number"
                                             data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
@@ -186,7 +186,7 @@
                                     <div class="form-group" id="ptc-mappings-part-search-error">
                                         <label class="control-label">Select Supplier:</label>
                                                 
-                                        <select name="supplier_id" class="form-control select2me" id="part-selector"
+                                        <select name="supplier_id" class="form-control select2me" id="part-selector_supplier"
                                             data-placeholder="Select Supplier" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($suppliers as $supplier) { ?>
