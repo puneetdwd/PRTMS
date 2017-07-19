@@ -60,7 +60,7 @@
                                 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">Month</label>
+                                        <label class="control-label">Month<span class="required">*</span></label>
                                         <select name="month" class="required form-control select2me" data-placeholder="Month">
                                             <option></option>
                                             
@@ -108,7 +108,7 @@
                                 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">Year</label>
+                                        <label class="control-label">Year<span class="required">*</span></label>
                                         <select name="year" class="required form-control select2me" data-placeholder="Year">
                                             <option></option>
                                             <?php for($y=2016; $y <= date('Y'); $y++) { ?>
@@ -123,8 +123,7 @@
                                 
                                 <div class="col-md-3">
                                     <div class="required form-group" id="ptc-mappings-chamber-search-error">
-                                        <label class="control-label">Select Event:</label>
-                                                
+                                        <label class="control-label">Select Event:<span class="required">*</span></label>                                                
                                         <select name="stage_id" class="required form-control select2me"
                                             data-placeholder="Select Event" data-error-container="#ptc-mappings-chamber-search-error">
                                             <option></option>
@@ -139,8 +138,7 @@
                                 
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-product-search-error">
-                                        <label class="control-label">Select Product:</label>
-                                                
+                                        <label class="control-label">Select Product:<span class="required">*</span></label>                                                
                                         <select name="product_id" class="required form-control select2me" id="product-part-selector"
                                             data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
                                             <option></option>
@@ -159,8 +157,7 @@
                                 
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
-                                        <label class="requried control-label">Select Part Name:</label>
-                                                
+                                        <label class="requried control-label">Select Part Name:<span class="required">*</span></label>                                                
                                         <select name="part_id" class="required form-control select2me" id="part-selector"
                                             data-placeholder="Select Part Name" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
@@ -175,8 +172,7 @@
                                 
                                 <div class="col-md-3">
                                     <div class="required form-group" id="ptc-mappings-part-search-error">
-                                        <label class="control-label">Select Part Number:</label>
-                                                
+                                        <label class="control-label">Select Part Number:<span class="required">*</span></label>                                                
                                         <select name="part_id1" class="required form-control select2me" id="part-selector_number"
                                             data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
@@ -191,8 +187,7 @@
                                 
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
-                                        <label class="required control-label">Select Supplier:</label>
-                                                
+                                        <label class="required control-label">Select Supplier:<span class="required">*</span></label>                                                
                                         <select name="supplier_id" class="required form-control select2me" id="part-selector_supplier"
                                             data-placeholder="Select Supplier" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
