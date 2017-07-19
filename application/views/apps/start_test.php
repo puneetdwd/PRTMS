@@ -125,11 +125,13 @@
                                         <label class="control-label" for="part_id">Part:
                                         <span class="required">*</span></label>
                                         
-                                        <select name="part_id" id="part-selector" class="form-control required select2me part-supplier-selector"
+                                        <select name="part_id" id="part-selector" class="form-control required select2me "
                                         data-placeholder="Select Part" data-error-container="#monitoring-form-part-error">
                                             <option value=""></option>
                                             
                                         </select>
+										
+										
                                     </div>
                                 </div>
                             </div>
@@ -139,8 +141,13 @@
                                     <div class="form-group">
                                         <label class="control-label" for="part_no">Part No.:
                                         <span class="required">*</span></label>
-                                        <input type="text" class="required form-control" name="part_no" placeholder="Enter Part No.">
-                                        <span class="help-block">
+                                        <!--<input type="text" class="required form-control" name="part_no" placeholder="Enter Part No.">
+                                        <span class="help-block">-->
+										<select name="part_no" id="part-selector_number" class="form-control required select2me part-test_mon-selector"
+                                        data-placeholder="Select Part Number" data-error-container="#monitoring-form-part-error">
+                                            <option value=""></option>
+                                            
+                                        </select>
                                         </span>
                                     </div>
                                 </div>
@@ -149,8 +156,8 @@
                                     <div class="form-group" id="monitoring-form-supplier-error">
                                         <label class="control-label" for="supplier_id">Supplier:
                                         <span class="required">*</span></label>
-                                        
-                                        <select name="supplier_id" id="part-based-supplier-selector" class="form-control required select2me"
+                                        <!--id = part-based-supplier-selector -->
+                                        <select name="supplier_id" id="part-selector_supplier" class="form-control required select2me"
                                         data-placeholder="Select Supplier" data-error-container="#monitoring-form-supplier-error">
                                             <option value=""></option>
                                             
