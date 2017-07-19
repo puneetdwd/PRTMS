@@ -24,6 +24,7 @@ class Apps extends Admin_Controller {
         
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
+        $data['parts'] = $this->Product_model->get_all_parts();
         
         $this->load->model('Stage_model');
         $data['stages'] = $this->Stage_model->get_all_stages();

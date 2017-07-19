@@ -6,7 +6,7 @@ class Products extends Admin_Controller {
         parent::__construct(true);
         
         if($this->router->fetch_method() != 'get_parts_by_product') {
-            $this->is_admin_user();
+            //$this->is_admin_user();
         }
 
         //render template
@@ -282,7 +282,7 @@ class Products extends Admin_Controller {
     }
 	public function get_part_number_by_part() {
         $data = array('parts' => array());
-        
+        //echo '123';exit;
         if($this->input->post('part')) {
             $this->load->model('Product_model');
             $data['parts'] = $this->Product_model->get_part_num_by_part($this->input->post('part'),$this->input->post('product'));
