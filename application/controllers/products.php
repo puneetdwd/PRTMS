@@ -231,7 +231,7 @@ class Products extends Admin_Controller {
 
                 if($output['status'] == 'success') {
                     $res = $this->parse_parts($product_id, $output['file']);
-                    
+                    //echo $res;exit;
                     if($res) {
                         $this->session->set_flashdata('success', 'Parts successfully uploaded.');
                         redirect(base_url().'products/parts/'.$product_id);
@@ -548,13 +548,14 @@ class Products extends Admin_Controller {
         foreach($arr as $no => $row) {
             if($no == 1)
                 continue;
-            
+			//print_r($row);exit;
             $row['B'] = str_replace("\n", ' ', $row['B']);
             
             if($p !== trim($row['B']) && !empty($row['B'])) {
                 $p = $row['B'];
-                
-                $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
+                $n = $row['D'];
+                // $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
+                $exists = $this->Product_model->get_product_part_by_code_num($product_id, $p, $n);
                 $part_id = !empty($exists) ? $exists['id'] : '';
             }
             
@@ -562,9 +563,13 @@ class Products extends Admin_Controller {
                 continue;
             }
             
+            //$supplier['part_no'] = trim($row['D']);
+			
+			
+			
             $supplier = array();
-            $supplier['supplier_no'] = trim($row['D']);
-            $supplier['name'] = trim($row['E']);
+            $supplier['supplier_no'] = trim($row['E']);
+            $supplier['name'] = trim($row['F']);
             
             $exists = $this->Supplier_model->get_supplier_by_code($supplier['supplier_no']);
             if(empty($exists)) {
@@ -690,6 +695,8 @@ class Products extends Admin_Controller {
         $parts = array();
         $category = null;
         foreach($arr as $no => $row) {
+			///echo '1';
+			//print_r($row);
             if($no == 1)
                 continue;
             
@@ -712,22 +719,23 @@ class Products extends Admin_Controller {
             $temp['part_no']        = trim($row['D']);
             $temp['img_file']       = trim($row['E']);
             $temp['created']        = date("Y-m-d H:i:s");
-            
-            $exists = $this->Product_model->get_product_part_by_code($temp['product_id'], $temp['code']);
-            
+           // print_r($temp);exit;
+            $exists = $this->Product_model->get_product_part_by_code_num($temp['product_id'], $temp['code'],$temp['part_no']);
+           // print_r($exists);
             if(!empty($exists)) {
-                $this->Product_model->update_product_part($parts, $exists['id']);
+              $this->Product_model->update_product_part($parts, $exists['id']);
                 
             }else{
-                $parts[]        = $temp;
+                $parts[] = $temp;
+				$this->load->model('Product_model');
+				$res1 =  $this->Product_model->insert_parts($parts, $product_id);
             }
             
         }
-        // print_r($temp);exit;
+// exit;
 
-        $this->load->model('Product_model');
-        $this->Product_model->insert_parts($parts, $product_id);
-        
+         // print_r($res1);
+        // print_r($temp);exit;
         return TRUE;
     }
 }
