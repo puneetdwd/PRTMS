@@ -91,11 +91,20 @@ class Product_model extends CI_Model {
         
         return $this->db->get('product_parts')->row_array();
     }
+
+	function get_product_part_by_code_num($product_id, $code, $num) {
+        $this->db->where('code', $code);
+        $this->db->where('part_no', $num);
+        $this->db->where('product_id', $product_id);
+        $this->db->where('is_deleted', 0);
+        
+        return $this->db->get('product_parts')->row_array();
+    }
     
     function update_product_part($data, $part_id){
         $needed_array = array('code', 'name', 'part_no','img_file', 'category', 'product_id', 'is_deleted');
         $data = array_intersect_key($data, array_flip($needed_array));
-		// print_r($data);exit;
+		 //print_r($data);exit;
         if(empty($part_id)) {
             $data['created'] = date("Y-m-d H:i:s");
             return (($this->db->insert('product_parts', $data)) ? $this->db->insert_id() : False);
@@ -105,13 +114,14 @@ class Product_model extends CI_Model {
             
             return (($this->db->update('product_parts', $data)) ? $part_id : False);
         }
-		echo 'ok';
+		
     }
 
     function insert_parts($parts, $product_id) {
+       // print_r($parts);exit;
         $this->db->insert_batch('product_parts', $parts);
-        
         $this->remove_dups_parts($product_id);
+		//echo $this->db->last_query();exit;
     }
     
     function remove_dups_parts($product_id) {
