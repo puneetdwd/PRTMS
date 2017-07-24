@@ -53,7 +53,7 @@
                                         <label class="control-label" for="product_id">Product:
                                         <span class="required">*</span></label>
                                         
-                                        <select name="product_id" class="form-control required select2me"
+                                        <select name="product_id" class="form-control required select2me" id="product-part-selector_ptc"
                                         data-placeholder="Select Product" data-error-container="#add-ptc-mapping-product-error">
                                             <option value=""></option>
                                             
@@ -70,11 +70,31 @@
                                 </div>
                             </div>
 
+							<div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="ptc-mappings-part-search-error">
+                                        <label class="control-label">Select Part:</label>
+                                                <span class="required">*</span>
+                                        <select name="part_id" class="required form-control select2me" id="part-selector_ptc"
+                                            data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
+                                            <option></option>
+                                            <?php 
+											//print_r($parts);
+											foreach($parts as $part) { ?>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                    <?php echo $part['name']; ?>
+                                                </option>
+                                            <?php } ?>        
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+							
                             <div class="row">
                                 
                                 <div class="col-md-12">
                                     <div class="form-group" id="add-ptc-mapping-part-category-error">
-                                        <label class="control-label" for="part_category_id">Part Category:
+                                        <label class="control-label" for="part_category_id">Test Category:
                                         <span class="required">*</span></label>
                                         
                                         <select name="part_category_id" class="form-control required select2me"

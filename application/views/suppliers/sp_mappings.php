@@ -54,7 +54,7 @@
                                     <div class="form-group" id="sp-mappings-product-search-error">
                                         <label class="control-label">Select Product:</label>
                                                 
-                                        <select name="product_id" class="form-control select2me" id="product-part-selector"
+                                        <select name="product_id" class="form-control select2me" id="product-part-selector_map"
                                             data-placeholder="Select Product" data-error-container="#sp-mappings-product-search-error">
                                             <option></option>
                                             <?php foreach($products as $product) { ?>
@@ -72,11 +72,11 @@
                                     <div class="form-group" id="sp-mappings-part-search-error">
                                         <label class="control-label">Select Part:</label>
                                                 
-                                        <select name="part_id" class="form-control select2me" id="part-selector"
+                                        <select name="part_id1" class="form-control select2me" id="part-selector_map"
                                             data-placeholder="Select Part" data-error-container="#sp-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['name']; ?>
                                                 </option>
                                             <?php } ?>        
@@ -85,6 +85,25 @@
                                 </div>
                             </div>
                             
+							<div class="row">
+                                <div class="col-md-12">
+                                    <div class="required form-group" id="ptc-mappings-part-search-error">
+                                        <label class="control-label">Select Part Number:<span class="required">*</span></label>                                                
+                                        <select name="part_id" class="required form-control select2me" id="part-selector_number_map"
+                                            data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
+                                            <option></option>
+                                            <?php foreach($parts as $part) { ?>
+                                                <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                    <?php echo $part['part_no']; ?>
+                                                </option>
+                                            <?php } ?>        
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+							
+							
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="sp-mappings-chamber-search-error">
@@ -135,6 +154,7 @@
                                 <tr>
                                     <th>Product Name</th>
                                     <th>Part Name</th>
+                                    <th>Part Number</th>
                                     <th>Supplier Name</th>
                                     <th class="no_sort" style="width:100px;"></th>
                                 </tr>
@@ -144,6 +164,7 @@
                                     <tr>
                                         <td><?php echo $sp_mapping['product_name']; ?></td>
                                         <td><?php echo $sp_mapping['part_name']; ?></td>
+                                        <td><?php echo $sp_mapping['part_no']; ?></td>
                                         <td><?php echo $sp_mapping['supplier_name']; ?></td>
                                         <td nowrap>
                                             <a class="button small gray" 

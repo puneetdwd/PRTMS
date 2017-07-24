@@ -1,4 +1,11 @@
 <!-- BEGIN HEADER -->
+<?php
+	   $CI =& get_instance();
+	   $CI->load->model('Product_model');
+	   $allowed_products = $CI->Product_model->get_all_products();   
+		//print_r($allowed_products);exit;	 
+				
+	   ?>
 <?php $page = isset($page) ? $page : ''; ?>
 <header class="page-header">
     <nav class="navbar mega-menu" role="navigation">
@@ -55,6 +62,26 @@
                                 </li>
                             <?php } ?>
                             -->
+						<?php if($this->session->userdata('user_type') == 'Approver') { ?>
+					
+						   <li>
+									<div class="btn-group" >
+									<?php if(count($allowed_products) > 1) { ?>
+										<a class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> 
+											 Switch Product<i class="fa fa-angle-down"></i></a>
+										<ul class="dropdown-menu">
+											<?php foreach($allowed_products as $ap) { ?>
+												<li>
+													<a href="<?php echo base_url().'users/switch_product/'.$ap['id']; ?>"> 
+														<?php echo $ap['name']; ?>
+													</a>
+												</li>
+											<?php } ?>
+											<?php } ?>
+										</ul>
+									</div>
+							</li>                          
+						<?php } ?>
                             <li>
                                 <a href="<?php echo base_url(); ?>users/change_password" class="btn btn-link btn-sm">
                                     Change Password
@@ -66,7 +93,9 @@
                                 </a>
                             </li>
                         </ul>
-                        <div style="clear:both;"></div>
+                        
+					
+	<div style="clear:both;"></div>
                     </div>
                 </div>
                 <!-- END TOPBAR ACTIONS -->
@@ -79,12 +108,13 @@
             <?php if(!isset($no_header_links)) { ?>
                 <div class="nav-collapse collapse navbar-collapse navbar-responsive-collapse header-nav-links">
                     <ul class="nav navbar-nav">
-                        <li class="<?php if($page == '') { ?>active selected<?php } ?>">
+                        <?php if($this->session->userdata('user_type') != 'Approver' ) { ?>
+						<li class="<?php if($page == '') { ?>active selected<?php } ?>">
                             <a href="<?php echo base_url(); ?>" class="text-uppercase">
                                 <i class="icon-home"></i> Dashboard 
                             </a>
                         </li>
-                        
+                        <?php } ?>
                         <?php if($this->session->userdata('user_type') == 'Admin') { ?>
                             <li class="dropdown more-dropdown">
                                 <a href="javascript:;" class="text-uppercase">
@@ -197,6 +227,15 @@
                                 </a>
                             </li>
                         <?php } ?>
+						
+						<?php if($this->session->userdata('user_type') == 'Approver') { ?>
+                        <li class="<?php if($page == 'approvals') { ?>active selected<?php } ?>">
+                            <a href="<?php echo base_url().'dashboard/approver_dashboard';; ?>" class="text-uppercase">
+                                <i class="icon-home"></i> Approvals 
+                            </a>
+                        </li>
+						<?php } ?>
+                        
                             
                         <li class="dropdown more-dropdown">
                             <a href="javascript:;" class="text-uppercase">
@@ -221,6 +260,7 @@
                             </ul>
                         </li>
                         
+						
                     </ul>
                 </div>
             <?php } ?>

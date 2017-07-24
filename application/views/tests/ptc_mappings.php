@@ -53,8 +53,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group" id="ptc-mappings-product-search-error">
                                         <label class="control-label">Select Product:</label>
-                                                
-                                        <select name="product_id" class="form-control select2me" id="product-part-selector"
+                                                <span class="required">*</span>
+                                        <select name="product_id" class="required form-control select2me" id="product-part-selector_map"
                                             data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
                                             <option></option>
                                             <?php foreach($products as $product) { ?>
@@ -71,13 +71,31 @@
                                 <div class="col-md-12">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
                                         <label class="control-label">Select Part:</label>
-                                                
-                                        <select name="part_id" class="form-control select2me" id="part-selector"
+                                                <span class="required">*</span>
+                                        <select name="part_id1" class="required form-control select2me" id="part-selector_map"
+                                            data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
+                                            <option></option>
+                                            <?php foreach($parts as $part) { ?>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                    <?php echo $part['name']; ?>
+                                                </option>
+                                            <?php } ?>        
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+							
+							<div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="ptc-mappings-part-search-error">
+                                        <label class="control-label">Select Part Number:</label>
+                                                <span class="required">*</span>
+                                        <select name="part_id" class="required form-control select2me" id="part-selector_number_map"
                                             data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
                                                 <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
-                                                    <?php echo $part['name']; ?>
+                                                    <?php echo $part['part_no']; ?>
                                                 </option>
                                             <?php } ?>        
                                         </select>
@@ -89,8 +107,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group" id="ptc-mappings-test-search-error">
                                         <label class="control-label">Select Test:</label>
-                                                
-                                        <select name="test_id" class="form-control select2me"
+                                                <span class="required">*</span>
+                                        <select name="test_id" class="required form-control select2me"
                                             data-placeholder="Select Test" data-error-container="#ptc-mappings-test-search-error">
                                             <option></option>
                                             <?php foreach($tests as $test) { ?>
@@ -107,8 +125,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group" id="ptc-mappings-chamber-category-search-error">
                                         <label class="control-label">Select Chamber Category:</label>
-                                                
-                                        <select name="chamber_category" class="form-control select2me"
+                                                <span class="required">*</span>
+                                        <select name="chamber_category" class="required form-control select2me"
                                             data-placeholder="Select Chamber Category" data-error-container="#ptc-mappings-chamber-category-search-error">
                                             <option></option>
                                             <?php foreach($categories as $category) { ?>
@@ -125,8 +143,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group" id="ptc-mappings-chamber-search-error">
                                         <label class="control-label">Select Chamber:</label>
-                                                
-                                        <select name="chamber_id" class="form-control select2me"
+                                                <span class="required">*</span>
+                                        <select name="chamber_id" class="required form-control select2me"
                                             data-placeholder="Select Chamber" data-error-container="#ptc-mappings-chamber-search-error">
                                             <option></option>
                                             <?php foreach($chambers as $chamber) { ?>

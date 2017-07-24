@@ -53,7 +53,7 @@
                                         <label class="control-label" for="product_id">Product:
                                         <span class="required">*</span></label>
                                         
-                                        <select name="product_id" id="product-part-selector" class="form-control required select2me"
+                                        <select name="product_id" id="product-part-selector_map" class="form-control required select2me"
                                         data-placeholder="Select Product" data-error-container="#add-ptc-mapping-product-error">
                                             <option value=""></option>
                                             
@@ -76,7 +76,21 @@
                                         <label class="control-label" for="part_id">Part:
                                         <span class="required">*</span></label>
                                         
-                                        <select name="part_id" id="part-selector" class="form-control required select2me"
+                                        <select name="part_id1" id="part-selector_map" class="form-control required select2me"
+                                        data-placeholder="Select Part" data-error-container="#add-ptc-mapping-part-error">
+                                            <option value=""></option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="add-ptc-mapping-part-error">
+                                        <label class="control-label" for="part_id">Part Number:
+                                        <span class="required">*</span></label>
+                                        
+                                        <select name="part_id" id="part-selector_number_map" class="form-control required select2me"
                                         data-placeholder="Select Part" data-error-container="#add-ptc-mapping-part-error">
                                             <option value=""></option>
                                             
