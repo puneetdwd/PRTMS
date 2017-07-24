@@ -407,7 +407,7 @@ class Apps extends Admin_Controller {
             redirect($_SERVER['HTTP_REFERER']);
         }
         $response = $this->Apps_model->update_test(array('retest_remark' => $remark ,'completed' => 0,'approved_by' => '','is_approved' => 0), $comp_test['id']);
-		// echo $this->db->last_query();
+		 //echo $code.$this->db->last_query();
 		// echo $response;
 		// exit;
         if($response) {

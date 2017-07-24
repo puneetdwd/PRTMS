@@ -4,7 +4,7 @@ class Supplier_model extends CI_Model {
     function add_supplier($data, $supplier_id){
         $needed_array = array('name', 'supplier_no');
         $data = array_intersect_key($data, array_flip($needed_array));
-
+		//print_r($data);exit;
         if(!empty($data['name'])) {
             $data['name'] = ucwords(strtolower($data['name']));
         }
@@ -107,6 +107,7 @@ class Supplier_model extends CI_Model {
     }
     
     function insert_sp_mappings($data) {
+		
         $this->db->insert_batch('sp_mappings', $data);
     }
     

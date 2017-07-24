@@ -553,9 +553,9 @@ class Products extends Admin_Controller {
             
             if($p !== trim($row['B']) && !empty($row['B'])) {
                 $p = $row['B'];
-                $n = $row['D'];
+               // $n = $row['D'];
                 // $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
-                $exists = $this->Product_model->get_product_part_by_code_num($product_id, $n);
+                $exists = $this->Product_model->get_product_part_by_code_num($product_id, $p);
                 $part_id = !empty($exists) ? $exists['id'] : '';
             }
             
@@ -568,17 +568,16 @@ class Products extends Admin_Controller {
 			
 			
             $supplier = array();
-            $supplier['supplier_no'] = trim($row['E']);
-            $supplier['name'] = trim($row['F']);
-            
+            $supplier['supplier_no'] = trim($row['C']);
+            $supplier['name'] = trim($row['D']);
             $exists = $this->Supplier_model->get_supplier_by_code($supplier['supplier_no']);
+		//echo '<pre>';print_r($mappings);exit;
             if(empty($exists)) {
                 $supplier_id = $this->Supplier_model->add_supplier($supplier, '');
             } else {
                 $this->Supplier_model->add_supplier($supplier, $exists['id']);
                 $supplier_id = $exists['id'];
             }
-            
             $mapping = array();
             $mapping['supplier_id'] = $supplier_id;
             $mapping['product_id'] = $product_id;
@@ -586,11 +585,12 @@ class Products extends Admin_Controller {
             
             $mappings[] = $mapping;
         }
-
+		
         if(!empty($mappings)) {
             $this->Supplier_model->insert_sp_mappings($mappings);
             $this->Supplier_model->remove_dups();
         }
+            // echo $this->db->last_query();exit;
         
         return TRUE;
     }

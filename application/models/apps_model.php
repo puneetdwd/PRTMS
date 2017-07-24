@@ -6,19 +6,17 @@ class Apps_model extends CI_Model {
         'test_id', 'samples', 'duration', 'observation_frequency', 'no_of_observations', 'start_date', 'end_date',
         'aborted', 'completed','is_approved','approved_by','retest_remark', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img');
         $data = array_intersect_key($data, array_flip($needed_array));
-		//echo '<pre>';print_r($data);exit;
-
+		
+		// echo $id.'<pre>';print_r($data);exit;
         if(empty($id)) {
             $data['created'] = date("Y-m-d H:i:s");
             $data['code'] = time();
             return (($this->db->insert('test_records', $data)) ? $this->db->insert_id() : False);
         } else {
             $this->db->where('id', $id);
-            $data['modified'] = date("Y-m-d H:i:s");
-            
+            $data['modified'] = date("Y-m-d H:i:s");            
             return (($this->db->update('test_records', $data)) ? $id : False);
-        }
-        
+        }        
     }
     
     function on_going_test_count($chamber_ids) {
@@ -74,7 +72,7 @@ class Apps_model extends CI_Model {
     
     function get_test($code = '') {
         $sql = "SELECT tr.*, p.name as product_name,
-        pp.name as part_name, s.name as supplier_name,
+        pp.name as part_name,pp.part_no as part_num, s.name as supplier_name,
         t.name as test_name, t.method as test_method, t.judgement as test_judgement,
         c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
         st.name as stage_name, st.code as stage_code,
