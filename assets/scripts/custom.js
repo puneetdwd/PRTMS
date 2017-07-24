@@ -309,7 +309,117 @@ $(document).ready(function() {
             }
         });
     });
-
+	
+	
+	//Start Mapping Part-supplier
+	$('#product-part-selector_map').change(function() {
+        var portlet_id = $('#product-part-selector_map').closest('.portlet').attr('id');
+              //  alert(portlet_id);
+        App.blockUI({
+            target: '#'+portlet_id,
+            boxed: true
+        });
+        
+        var product = $('#product-part-selector_map :selected').val();
+		// alert(product);
+        $.ajax({
+            type: 'POST',
+            url: base_url+'products/get_parts_by_product',
+            data: { product: product},
+            dataType: 'json',
+            success: function(resp) {
+                if($('#part-selector_map :selected').val() != '') {
+                    $('#part-selector_map').select2('val', null);
+                }
+                
+                $('#part-selector_map').html('');
+                
+                $('#part-selector_map').append('<option value=""></option>');
+                $.each(resp.parts, function (i, item) {
+                    $('#part-selector_map').append($('<option>', { 
+                        value: item.name,
+                        text : item.name, 
+                    }));
+                });
+                App.unblockUI('#'+portlet_id);
+            }
+        });
+    });
+	
+	$('#part-selector_map').change(function() {
+        var portlet_id = $('#part-selector_map').closest('.portlet').attr('id');
+        App.blockUI({
+            target: '#'+portlet_id,
+            boxed: true
+        });
+        
+        var part = $('#part-selector_map :selected').val();
+        var product = $('#product-part-selector_map :selected').val();
+		//alert(part);
+		//alert(product); 
+        $.ajax({
+            type: 'POST',
+            url: base_url+'products/get_part_number_by_part',
+            data: { part: part, product: product},
+            dataType: 'json',
+            success: function(resp) {
+                if($('#part-selector_number_map :selected').val() != '') {
+                    $('#part-selector_number_map').select2('val', null);
+                }
+				
+				//alert(resp);
+                
+                $('#part-selector_number_map').html('');
+                $('#part-selector_number_map').append('<option value=""></option>');
+				$.each(resp.parts, function (i, item) {
+                    $('#part-selector_number_map').append($('<option>', { 
+                        value: item.id,
+                        text : item.part_no, 
+                    }));
+                });
+                App.unblockUI('#'+portlet_id);
+            }
+        });
+    });
+	
+	//PTC
+	$('#product-part-selector_ptc').change(function() {
+        var portlet_id = $('#product-part-selector_ptc').closest('.portlet').attr('id');
+              //  alert(portlet_id);
+        App.blockUI({
+            target: '#'+portlet_id,
+            boxed: true
+        });
+        
+        var product = $('#product-part-selector_ptc :selected').val();
+		// alert(product);
+        $.ajax({
+            type: 'POST',
+            url: base_url+'products/get_parts_by_product',
+            data: { product: product},
+            dataType: 'json',
+            success: function(resp) {
+                if($('#part-selector_ptc :selected').val() != '') {
+                    $('#part-selector_ptc').select2('val', null);
+                }
+                
+                $('#part-selector_ptc').html('');
+                
+                $('#part-selector_ptc').append('<option value=""></option>');
+                $.each(resp.parts, function (i, item) {
+                    $('#part-selector_ptc').append($('<option>', { 
+                        value: item.name,
+                        text : item.name, 
+                    }));
+                });
+                App.unblockUI('#'+portlet_id);
+            }
+        });
+    });
+	
+	//End Mapping Part-supplier
+	
+	
     if($('.dashboard-noti-warning').length > 0) {
         addPulsateWarning();
     }
@@ -350,6 +460,28 @@ $(document).ready(function() {
             $('#view-test-modal').modal('show');
         });
     }
+	
+	 if($('.view-test-modal-btn1').length > 0) {
+        $('.view-test-modal-btn1').click(function() {
+            //$('#observation_index').val($(this).attr('data-index'));
+            
+            var code = $(this).attr('data-index');
+           
+            $.ajax({
+                url: base_url+"apps/view_test_ajax_completed/"+code,
+                async: false,
+                type: "POST",
+                data: "type=article",
+                dataType: "html",
+                success: function(data) {
+				 // alert(code);exit;
+                  $('#view-test-modal1').html(data);
+                }
+            }),
+            
+            $('#view-test-modal1').modal('show');
+        });
+    } 
 
     $('#observation-form').submit(function() {
         if($(this).valid()) {
