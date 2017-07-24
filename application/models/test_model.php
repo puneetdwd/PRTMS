@@ -154,9 +154,9 @@ class Test_model extends CI_Model {
     }
     
     function add_ptc_mapping($data, $ptc_mapping_id){
-        $needed_array = array('product_id', 'part_id', 'test_id', 'chamber_id');
+        $needed_array = array('product_id', 'part_id','part_category_id', 'test_id', 'chamber_id');
         $data = array_intersect_key($data, array_flip($needed_array));
-
+		//print_r($data);exit;
         if(empty($ptc_mapping_id)) {
             $data['created'] = date("Y-m-d H:i:s");
             return (($this->db->insert('ptc_mappings', $data)) ? $this->db->insert_id() : False);

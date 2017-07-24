@@ -58,7 +58,7 @@ class User_model extends CI_Model {
         //filter unwanted fields while inserting in table.
         $needed_array = array('chamber_id', 'first_name', 'last_name', 'username', 'password', 'user_type', 'is_active');
         $data = array_intersect_key($data, array_flip($needed_array));
-
+		//print_r($data);exit;
         if(!empty($data['password'])) {
             $cost = $this->config->item('hash_cost');
             $data['password'] = password_hash(SALT .$data['password'], PASSWORD_BCRYPT, array('cost' => $cost));

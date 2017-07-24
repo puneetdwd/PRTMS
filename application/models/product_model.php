@@ -92,13 +92,22 @@ class Product_model extends CI_Model {
         return $this->db->get('product_parts')->row_array();
     }
 
-	function get_product_part_by_code_num($product_id, $code, $num) {
-        $this->db->where('code', $code);
+	function get_product_part_by_code_num($product_id, $num) {
+        //$this->db->where('code', $code);
         $this->db->where('part_no', $num);
         $this->db->where('product_id', $product_id);
         $this->db->where('is_deleted', 0);
         
         return $this->db->get('product_parts')->row_array();
+    }
+    
+	function get_part_numbers_by_name($product_id, $name) {
+		
+        $this->db->where('name', $name);
+        $this->db->where('product_id', $product_id);
+        $this->db->where('is_deleted', 0);
+        
+        return $this->db->get('product_parts')->result_array();
     }
     
     function update_product_part($data, $part_id){
@@ -118,10 +127,10 @@ class Product_model extends CI_Model {
     }
 
     function insert_parts($parts, $product_id) {
-       // print_r($parts);exit;
+        //print_r($parts);exit;
         $this->db->insert_batch('product_parts', $parts);
         $this->remove_dups_parts($product_id);
-		//echo $this->db->last_query();exit;
+		
     }
     
     function remove_dups_parts($product_id) {
@@ -131,7 +140,7 @@ class Product_model extends CI_Model {
                 SELECT MIN(id) 
                 FROM product_parts 
                 WHERE product_id = ? 
-                GROUP BY product_id, code, name
+                GROUP BY product_id, part_no
             ) as d
         ) AND product_id = ?";
         

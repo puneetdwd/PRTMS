@@ -49,7 +49,7 @@ class Supplier_model extends CI_Model {
     
     function get_all_sp_mappings($filters) {
         $sql = "SELECT sp.*, s.name as supplier_name, s.supplier_no,
-        pp.name as part_name, p.name as product_name
+        pp.name as part_name,pp.part_no as part_no, p.name as product_name
         FROM sp_mappings sp
         INNER JOIN suppliers s
         ON sp.supplier_id = s.id
@@ -123,7 +123,7 @@ class Supplier_model extends CI_Model {
     function add_sp_mapping($data, $sp_mapping_id){
         $needed_array = array('supplier_id', 'product_id', 'part_id');
         $data = array_intersect_key($data, array_flip($needed_array));
-
+		//print_r($data);exit;
         if(empty($sp_mapping_id)) {
             $data['created'] = date("Y-m-d H:i:s");
             return (($this->db->insert('sp_mappings', $data)) ? $this->db->insert_id() : False);

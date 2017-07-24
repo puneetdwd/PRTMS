@@ -4,7 +4,7 @@ class Apps_model extends CI_Model {
     function update_test($data, $id = ''){
         $needed_array = array('chamber_id', 'product_id', 'part_id', 'part_no', 'supplier_id', 
         'test_id', 'samples', 'duration', 'observation_frequency', 'no_of_observations', 'start_date', 'end_date',
-        'aborted', 'completed', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img');
+        'aborted', 'completed','is_approved','approved_by','retest_remark', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img');
         $data = array_intersect_key($data, array_flip($needed_array));
 		//echo '<pre>';print_r($data);exit;
 
@@ -100,6 +100,34 @@ class Apps_model extends CI_Model {
         
         return ($code) ? $result->row_array() : $result->result_array();
     }
+	function get_test_completed($code = '') {
+        $sql = "SELECT tr.*, p.name as product_name,
+        pp.name as part_name, s.name as supplier_name,
+        t.name as test_name, t.method as test_method, t.judgement as test_judgement,
+        c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
+        st.name as stage_name, st.code as stage_code,
+        MAX(o.observation_index) as max_index, MAX(o.observation_at) as max_observation_at,
+        count(o.observation_at) as observation_done
+        FROM test_records tr 
+        INNER JOIN products p ON tr.product_id = p.id
+        INNER JOIN product_parts pp ON tr.part_id = pp.id
+        INNER JOIN suppliers s ON tr.supplier_id = s.id
+        INNER JOIN tests t ON tr.test_id = t.id
+        INNER JOIN chambers c ON tr.chamber_id = c.id
+        INNER JOIN stages st ON tr.stage_id = st.id
+        LEFT JOIN test_observations o ON tr.id = o.test_id
+        ";
+        
+        if($code) {
+            $sql .= " AND tr.code = ?";
+            $pass_array[] = $code;
+        }
+        
+        $sql .= " GROUP BY tr.id";
+        $result = $this->db->query($sql, $pass_array);
+        echo $this->db->last_query();exit;
+        return ($code) ? $result->row_array() : $result->result_array();
+    }
 
     function add_observation($data, $id = '') {
         $needed_array = array('observation_index', 'test_id', 'observation_at', 'observation_result', 'check_items', 'display_temp_set', 'display_temp_act', 'humidity_set', 'humidity_act', 'pressure_set', 'pressure_act', 'ph_act', 'appearance', 'current', 'set_volt', 'power_watt', 'act_volt', 'torque_rpm', 'rust', 'colour', 'crack', 'adhesion', 'fog', 'salt_water_level', 'test_img', 'assistant_name');
@@ -128,5 +156,72 @@ class Apps_model extends CI_Model {
         
         return $this->db->get('test_observations')->row_array();
     }
-    
+	//for Approver
+	function completed_test($product_id, $date, $code = '', $limit = '') {
+		$sql = "SELECT tr.*,st.name as event_name,
+		t.name as test_name, t.method as test_method, t.judgement as test_judgement,t.test_set as test_set,
+        c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
+        p.name as product_name,
+		pp.name as part_name,pp.part_no as part_no,
+		s.name as supplier_name
+		FROM test_records tr
+		INNER JOIN products p ON tr.product_id = p.id 
+		INNER JOIN product_parts pp ON tr.part_id = pp.id 
+		INNER JOIN tests t ON tr.test_id = t.id       
+		INNER JOIN chambers c ON tr.chamber_id = c.id   
+		INNER JOIN stages st ON tr.stage_id = st.id        		
+		INNER JOIN suppliers s ON tr.supplier_id = s.id 
+		WHERE tr.completed = 1 AND tr.product_id = ? ";
+		$pass_array = array($product_id);
+        if($code) {
+            $sql .= " AND tr.code = ?";
+            $pass_array[] = $code;
+        }
+        
+        $sql .= " GROUP BY tr.id ".$limit;
+        $result = $this->db->query($sql, $pass_array);
+        //echo $this->db->last_query();exit;
+        
+        return ($code) ? $result->row_array() : $result->result_array();
+       
+       // return $result->result_array();
+    }
+    function view_completed_test($chamber_ids, $date, $code = '', $limit = '') {
+		//echo $code;exit;
+        $sql = "SELECT tr.*, p.name as product_name, pp.img_file as img_file,
+        pp.name as part_name, s.name as supplier_name,
+        t.name as test_name, t.method as test_method, t.judgement as test_judgement,t.test_set as test_set,
+        c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
+        st.name as stage_name, st.code as stage_code,
+        MAX(o.observation_index) as max_index, MAX(o.observation_at) as max_observation_at,
+        count(o.observation_at) as observation_done
+        FROM test_records tr
+        INNER JOIN products p
+        ON tr.product_id = p.id
+        INNER JOIN product_parts pp
+        ON tr.part_id = pp.id
+        INNER JOIN suppliers s
+        ON tr.supplier_id = s.id
+        INNER JOIN tests t
+        ON tr.test_id = t.id
+        INNER JOIN chambers c
+        ON tr.chamber_id = c.id
+        INNER JOIN stages st
+        ON tr.stage_id = st.id
+        LEFT JOIN test_observations o
+        ON tr.id = o.test_id
+        WHERE 
+        ";
+        
+        $pass_array = array();
+        if($code) {
+            $sql .= " tr.code = ?";
+            $pass_array[] = $code;
+        }
+        
+        $sql .= " GROUP BY tr.id ".$limit;
+        $result = $this->db->query($sql, $pass_array);
+        //echo $this->db->last_query();exit;
+        return ($code) ? $result->row_array() : $result->result_array();
+    }    
 }
