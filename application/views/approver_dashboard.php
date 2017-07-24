@@ -172,7 +172,7 @@
 
 
 <!--Popup Start-->
-<div class="modal fade bs-modal-lg" id="view-test-modal1" tabindex="-1" role="dialog" aria-hidden="true">
-    
+<div class="modal fade bs-modal-lg" id="view-test-modal1" tabindex="-1" role="dialog" aria-hidden="true" style='width: 80%;   margin-top: 50px;margin-left: auto;margin-right: auto;'>
+        
 </div>
 <!--Popup End-->

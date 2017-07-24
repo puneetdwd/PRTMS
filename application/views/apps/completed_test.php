@@ -22,13 +22,15 @@
     <div class="breadcrumbs">
         <h1>
             Part Monitoring
+			   
         </h1>
-        <ol class="breadcrumb">
+        <!--<ol class="breadcrumb">
             <li>
                 <a href="<?php echo base_url(); ?>">Home</a>
             </li>
             <li class="active">Part Monitoring</li>
-        </ol>
+        </ol>-->
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
         
     </div>
 
@@ -609,12 +611,12 @@
 							
 							
                             
-                            <div class="form-actions text-center">
+                            <!--div class="form-actions text-center">
 								
                                 <a href="<?php echo base_url();?>" class="button white">
                                     Cancel
                                 </a>
-                            </div>
+                            </div-->
                         </div>
                     </form>
                 </div>
