@@ -472,33 +472,33 @@ class Products extends Admin_Controller {
             $row['H'] = str_replace("\n", ' ', $row['H']);
             $row['I'] = str_replace("\n", ' ', $row['I']);
 
-            if($p !== trim($row['B']) && !empty($row['B'])) {
-                $p = $row['B'];
+            if($p !== trim($row['D']) && !empty($row['D'])) {
+                $p = $row['D'];
                 
-                $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
+                $exists = $this->Product_model->get_product_part_by_code_num($product_id, $p);
                 $part_id = !empty($exists) ? $exists['id'] : '';
             }
-            
+            //print_r($exists);exit;
             if(empty($part_id)) {
                 continue;
             }
                 
             $test = array();
-            $test['code'] = trim($row['D']);
-            $test['name'] = trim($row['E']);
-            $test['method'] = trim($row['F']);
-            $test['judgement'] = trim($row['G']);
-            $test['duration'] = trim($row['H']);
+            $test['code'] = trim($row['E']);
+            $test['name'] = trim($row['F']);
+            $test['method'] = trim($row['G']);
+            $test['judgement'] = trim($row['H']);
+            $test['duration'] = trim($row['I']);
             
             $exists = $this->Test_model->get_test_by_code($test['code']);
             $test_id = !empty($exists) ? $exists['id'] : '';
             $test_id = $this->Test_model->add_test($test, $test_id);
             
-            if(empty($row['I'])) {
+            if(empty($row['J'])) {
                 continue;
             }
             
-            $chamber_category = trim($row['I']);
+            $chamber_category = trim($row['J']);
             $chambers = $this->Chamber_model->get_chambers_by_category($chamber_category);
             if(empty($chambers)) {
                 continue;
@@ -510,10 +510,10 @@ class Products extends Admin_Controller {
                 $mapping['product_id'] = $product_id;
                 $mapping['part_id'] = $part_id;
                 $mapping['chamber_id'] = $chamber['id'];
-                
                 $mappings[] = $mapping;
             }
         }
+               // echo '<pre>';print_r($mappings);exit;
         
         if(!empty($mappings)) {
             $this->Test_model->insert_ptc_mappings($mappings);
@@ -555,14 +555,14 @@ class Products extends Admin_Controller {
                 $p = $row['B'];
                 $n = $row['D'];
                 // $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
-                $exists = $this->Product_model->get_product_part_by_code_num($product_id, $p, $n);
+                $exists = $this->Product_model->get_product_part_by_code_num($product_id, $n);
                 $part_id = !empty($exists) ? $exists['id'] : '';
             }
             
             if(empty($part_id)) {
                 continue;
             }
-            
+            //echo '123';exit;
             //$supplier['part_no'] = trim($row['D']);
 			
 			
@@ -720,19 +720,20 @@ class Products extends Admin_Controller {
             $temp['img_file']       = trim($row['E']);
             $temp['created']        = date("Y-m-d H:i:s");
            // print_r($temp);exit;
-            $exists = $this->Product_model->get_product_part_by_code_num($temp['product_id'], $temp['code'],$temp['part_no']);
-           // print_r($exists);
+            // $exists = $this->Product_model->get_product_part_by_code_num($temp['product_id'], $temp['code'],$temp['part_no']);
+            $exists = $this->Product_model->get_product_part_by_code_num($temp['product_id'],$temp['part_no']);
+			//echo '<pre>';print_r($exists);
             if(!empty($exists)) {
               $this->Product_model->update_product_part($parts, $exists['id']);
                 
             }else{
                 $parts[] = $temp;
 				$this->load->model('Product_model');
-				$res1 =  $this->Product_model->insert_parts($parts, $product_id);
+				echo $res1 =  $this->Product_model->insert_parts($parts, $product_id);
             }
-            
+            //echo $this->db->last_query();
         }
-// exit;
+		//exit;
 
          // print_r($res1);
         // print_r($temp);exit;

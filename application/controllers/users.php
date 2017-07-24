@@ -46,6 +46,7 @@ class Users extends Admin_Controller {
 
             if($validate->run() === TRUE) {
                 $post_data = $this->input->post();
+				//print_r($post_data);exit;
                 if(!empty($post_data['chamber_id'])) {
                     $post_data['chamber_id']    = implode(',', $post_data['chamber_id']);
                 }
@@ -200,6 +201,38 @@ class Users extends Admin_Controller {
         redirect($_SERVER['HTTP_REFERER']);
     }
     
+	 public function switch_product($product_id) {
+		$this->load->model('Product_model');
+        $product = $this->Product_model->get_product($product_id);
+		//print_r($product);exit;
+        if(empty($product)) {
+            $this->session->set_flashdata('error', 'Invalid Product');
+            redirect(base_url());
+        }
+        
+        //echo $product_ids = $this->session->userdata('product_ids');exit;
+        //$product_ids = explode(',', $product_ids);
+        /* if(!in_array($product_id, $product_ids)) {
+            $this->session->set_flashdata('error', 'Access Denied.');
+            redirect(base_url());
+        } */
+        
+		/* echo $this->session->set_userdata('product_id', $product['id']);
+        echo $this->session->set_userdata('product_name', $product['name']);
+         */
+		$_SESSION['product_switch'] = $product;
+		/* $product = $_SESSION['product_switch'];
+		print_r($_SESSION['product_switch']);
+        exit; */ 
+			
+		/* echo $this->session->set_userdata('product_id',1);
+        echo $this->session->set_userdata('product_name', 'he');
+         */
+		
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    
+   
     public function status($username, $status) {
         $this->is_admin_user();
         $this->load->model('User_model');

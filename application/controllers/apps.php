@@ -250,6 +250,85 @@ class Apps extends Admin_Controller {
         //$this->template->write_view('content', 'apps/on_going', $data);
         //$this->template->render();
     }
+    public function view_test_ajax_completed($code) {
+        $data = array();
+        $this->load->model('Apps_model');
+        $data['test'] = $this->Apps_model->get_test($code);
+        if(empty($data['test'])) {
+            redirect(base_url());
+        }
+        
+        $test = $data['test'];
+        
+        $total_duration = strtotime($test['end_date'])-strtotime($test['start_date']);
+        $total_duration = $total_duration/3600;
+        
+        $duration_completed = strtotime(date('Y-m-d H:i:s'))-strtotime($test['start_date']);
+        $duration_completed = $duration_completed/3600;
+
+        $data['progress'] = round(($duration_completed/$total_duration)*100, 1);
+        if($data['progress'] > 100) {
+            $data['progress'] = 100;
+        }
+        
+        $observations = $this->Apps_model->get_observations($test['id']);
+        $f_observations = array();
+        
+        $total_obs = $test['no_of_observations']*$test['samples'];
+        foreach($observations as $ob_key => $ob) {
+            foreach($ob as $col => $val) {
+                if(!isset($f_observations[$col])) {
+                    $f_observations[$col] = array_fill(0, $total_obs, '');
+                }
+                $f_observations[$col][$ob['observation_index']] = $val;
+            }
+        }
+        
+        if(!isset($f_observations['allowed'])) {
+            $f_observations['allowed'] = array_fill(0, $total_obs, '');
+        }
+        
+        $s = 0;
+        for($i = 0; $i < $test['no_of_observations']; $i++) {
+            for($y = 0; $y < $test['samples']; $y++) {
+                $f_observations['sample'][] = $y+1;
+            }
+                
+            if($i === 0) {
+                for($z = 0; $z < $test['samples']; $z++) {
+                    $f_observations['allowed'][$s] = 'Yes';
+                    $s++;
+                }
+            } else {
+                $dur = ($test['observation_frequency']*($i)) - 2;
+                $allowed_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours', strtotime($test['start_date'])));
+                
+                if(strtotime($allowed_time) <= strtotime('now')) {
+                    for($z = 0; $z < $test['samples']; $z++) {
+                        $f_observations['allowed'][$s] = 'Yes';
+                        $s++;
+                    }
+                } else {
+                    for($z = 0; $z < $test['samples']; $z++) {
+                        $f_observations['allowed'][$s] = 'No';
+                        $s++;
+                    }
+                }
+            }
+        }
+        
+        $data['observations'] = $f_observations;
+
+        $this->load->model('Test_model');
+        $allowed_chambers = explode(',', $this->session->userdata('chamber_ids'));
+        $switch_chambers = $this->Test_model->get_chambers_by_part_test($test['part_id'], $test['test_id'], $allowed_chambers);
+        $data['switch_chambers'] = $switch_chambers;
+        
+        // $this->load->view('reports/view_test',$data);
+        $this->load->view('apps/completed_test',$data);
+        //$this->template->write_view('content', 'apps/on_going', $data);
+        //$this->template->render();
+    }
     
     public function mark_as_abort($code) {
         $this->load->model('Apps_model');
@@ -292,7 +371,53 @@ class Apps extends Admin_Controller {
         }
         
     }
+    public function mark_as_approved($code) {
+		$this->load->model('Apps_model');
+        $comp_test = $this->Apps_model->completed_test($_SESSION['product_switch']['id'],date('Y-m-d'), $code);//product_id->2
+        if(empty($comp_test)) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        
+        
+        $response = $this->Apps_model->update_test(array('is_approved' => 1,'approved_by' => $this->session->userdata('name')), $comp_test['id']);
+		//echo $response." ". $comp_test['id'];print_r($comp_test);exit;
+        if($response) {
+            $this->session->set_flashdata('success', 'Test successfully marked Approved.');
+            redirect(base_url().'dashboard/approver_dashboard');
+        } else {
+            $this->session->set_flashdata('error', 'Something went wrong. Please try again');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        
+    }
     
+	public function sent_to_retest($code) {
+        $this->load->model('Apps_model');
+		$post_data = $this->input->post();
+		$remark = $post_data['retest_remark'];
+				
+        /* $on_going = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), $code);
+        if(empty($on_going)) {
+            redirect($_SERVER['HTTP_REFERER']);
+        } 
+        $response = $this->Apps_model->update_test(array('aborted' => 1), $on_going['id']);
+		*/
+        $comp_test = $this->Apps_model->completed_test($_SESSION['product_switch']['id'],date('Y-m-d'), $code);
+        if(empty($comp_test)) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $response = $this->Apps_model->update_test(array('retest_remark' => $remark ), $comp_test['id']);
+        if($response) {
+            $this->session->set_flashdata('success', 'Test successfully marked for retest.');
+            redirect(base_url());
+        } else {
+            $this->session->set_flashdata('error', 'Something went wrong. Please try again');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        
+    }
+    
+	
     public function extent_test($code) {
         if($this->input->post('extended_hrs')) {
 
@@ -426,4 +551,105 @@ class Apps extends Admin_Controller {
         
         echo json_encode($data);
     }
+	
+	 public function view_completed_test($code) {
+        $data = array();
+        $this->load->model('Apps_model');
+        $data['test'] = $this->Apps_model->view_completed_test($this->chamber_ids, date('Y-m-d'), $code);
+		//echo '<pre>';print_r($data['test']);exit;
+        if(empty($data['test'])) {
+            redirect(base_url());
+        }
+        
+        $test = $data['test'];
+        
+        $total_duration = strtotime($test['end_date'])-strtotime($test['start_date']);
+        $total_duration = $total_duration/3600;
+        
+        $duration_completed = strtotime(date('Y-m-d H:i:s'))-strtotime($test['start_date']);
+        $duration_completed = $duration_completed/3600;
+
+        $data['progress'] = round(($duration_completed/$total_duration)*100, 1);
+        if($data['progress'] > 100) {
+            $data['progress'] = 100;
+        }
+        
+        $observations = $this->Apps_model->get_observations($test['id']);
+        $f_observations = array();
+        
+        $total_obs = $test['no_of_observations']*$test['samples'];
+        foreach($observations as $ob_key => $ob) {
+            foreach($ob as $col => $val) {
+                if(!isset($f_observations[$col])) {
+                    $f_observations[$col] = array_fill(0, $total_obs, '');
+                }
+                $f_observations[$col][$ob['observation_index']] = $val;
+            }
+        }
+        
+        if(!isset($f_observations['allowed'])) {
+            $f_observations['allowed'] = array_fill(0, $total_obs, '');
+        }
+        
+        $s = 0;
+        for($i = 0; $i < $test['no_of_observations']; $i++) {
+            for($y = 0; $y < $test['samples']; $y++) {
+                $f_observations['sample'][] = $y+1;
+            }
+                
+            if($i === 0) {
+                for($z = 0; $z < $test['samples']; $z++) {
+                    $f_observations['allowed'][$s] = 'Yes';
+                    $s++;
+                }
+            } else {
+                $dur = ($test['observation_frequency']*($i)) - 2;
+                $allowed_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours', strtotime($test['start_date'])));
+                
+                if(strtotime($allowed_time) <= strtotime('now')) {
+                    for($z = 0; $z < $test['samples']; $z++) {
+                        $f_observations['allowed'][$s] = 'Yes';
+                        $s++;
+                    }
+                } else {
+                    for($z = 0; $z < $test['samples']; $z++) {
+                        $f_observations['allowed'][$s] = 'No';
+                        $s++;
+                    }
+                }
+            }
+        }
+
+        /* foreach($f_observations['allowed'] as $k => $v) {
+            if($k === 0) {
+                $f_observations['allowed'][0] = 'Yes';
+            } else {
+                $dur = ($test['observation_frequency']*($k)) - 2;
+                $allowed_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours', strtotime($test['start_date'])));
+                
+                if(strtotime($allowed_time) <= strtotime('now')) {
+                    $f_observations['allowed'][$k] = 'Yes';
+                } else {
+                    //echo "1";exit;
+                    $f_observations['allowed'][$k] = 'No';
+                }
+            }
+            //$f_observations['allowed'][$k] = $allowed_time;
+        } */
+        
+        /* echo "<pre>";
+        print_r($f_observations);
+        exit; */
+        
+        $data['observations'] = $f_observations;
+
+        $this->load->model('Test_model');
+        $allowed_chambers = explode(',', $this->session->userdata('chamber_ids'));
+        $switch_chambers = $this->Test_model->get_chambers_by_part_test($test['part_id'], $test['test_id'], $allowed_chambers);
+        $data['switch_chambers'] = $switch_chambers;
+        
+        $this->template->write_view('content', 'apps/completed_test', $data);
+        $this->template->render();
+    }
+   
 }

@@ -79,6 +79,7 @@ class Tests extends Admin_Controller {
         
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
+        $data['parts'] = $this->Product_model->get_all_parts();
         
         $this->load->model('Category_model');
         $data['categories'] = $this->Category_model->get_all_categories();
@@ -90,31 +91,39 @@ class Tests extends Admin_Controller {
 
             $data['ptc_mapping'] = $ptc_mapping;
         }
-        
+        //print_r($_POST);exit;
         if($this->input->post()) {
             $this->load->library('form_validation');
 
             $validate = $this->form_validation;
             $validate->set_rules('product_id', 'Product', 'trim|required|xss_clean');
+            $validate->set_rules('part_id', 'Part', 'trim|required|xss_clean');
             $validate->set_rules('part_category_id', 'Part', 'trim|required|xss_clean');
             $validate->set_rules('test_id', 'Test', 'trim|required|xss_clean');
             $validate->set_rules('chamber_id', 'Chamber', 'required|xss_clean');
             
             if($validate->run() === TRUE) {
                 $post_data = $this->input->post();
-                echo "<pre>"; print_r($post_data); exit;
                 $chambers = $this->input->post('chamber_id');
-                $this->Test_model->delete_ptc_mapping_by_partcatgory_chamber(
+                $part_numbers = $this->Product_model->get_part_numbers_by_name($post_data['product_id'],$post_data['part_id']);
+                /* echo "<pre>"; print_r($part_numbers);
+                exit;
+				 */
+				$this->Test_model->delete_ptc_mapping_by_partcatgory_chamber(
                     $post_data['product_id'], $post_data['part_category_id'], $post_data['test_id'], $chambers);
                 
-                foreach($chambers as $chamber) {
-                    $update_data = array();
-                    $update_data['product_id'] = $post_data['product_id'];
-                    $update_data['part_category_id'] = $post_data['part_category_id'];
-                    $update_data['test_id'] = $post_data['test_id'];
-                    $update_data['chamber_id'] = $chamber;
-                    
-                    $this->Test_model->add_ptc_mapping($update_data, $ptc_mapping_id);
+				foreach($part_numbers as $part_number) {
+					foreach($chambers as $chamber) {
+						$update_data = array();
+						$update_data['product_id'] = $post_data['product_id'];
+						// $update_data['part_id'] = $post_data['part_id'];
+						$update_data['part_id'] = $part_number['id'];
+						$update_data['part_category_id'] = $post_data['part_category_id'];
+						$update_data['test_id'] = $post_data['test_id'];
+						$update_data['chamber_id'] = $chamber;
+						$this->Test_model->add_ptc_mapping($update_data, $ptc_mapping_id);
+						//echo '123';
+					}
                 }
                 
                 $this->session->set_flashdata('success', 'Part-Test-Chamber Mapping successfully '.(($ptc_mapping_id) ? 'updated' : 'added').'.');

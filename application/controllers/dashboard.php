@@ -18,14 +18,24 @@ class Dashboard extends Admin_Controller {
         if($this->user_type == 'Admin') {
             $this->load->model('Apps_model');
             $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'));
-            
+			
             $this->template->write_view('content', 'dashboard', $data);
             $this->template->render();
-        } else if($this->user_type == 'Chamber') {
+
+            //$filters['product_id'] = $this->product_id;
+
+		} else if($this->user_type == 'Chamber') {
             $data = $this->chamber_dashboard();
             
             $this->template->write_view('content', 'chamber_dashboard', $data);
             $this->template->render();
+        }
+		else if($this->user_type == 'Approver') {
+			//echo 'Hi Approver';
+            $data = $this->approver_dashboard();
+            
+            $this->template->write_view('content', 'approver_dashboard', $data);
+            $this->template->render(); 
         }
 
     }
@@ -82,8 +92,22 @@ class Dashboard extends Admin_Controller {
         $data = array();
         $this->load->model('Apps_model');
         $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'));
-        //echo $this->db->last_query();exit;
         
         return $data;
+    }
+
+	 public  function approver_dashboard() {
+        $data = array();
+        $this->load->model('Apps_model');
+        $this->load->model('Product_model');
+		if(empty($_SESSION['product_switch']['id']))
+		{
+			$product = $this->Product_model->get_product(1);		
+			$_SESSION['product_switch'] = $product;
+		}
+        $data['completed_tests'] = $this->Apps_model->completed_test($_SESSION['product_switch']['id'], date('Y-m-d'));$this->template->write_view('content', 'approver_dashboard', $data);
+		//print_r($data['completed_tests'] );exit;
+        $this->template->render();  
+       
     }
 }
