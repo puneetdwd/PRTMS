@@ -406,7 +406,10 @@ class Apps extends Admin_Controller {
         if(empty($comp_test)) {
             redirect($_SERVER['HTTP_REFERER']);
         }
-        $response = $this->Apps_model->update_test(array('retest_remark' => $remark ), $comp_test['id']);
+        $response = $this->Apps_model->update_test(array('retest_remark' => $remark ,'completed' => 0,'approved_by' => '','is_approved' => 0), $comp_test['id']);
+		// echo $this->db->last_query();
+		// echo $response;
+		// exit;
         if($response) {
             $this->session->set_flashdata('success', 'Test successfully marked for retest.');
             redirect(base_url());
