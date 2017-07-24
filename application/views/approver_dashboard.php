@@ -153,7 +153,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Remark for Re-test</h4>
+        <h1>Remark for Re-test</h1>
       </div>
       <div class="modal-body">
         <form id='test_remark_form' action="<?php echo base_url().'apps/sent_to_retest/'.$completed_test['code'];?>" method='post'>
