@@ -225,7 +225,7 @@
                                         <label class="control-label col-md-5"><b>Part No:</b></label>
                                         <div class="col-md-7">
                                             <p class="form-control-static">
-                                                <?php echo $test['part_no']; ?>
+                                                <?php echo $test['part_num']; ?>
                                             </p>
                                         </div>
                                     </div>
@@ -611,12 +611,12 @@
 							
 							
                             
-                            <!--div class="form-actions text-center">
+                            <div class="form-actions text-center">
 								
                                 <a href="<?php echo base_url();?>" class="button white">
-                                    Cancel
+                                    Close
                                 </a>
-                            </div-->
+                            </div>
                         </div>
                     </form>
                 </div>
