@@ -126,7 +126,7 @@
                                     <div class="form-group" id="ptc-mappings-chamber-category-search-error">
                                         <label class="control-label">Select Chamber Category:</label>
                                                 <span class="required">*</span>
-                                        <select name="chamber_category" class="required form-control select2me"
+                                        <select name="chamber_category" class="required form-control select2me" id="catagory-chamber_selector_map"
                                             data-placeholder="Select Chamber Category" data-error-container="#ptc-mappings-chamber-category-search-error">
                                             <option></option>
                                             <?php foreach($categories as $category) { ?>
@@ -144,7 +144,7 @@
                                     <div class="form-group" id="ptc-mappings-chamber-search-error">
                                         <label class="control-label">Select Chamber:</label>
                                                 <span class="required">*</span>
-                                        <select name="chamber_id" class="required form-control select2me"
+                                        <select name="chamber_id" class="required form-control select2me" id="chamber_selector_map"
                                             data-placeholder="Select Chamber" data-error-container="#ptc-mappings-chamber-search-error">
                                             <option></option>
                                             <?php foreach($chambers as $chamber) { ?>

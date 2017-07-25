@@ -417,6 +417,41 @@ $(document).ready(function() {
         });
     });
 	
+	//Category-Chamber selector
+	$('#catagory-chamber_selector_map').change(function() {
+        var portlet_id = $('#catagory-chamber_selector_map').closest('.portlet').attr('id');
+              //  alert(portlet_id);
+        App.blockUI({
+            target: '#'+portlet_id,
+            boxed: true
+        });
+        
+        var chamber_cat = $('#catagory-chamber_selector_map :selected').val();
+		// alert(chamber_cat);
+        $.ajax({
+            type: 'POST',
+            url: base_url+'tests/get_chamber_by_category',
+            data: { chamber_cat: chamber_cat},
+            dataType: 'json',
+            success: function(resp) {
+                if($('#chamber_selector_map :selected').val() != '') {
+                    $('#chamber_selector_map').select2('val', null);
+                }
+                
+                $('#chamber_selector_map').html('');
+                
+                $('#chamber_selector_map').append('<option value=""></option>');
+                $.each(resp.chambers, function (i, item) {
+                    $('#chamber_selector_map').append($('<option>', { 
+                        value: item.id,
+                        text : item.name, 
+                    }));
+                });
+                App.unblockUI('#'+portlet_id);
+            }
+        });
+    });
+	
 	//End Mapping Part-supplier
 	
 	

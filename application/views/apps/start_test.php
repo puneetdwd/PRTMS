@@ -173,7 +173,7 @@
                                         <span class="required">*</span></label>
                                         
                                         <select name="test_id" id="part-based-test-selector" class="form-control required select2me"
-                                        data-placeholder="Select Supplier" data-error-container="#monitoring-form-test-error">
+                                        data-placeholder="Select Test" data-error-container="#monitoring-form-test-error">
                                             <option value=""></option>
                                             
                                         </select>

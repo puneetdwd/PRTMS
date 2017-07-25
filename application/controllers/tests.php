@@ -145,4 +145,18 @@ class Tests extends Admin_Controller {
         
         redirect(base_url().'tests/ptc_mappings');
     }
+	
+	public function get_chamber_by_category() {
+        $data = array('chambers' => array());
+        //echo $this->input->post('chamber_cat');exit;
+        if($this->input->post('chamber_cat')) {
+            $this->load->model('Test_model');
+            $data['chambers'] = $this->Test_model->get_chambers_by_category($this->input->post('chamber_cat'));
+			
+			//echo $this->db->last_query(); exit;
+        }
+			// echo $this->input->post('part').'123';print_r($data['chambers']);exit;
+        
+        echo json_encode($data);
+    }
 }

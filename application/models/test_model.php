@@ -201,4 +201,10 @@ class Test_model extends CI_Model {
         
         return FALSE;
     }
+	function get_chambers_by_category($chamber_category) {
+        $sql = 'SELECT * FROM chambers WHERE category like ?';
+       
+        return $this->db->query($sql,$chamber_category)->result_array();
+    }
+    
 }
