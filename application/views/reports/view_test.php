@@ -278,7 +278,7 @@
                             <td>Set Volt</td>
 
                             <?php foreach($observations['set_volt'] as $ob) { ?>
-                                <td><?php echo $ob; ?></td>
+                                <td><?php echo $test['set_volt']; ?></td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -305,7 +305,7 @@
                             <td>Set</td>
 
                             <?php foreach($observations['display_temp_set'] as $ob) { ?>
-                                <td><?php echo $ob; ?></td>
+                                <td><?php echo $test['display_temp_set']; ?></td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -320,7 +320,7 @@
                             <td>Set</td>
 
                             <?php foreach($observations['humidity_set'] as $ob) { ?>
-                                <td><?php echo $ob; ?></td>
+                                <td><?php echo $test['humidity_set']; ?></td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -356,7 +356,7 @@
                             <td>Set</td>
 
                             <?php foreach($observations['display_temp_set'] as $ob) { ?>
-                                <td><?php echo $ob; ?></td>
+                                <td><?php echo $test['display_temp_set']; ?></td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -372,7 +372,7 @@
                             <td>Set</td>
 
                             <?php foreach($observations['pressure_set'] as $ob) { ?>
-                                <td><?php echo $ob; ?></td>
+                                <td><?php echo $test['pressure_set']; ?></td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -415,7 +415,7 @@
                             <td>Set Volt</td>
 
                             <?php foreach($observations['set_volt'] as $ob) { ?>
-                                <td><?php echo $ob; ?></td>
+                                <td><?php echo $test['set_volt']; ?></td>
                             <?php } ?>
                         </tr>
                         <tr>

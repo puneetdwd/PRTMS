@@ -98,8 +98,30 @@
                                     <div class="form-group">
                                         <label class="control-label" for="duration">Duration:
                                         <span class="required">*</span></label>
-                                        <input type="text" class="required form-control" name="duration"
+                                        <input type="text" class=" form-control" name="duration"
                                         value="<?php echo isset($test['duration']) ? $test['duration'] : ''; ?>">
+                                        <span class="help-block">
+                                        </span>
+                                    </div>
+                                </div>
+								<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="set_volt">Set Volt:</label>
+                                        <input type="text" class="form-control" name="set_volt"
+                                        value="<?php echo isset($test['set_volt']) ? $test['set_volt'] : ''; ?>">
+                                        <span class="help-block">
+                                        </span>
+                                    </div>
+                                </div>
+								
+                            </div>
+							
+							<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="display_temp_set">Set Display temprature:</label>
+                                        <input type="text" class=" form-control" name="display_temp_set"
+                                        value="<?php echo isset($test['display_temp_set']) ? $test['display_temp_set'] : ''; ?>">
                                         <span class="help-block">
                                         </span>
                                     </div>
@@ -107,14 +129,25 @@
 								
 								<div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label" for="test_set">Set:
-                                        <span class="required">*</span></label>
-                                        <input type="text" class="required form-control" name="test_set"
-                                        value="<?php echo isset($test['test_set']) ? $test['test_set'] : ''; ?>">
+                                        <label class="control-label" for="humidity_set">Set Humidity:</label>
+                                        <input type="text" class=" form-control" name="humidity_set"
+                                        value="<?php echo isset($test['humidity_set']) ? $test['humidity_set'] : ''; ?>">
                                         <span class="help-block">
                                         </span>
                                     </div>
                                 </div>
+								
+                            </div>
+							<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="pressure_set">Set Pressure:</label>
+                                        <input type="text" class=" form-control" name="pressure_set"
+                                        value="<?php echo isset($test['pressure_set']) ? $test['pressure_set'] : ''; ?>">
+                                        <span class="help-block">
+                                        </span>
+                                    </div>
+                                </div>		
 								
                             </div>
                         </div>

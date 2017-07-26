@@ -34,7 +34,11 @@ class Apps_model extends CI_Model {
     function on_going_test($chamber_ids, $date, $code = '', $limit = '') {
         $sql = "SELECT tr.*, p.name as product_name, pp.img_file as img_file,
         pp.name as part_name, s.name as supplier_name,
-        t.name as test_name, t.method as test_method, t.judgement as test_judgement,t.test_set as test_set,
+        t.name as test_name, t.method as test_method, t.judgement as test_judgement,
+		t.display_temp_set as display_temp_set,
+		t.humidity_set as humidity_set,
+		t.pressure_set as pressure_set,
+		t.set_volt as set_volt,
         c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
         st.name as stage_name, st.code as stage_code,
         MAX(o.observation_index) as max_index, MAX(o.observation_at) as max_observation_at,
@@ -73,8 +77,12 @@ class Apps_model extends CI_Model {
     function get_test($code = '') {
         $sql = "SELECT tr.*, p.name as product_name,
         pp.name as part_name,pp.part_no as part_num, s.name as supplier_name,
-        t.name as test_name, t.method as test_method, t.judgement as test_judgement,
-        c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
+        t.name as test_name, t.method as test_method, t.judgement as test_judgement, t.test_set as test_set,
+		t.display_temp_set as display_temp_set,
+		t.humidity_set as humidity_set,
+		t.pressure_set as pressure_set,
+		t.set_volt as set_volt,
+		c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
         st.name as stage_name, st.code as stage_code,
         MAX(o.observation_index) as max_index, MAX(o.observation_at) as max_observation_at,
         count(o.observation_at) as observation_done
@@ -89,7 +97,7 @@ class Apps_model extends CI_Model {
         WHERE aborted = 0";
         
         if($code) {
-            $sql .= " AND tr.code = ?";
+            $sql .= " AND tr.code like ?";
             $pass_array[] = $code;
         }
         

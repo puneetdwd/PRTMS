@@ -371,7 +371,7 @@
                                                     
                                                     <?php foreach($observations['set_volt'] as $ob) { ?>
                                                         <td><?php //echo $ob;
-																echo $test['test_set'];?></td>
+																echo $test['set_volt'];?></td>
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
@@ -398,7 +398,7 @@
                                                     <td>Set</td>
                                                     
                                                     <?php foreach($observations['display_temp_set'] as $ob) { ?>
-                                                        <td><?php echo $ob; ?></td>
+                                                        <td><?php echo $test['display_temp_set']; ?></td>
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
@@ -413,7 +413,7 @@
                                                     <td>Set</td>
                                                     
                                                     <?php foreach($observations['humidity_set'] as $ob) { ?>
-                                                        <td><?php echo $ob; ?></td>
+                                                        <td><?php echo $test['humidity_set']; ?></td>
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
@@ -449,7 +449,7 @@
                                                     <td>Set</td>
                                                     
                                                     <?php foreach($observations['display_temp_set'] as $ob) { ?>
-                                                        <td><?php echo $ob; ?></td>
+                                                        <td><?php echo $test['display_temp_set']; ?></td>
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
@@ -465,7 +465,7 @@
                                                     <td>Set</td>
                                                     
                                                     <?php foreach($observations['pressure_set'] as $ob) { ?>
-                                                        <td><?php echo $ob; ?></td>
+                                                        <td><?php echo $test['pressure_set']; ?></td>
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
@@ -508,7 +508,9 @@
                                                     <td>Set Volt</td>
                                                     
                                                     <?php foreach($observations['set_volt'] as $ob) { ?>
-                                                        <td><?php echo $ob; ?></td>
+                                                        <td><?php //echo $ob; 
+														echo $test['set_volt'];
+														?></td>
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
@@ -770,7 +772,7 @@
                                 <td class="merged-col">Set Volt</td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="set_volt">
+                                        <input readonly type="text" class="form-control" name="set_volt" value='<?php echo $test["set_volt"]; ?>'>
                                     </div>
                                 </td>
                                 
@@ -808,7 +810,7 @@
                                 <td class="merged-col">Set</td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="display_temp_set">
+                                        <input readonly type="text" class="form-control" name="display_temp_set" value='<?php echo $test["display_temp_set"]; ?>'>
                                     </div>
                                 </td>
                                 
@@ -816,7 +818,7 @@
                                 <td class="merged-col">Set</td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="humidity_set">
+                                        <input readonly type="text" class="form-control" name="humidity_set" value='<?php echo $test["humidity_set"]; ?>'>
                                     </div>
                                 </td>
                             </tr>
@@ -874,7 +876,7 @@
                                 <td class="merged-col">Set</td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="display_temp_set">
+                                        <input readonly type="text" class="form-control" name="display_temp_set" value='<?php  echo $test["display_temp_set"]; ?>'>
                                     </div>
                                 </td>
                                 
@@ -882,7 +884,7 @@
                                 <td class="merged-col">Set</td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="pressure_set">
+                                        <input readonly type="text" class="form-control" name="pressure_set" value='<?php  echo $test["pressure_set"]; ?>'>
                                     </div>
                                 </td>
                             </tr>
@@ -908,7 +910,7 @@
                                 <td class="merged-col">Set Volt</td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="set_volt">
+                                        <input readonly type="text" class="form-control" name="set_volt" value='<?php  echo $test["set_volt"]; ?>'> 
                                     </div>
                                 </td>
                                 

@@ -36,7 +36,7 @@ class report_model extends CI_Model {
     
     function get_completed_test_report($filters = array()){
         
-        $sql = "SELECT t.id as test_record_id, t.code, c.name as chamber_name, t.start_date, t.end_date, c.category as chamber_category, 
+        $sql = "SELECT t.id as test_record_id, t.code,ts.test_set, c.name as chamber_name, t.start_date, t.end_date, c.category as chamber_category, 
                 t.part_no, p.name as product_name, pp.name as part_name, s.name as supplier_name, ts.name as test_name, st.name as stage_name 
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 
@@ -157,8 +157,8 @@ class report_model extends CI_Model {
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 
                 LEFT JOIN tests ts ON ts.id = t.test_id 
-                WHERE t.chamber_id = ".$chamber_id;
-        
+                WHERE t.aborted = 0 AND t.chamber_id = ".$chamber_id;
+			
         $pass_array = array();
         
         if(!empty($filters['product_id'])) {

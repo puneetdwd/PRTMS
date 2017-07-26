@@ -176,6 +176,7 @@ class Apps extends Admin_Controller {
         $data = array();
         $this->load->model('Apps_model');
         $data['test'] = $this->Apps_model->get_test($code);
+		//echo $code.'<pre>';print_r($data['test']);exit;
         if(empty($data['test'])) {
             redirect(base_url());
         }
@@ -192,8 +193,8 @@ class Apps extends Admin_Controller {
         if($data['progress'] > 100) {
             $data['progress'] = 100;
         }
-        
         $observations = $this->Apps_model->get_observations($test['id']);
+		//print_r($observations);exit;
         $f_observations = array();
         
         $total_obs = $test['no_of_observations']*$test['samples'];
@@ -270,7 +271,6 @@ class Apps extends Admin_Controller {
         if($data['progress'] > 100) {
             $data['progress'] = 100;
         }
-        
         $observations = $this->Apps_model->get_observations($test['id']);
         $f_observations = array();
         
@@ -538,6 +538,7 @@ class Apps extends Admin_Controller {
             $part = $this->Product_model->get_product_part($this->input->post('product'), $this->input->post('part'));
 
             $this->load->model('Test_model');
+            // $data['tests'] = $this->Test_model->get_tests_by_part_chamber($part['id'], $this->input->post('chamber'));
             $data['tests'] = $this->Test_model->get_tests_by_part_chamber($part['id'], $this->input->post('chamber'));
         }
         
