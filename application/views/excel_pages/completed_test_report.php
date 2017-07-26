@@ -29,14 +29,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($reports as $report) { ?>
+                                <?php 
+								// echo '<pre>';print_r($reports);exit;
+								foreach($reports as $report) { ?>
                                     <tr>
                                         <td><?php echo $report['stage_name']; ?></td>
                                         <td><?php echo $report['product_name']; ?></td>
                                         <td><?php echo $report['part_name']; ?></td>
                                         <td><?php echo $report['test_name']; ?></td>
-                                        <td><?php echo $report['start_date']; ?></td>
-                                        <td><?php echo $report['end_date']; ?></td>
+                                        <td><?php //echo $report['start_date']; 
+											echo date('jS M, Y h:i A', strtotime($report['start_date']));	?>
+										</td>
+                                        <td><?php //echo $report['end_date']; 
+											echo date('jS M, Y h:i A', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
                                     </tr>
