@@ -31,8 +31,12 @@
                                     <tr>
                                         <td><?php echo $sn; ?></td>
                                         <td><?php echo $report['test_name']; ?></td>
-                                        <td><?php echo $report['start_date']; ?></td>
-                                        <td><?php echo $report['end_date']; ?></td>
+                                        <td><?php //echo $report['start_date']; 
+										echo date('jS M, Y h:i A', strtotime($report['start_date']));
+										?></td>
+                                        <td><?php //echo $report['end_date']; 
+										echo date('jS M, Y h:i A', strtotime($report['end_date']));
+										?></td>
                                         <td><?php echo $report['judgement']; ?></td>
                                     </tr>
                                 <?php } ?>

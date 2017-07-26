@@ -146,20 +146,26 @@
                 </div>
             </div>
         </div>
-    
-        <div class="col-md-9">
-            <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-reorder"></i>Chamber Wise Test Count Report
-                    </div>
-                    <?php if(!empty($reports)) { ?>
-                    <div class="actions">
+				<div class="portlet-title">
+                   <?php if(!empty($reports)) { ?>
+                    <div class="actions" style='float: left;margin: 5px;'>
                         <a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/chamber_wise_test_count_report/"; ?>">
                             <i class="fa fa-download"></i> Export Report
                         </a>
                     </div>
+					<div class="actions" style='float: left;margin: 5px;'>
+						<a class="button normals btn-circle" onclick="printPage('chamber_report_table');" href="javascript:void(0);">
+							<i class="fa fa-print"></i> Print
+						</a>
+					</div>
                     <?php } ?>
+                </div>
+        <div class="col-md-9" id='chamber_report_table'>
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+					<div class="caption">
+                        <i class="fa fa-reorder"></i><b>Chamber wise Test Count Report</b>
+                    </div>
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($reports)) { ?>

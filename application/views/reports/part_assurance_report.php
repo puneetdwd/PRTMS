@@ -213,19 +213,33 @@
                 </div>
             </div>
         </div>
-    
-        <div class="col-md-12">
+		<div class="portlet-title">
+			<?php if(!empty($reports)) { ?>
+			<div class="actions" style='float: left;margin: 5px;'>
+				<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_assurance_report"; ?>">
+					<i class="fa fa-download"></i> Export Report
+				</a>
+			</div>
+			<div class="actions" style='float: left;margin: 5px;'>
+				<a class="button normals btn-circle" onclick="printPage('part_assu_report_table');" href="javascript:void(0);">
+					<i class="fa fa-print"></i> Print
+				</a>
+			</div>
+			<?php } ?>
+			
+		</div>
+        <div class="col-md-12" id='part_assu_report_table'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-reorder"></i>Part Assurance Report
                     </div>
                     <?php if(!empty($reports)) { ?>
-                    <div class="actions">
+                    <!--div class="actions">
                         <a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_assurance_report"; ?>">
                             <i class="fa fa-download"></i> Export Report
                         </a>
-                    </div>
+                    </div-->
                     <?php } ?>
                     
                 </div>
@@ -312,8 +326,14 @@
                                         <td><?php echo $report['method']; ?></td>
                                         <td><?php echo $report['judgement']; ?></td>
                                         <td><?php echo $report['samples']; ?></td>
-                                        <td><?php echo $report['start_date']; ?></td>
-                                        <td><?php echo $report['end_date']; ?></td>
+                                        <td><?php //echo $report['start_date']; 
+										echo date('jS M, Y h:i A', strtotime($report['start_date']));
+										
+										?></td>
+                                        <td><?php //echo $report['end_date']; 
+										echo date('jS M, Y h:i A', strtotime($report['end_date']));
+										
+										?></td>
                                         <td><?php echo strtoupper($report['observation_result']); ?></td>
                                         <td><?php echo " "; ?></td>
                                         <!--<td nowrap>
