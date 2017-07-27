@@ -257,6 +257,11 @@
                                         <i class="icon-briefcase"></i> Part Assurance Report
                                     </a>
                                 </li>
+								<li>
+                                    <a href="<?php echo base_url(); ?>reports/no_lot_report">
+                                        <i class="icon-briefcase"></i> No Lot Report
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         

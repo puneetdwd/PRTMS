@@ -87,6 +87,47 @@ class reports extends Admin_Controller {
         $this->template->render();
         
     }
+    public function no_lot_report() {
+        $data = array();
+        
+        $this->load->model('Product_model');
+        $data['products'] = $this->Product_model->get_all_products();
+        
+        $this->load->model('Supplier_model');
+        $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
+        
+        $this->load->model('Test_model');
+        $data['tests'] = $this->Test_model->get_all_tests();
+        
+        $this->load->model('Plan_model');
+        $this->load->model('report_model');
+        
+        $filters = array();
+        if($this->input->post()) {
+            $plan_month = $this->input->post('plan_month');
+            $filters = $this->input->post();
+            $data['plan'] = $this->report_model->get_no_lot_plan($plan_month, $filters);
+            
+        } else if($this->input->get('plan_month')) {
+            $plan_month = $this->input->get('plan_month');
+            
+            $filters = array('product_id' => $this->input->get('product_id'));
+            $data['plan'] = $this->report_model->get_no_lot_plan($this->input->get('plan_month'), $filters);
+        }
+        
+        if(!empty($filters['product_id'])) {
+            $data['parts'] = $this->Product_model->get_all_product_parts($filters['product_id']);
+        }
+        
+        $data['filters'] = $filters;
+		 $_SESSION['nl_filters'] = $filters;
+        
+        $data['plan_month'] = isset($plan_month) ? $plan_month : '';
+            
+        
+        $this->template->write_view('content', 'reports/no_lot_report', $data);
+        $this->template->render();
+    }
     
     public function check_tests($chamber_id){
         
@@ -167,7 +208,7 @@ class reports extends Admin_Controller {
     
     public function export_excel($excel_page, $filters = array()) {
         $data = array();
-        
+        // echo $excel_page;exit;
         //$filters = unserialize($filters);
         
         if($excel_page == 'part_assurance_report'){
@@ -225,6 +266,20 @@ class reports extends Admin_Controller {
             
             header('Content-Type: application/force-download');
             header('Content-disposition: attachment; filename=chamber_wise_test_count_report.xls');
+            
+        }
+		else if($excel_page == 'no_lot_report'){
+            $this->load->model('report_model');
+        
+            $filters = @$_SESSION['nl_filters'] ;
+            
+            $this->load->model('report_model');
+            $plan_month = $filters['plan_month'];
+			$data['plan'] = $this->report_model->get_no_lot_plan($plan_month, $filters);
+			$str = $this->load->view('excel_pages/no_lot_report', $data, true);
+            
+            header('Content-Type: application/force-download');
+            header('Content-disposition: attachment; filename=no_lot_report.xls');
             
         }else{
             return 0;

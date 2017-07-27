@@ -28,7 +28,7 @@ class Plan_model extends CI_Model {
     
     function get_month_plan($month_year, $filters) {
         $sql = "SELECT mp.id, mp.`month_year`, mp.`supplier_id`, mp.`product_id`, mp.`part_id`, 
-        mp.`planned_part_no`, mp.`test_id`, mp.schedule_date,
+        mp.`planned_part_no`, mp.`test_id`, mp.schedule_date,mp.no_inspection,
         p.name as product, s.name as supplier, pp.name as part,
         t.name as test,
         CASE 
@@ -81,5 +81,15 @@ class Plan_model extends CI_Model {
         ORDER BY pp.name, s.name, t.name";
         
         return $this->db->query($sql, $pass_array)->result_array();
+    }
+	
+	function mark_no_inspection($id,$s){
+			$data = array('no_inspection' => $s);
+            $this->db->where('id', $id);
+            $data['modified'] = date("Y-m-d H:i:s");
+            
+            return (($this->db->update('monthly_plan', $data)) ? $id : False);
+        
+		
     }
 }

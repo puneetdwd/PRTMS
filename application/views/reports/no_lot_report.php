@@ -2,13 +2,13 @@
     <!-- BEGIN PAGE HEADER-->
     <div class="breadcrumbs">
         <h1>
-            Monthly Plan
+            No Lot Report
         </h1>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo base_url(); ?>">Home</a>
             </li>
-            <li class="active">Monthly Plan</li>
+            <li class="active">No Lot Report</li>
         </ol>
         
     </div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    <form role="form" class="validate-form" method="post" action="<?php echo base_url().'plans/display';?>">
+                    <form role="form" class="validate-form" method="post" action="<?php echo base_url().'reports/no_lot_report';?>">
                         <div class="form-body" style="padding:0px;">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-close="alert"></button>
@@ -52,7 +52,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label">Select Month:</label>
+                                        <label class="control-label">Select Month:<span class="required">*</span></label>
                                         
                                         <div class="input-group date month-picker" data-date-format="yyyy-mm-dd">
                                             <input name="plan_month" type="text" class="required form-control" readonly
@@ -68,7 +68,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="plan-month-product-search-error">
-                                        <label class="control-label">Select Product:</label>
+                                        <label class="control-label">Select Product:<span class="required">*</span></label>
                                                 
                                         <select name="product_id" class="required form-control select2me" id="product-part-selector"
                                             data-placeholder="Select Product" data-error-container="#plan-month-product-search-error">
@@ -87,9 +87,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="plan-month-part-search-error1">
-                                        <label class="control-label">Select Part:</label>
+                                        <label class="control-label">Select Part:<span class="required">*</span></label>
                                                 
-                                        <select name="part_id1" class="form-control select2me" id="part-selector"
+                                        <select name="part_id1" class="required form-control select2me" id="part-selector"
                                             data-placeholder="Select Part" data-error-container="#plan-month-part-search-error">
                                             <option></option>
                                             <?php $selected = isset($filters['part_id1']) ? $filters['part_id1'] : ''; ?>
@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             
-                            <div class="row">
+                            <!--<div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="plan-month-test-search-error">
                                         <label class="control-label">Select Test:</label>
@@ -154,7 +154,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div-->
                             
                         </div>
                         
@@ -165,19 +165,32 @@
                 </div>
             </div>
         </div>
-    
-        <div class="col-md-9">
+    <div class="portlet-title">
+		<?php if(!empty($plan)) { ?>
+		<div class="actions" style='float: left;margin: 5px;'>
+			<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/no_lot_report"; ?>">
+				<i class="fa fa-download"></i> Export Report
+			</a>
+		</div>
+		<div class="actions" style='float: left;margin: 5px;'>
+			<a class="button normals btn-circle" onclick="printPage('no_lot_report');" href="javascript:void(0);">
+				<i class="fa fa-print"></i> Print
+			</a>
+		</div>
+		<?php } ?>
+	</div>
+        <div class="col-md-9" id='no_lot_report'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-reorder"></i>Plan for the Month
+                        <i class="fa fa-reorder"></i>No lot Report
                     </div>
                     <div class="actions">
                     </div>
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($plan)) { ?>
-                        <p class="text-center">No Plan.</p>
+                        <p class="text-center">No data for NO Lot.</p>
                     <?php } else { ?>
                         <table class="table table-hover table-light">
                             <thead>
@@ -188,7 +201,6 @@
                                     <th>Test Item</th>
                                     <th>Schedule Date</th>
                                     <th>Status</th>
-                                    <th>No Inspection</th>
                                     <th class="no_sort" style="width:100px;"></th>
                                 </tr>
                             </thead>
@@ -207,14 +219,7 @@
 													{ echo 'No Lot'; }
 												else {	echo $pl['status']; }
 											?></td>
-                                        <td style='text-align: center;'>											
-											<!--<form>-->
-												<input <?php if($pl['no_inspection'] == 'NO'){ echo 'checked'; } ?> data-index="<?php echo $pl['id']; ?>" type="checkbox" name="no_inspec" id="no_inspec" onClick='no_inspection();' >
-												<!--<button type="button" class="button small view-test-modal-btn" data-index="<?php echo $pl['id']; ?>" onClick='no_inspection();'>
-                                                Submit
-												</button>
-											</form>-->
-										</td>
+                                        
                                         <td nowrap>
                                             
 											<!--

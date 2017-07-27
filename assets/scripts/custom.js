@@ -110,8 +110,8 @@ $(document).ready(function() {
         
         var part = $('#part-selector :selected').val();
         var product = $('#product-part-selector :selected').val();
-		//alert(part);
-		//alert(product); 
+		/* alert(part);
+		alert(product);  */
         $.ajax({
             type: 'POST',
             url: base_url+'products/get_part_number_by_part',
@@ -122,7 +122,7 @@ $(document).ready(function() {
                     $('#part-selector_number').select2('val', null);
                 }
 				
-				//alert(resp);
+				//alert(resp.parts);
                 
                 $('#part-selector_number').html('');
                 $('#part-selector_number').append('<option value=""></option>');
@@ -480,7 +480,7 @@ $(document).ready(function() {
             //$('#observation_index').val($(this).attr('data-index'));
             
             var code = $(this).attr('data-index');
-            
+            // alert(code);
             $.ajax({
                 url: base_url+"apps/view_test_ajax/"+code,
                 async: false,
@@ -615,3 +615,32 @@ function printPage(id) {
     printWin.print();
     printWin.close();
 }
+
+	function no_inspection() {
+			var c = document.getElementById('no_inspec');
+			var id = $('#no_inspec').attr('data-index');            
+			//alert(base_url+'plans/submit_inspection_status/'+id);
+			if(c.checked){
+			var s = 'NO';
+			$.ajax({
+				type: 'POST',
+				url: 'submit_inspection_status/'+id,
+				data: { id : id ,s:s},
+				dataType: 'json',
+				success: function() {
+					//alert('no insp');
+				},
+			});
+		}else{
+			var s = 'YES';
+			$.ajax({
+				type: 'POST',
+				url: 'submit_inspection_status/'+id,
+				data: { id : id ,s:s},
+				dataType: 'json',
+				success: function() {
+					//alert('no insp');
+				},
+			});
+		}
+	}

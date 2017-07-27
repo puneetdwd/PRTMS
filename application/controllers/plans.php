@@ -154,6 +154,28 @@ class Plans extends Admin_Controller {
         
     }
     
+	/* public function submit_inspection_status($id) {
+		
+		echo $id;
+		if($id) {
+            $this->load->model('Plan_model');
+            $resp = $this->Plan_model->mark_no_inspection($id);
+			
+			//echo $this->db->last_query(); exit;
+        }
+			// echo $this->input->post('part').'123';print_r($data['parts']);exit;
+         
+        echo exit;
+    } */
+	
+	public function submit_inspection_status() {
+		if($this->input->post('id')) {
+            $this->load->model('Plan_model');
+            $res = $this->Plan_model->mark_no_inspection($this->input->post('id'),$this->input->post('s'));
+		}
+		exit;
+    }
+    
     public function parse_monthly_plan($product_id, $month_year, $file_name) {
         //$file_name = 'assets/uploads/'.$file_name;
         

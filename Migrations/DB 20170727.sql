@@ -1,0 +1,1 @@
+ALTER TABLE `monthly_plan` ADD `no_inspection` ENUM('NO') NULL AFTER `schedule_date`;
