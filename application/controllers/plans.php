@@ -192,10 +192,11 @@ class Plans extends Admin_Controller {
             $row['B'] = str_replace("\n", ' ', $row['B']);
             $row['D'] = str_replace("\n", ' ', $row['D']);
             
-            if($p !== trim($row['B']) && !empty($row['B'])) {
-                $p = $row['B'];
+            if($p !== trim($row['D']) && !empty($row['D'])) {
+                $p = $row['D'];
                 
-                $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
+                // $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
+                $exists = $this->Product_model->get_product_part_by_code_num($product_id, $p);
                 $part_id = !empty($exists) ? $exists['id'] : '';
                 if(!empty($part_id)) {
                     $tests = $this->Test_model->get_tests_by_part($part_id);
