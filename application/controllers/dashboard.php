@@ -9,12 +9,12 @@ class Dashboard extends Admin_Controller {
         $this->template->write('title', 'PRTMS | '.$this->user_type.' Dashboard');
         $this->template->write_view('header', 'templates/header');
         $this->template->write_view('footer', 'templates/footer');
+			//echo 'hi testdfxs'.$this->user_type;exit;
 
     }
 
     public function index() {
-        $data = array();
-        
+			$data = array();
         if($this->user_type == 'Admin') {
             $this->load->model('Apps_model');
             $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'));
@@ -25,8 +25,7 @@ class Dashboard extends Admin_Controller {
             //$filters['product_id'] = $this->product_id;
 
 		} else if($this->user_type == 'Chamber') {
-            $data = $this->chamber_dashboard();
-            
+            $data = $this->chamber_dashboard();            
             $this->template->write_view('content', 'chamber_dashboard', $data);
             $this->template->render();
         }
@@ -37,7 +36,9 @@ class Dashboard extends Admin_Controller {
             $this->template->write_view('content', 'approver_dashboard', $data);
             $this->template->render(); 
         }
-
+		else if($this->user_type == 'Testing') {
+            redirect(base_url().'plans/display'); // logged in redirect to index page.
+        }
     }
     
     public function dashboard_screen($page = 1) {

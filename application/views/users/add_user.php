@@ -119,7 +119,10 @@
                                                 Dashboard User
                                             </option>
 											<option value="Approver" <?php if($user_type == 'Approver') { echo "selected='selected'"; } ?>>
-                                                Test Approver
+                                                Approver User
+                                            </option>
+											<option value="Testing" <?php if($user_type == 'Testing') { echo "selected='selected'"; } ?>>
+                                                Test User
                                             </option>
                                         </select>
                                     </div>

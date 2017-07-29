@@ -5,8 +5,8 @@
 	   $allowed_products = $CI->Product_model->get_all_products();   
 		//print_r($allowed_products);exit;	 
 				
-	   ?>
-<?php $page = isset($page) ? $page : ''; ?>
+	   $page = isset($page) ? $page : '';
+?>
 <header class="page-header">
     <nav class="navbar mega-menu" role="navigation">
         <div class="container-fluid">
@@ -32,7 +32,7 @@
                         <?php if($this->chamber_id) { ?>
                             <small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> User ]</small>
                         <?php } else { ?>
-                            <small> &nbsp; [ Admin ]</small>
+                            <small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> ]</small>
                         <?php } ?>
                         </span>
                     
@@ -108,7 +108,7 @@
             <?php if(!isset($no_header_links)) { ?>
                 <div class="nav-collapse collapse navbar-collapse navbar-responsive-collapse header-nav-links">
                     <ul class="nav navbar-nav">
-                        <?php if($this->session->userdata('user_type') != 'Approver' ) { ?>
+                        <?php if($this->session->userdata('user_type') != 'Approver' && $this->session->userdata('user_type') != 'Testing' ) { ?>
 						<li class="<?php if($page == '') { ?>active selected<?php } ?>">
                             <a href="<?php echo base_url(); ?>" class="text-uppercase">
                                 <i class="icon-home"></i> Dashboard 
@@ -189,7 +189,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            
                             <li class="dropdown more-dropdown <?php if($page == 'plans') { ?>active selected<?php } ?>">
                                 <a href="javascript:;" class="text-uppercase">
                                     <i class="icon-layers"></i> Plan 
@@ -212,8 +211,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            
-                            <li class="<?php if($page == 'sadsdsa') { ?>active selected<?php } ?>">
+						    <li class="<?php if($page == 'sadsdsa') { ?>active selected<?php } ?>">
                                 <a href="<?php echo base_url().'dashboard/dashboard_screen'; ?>" class="text-uppercase">
                                     <i class="icon-home"></i> Dashboard Screen
                                 </a>
@@ -227,7 +225,25 @@
                                 </a>
                             </li>
                         <?php } ?>
-						
+						<?php if($this->session->userdata('user_type') == 'Testing'){ ?>
+                            <li class="dropdown more-dropdown <?php if($page == 'plans') { ?>active selected<?php } ?>">
+                                <a href="javascript:;" class="text-uppercase">
+                                    <i class="icon-layers"></i> Plan 
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>plans/display">
+                                            <i class="icon-briefcase"></i> Monthly Plan 
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>plans/screen">
+                                            <i class="icon-briefcase"></i> Plan Screen 
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+						<?php } ?>
 						<?php if($this->session->userdata('user_type') == 'Approver') { ?>
                         <li class="<?php if($page == 'approvals') { ?>active selected<?php } ?>">
                             <a href="<?php echo base_url().'dashboard/approver_dashboard';; ?>" class="text-uppercase">

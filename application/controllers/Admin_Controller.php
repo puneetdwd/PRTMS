@@ -55,7 +55,7 @@ class Admin_Controller extends CI_Controller {
      */
     function is_admin_user() {
 
-        if($this->session->userdata('user_type') !== 'Admin') {
+        if($this->session->userdata('user_type') !== 'Admin' && $this->session->userdata('user_type') !== 'Testing') {
             $this->session->set_flashdata('error', 'Access Denied');
             redirect(base_url());
         }
