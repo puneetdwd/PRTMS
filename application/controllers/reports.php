@@ -281,6 +281,30 @@ class reports extends Admin_Controller {
             header('Content-Type: application/force-download');
             header('Content-disposition: attachment; filename=no_lot_report.xls');
             
+        }else if($excel_page == 'part_test_summary_report'){
+            $this->load->model('report_model');
+			$this->load->model('Plan_model');
+        
+            $filters = @$_SESSION['pts_filters'] ;
+            // print_r($filters);
+            $this->load->model('report_model');
+			$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
+			/* $insp_status = array();
+			$reports1 =  $data['reports'];
+			foreach($reports1 as $report1){
+				
+					$insp_status = $this->Plan_model->get_no_inspection_by_part($report1['part_no'],$filters['start_date'],$filters['end_date']);
+					if(!empty($insp_status))
+						echo $insp_status['insp_cnt'];
+					else
+						echo '0';
+			} */
+			
+			$str = $this->load->view('excel_pages/part_test_summary_report', $data, true);
+            
+            header('Content-Type: application/force-download');
+            header('Content-disposition: attachment; filename=part_test_summary_report.xls');
+            
         }else{
             return 0;
         }
@@ -307,6 +331,33 @@ class reports extends Admin_Controller {
         header("Pragma: ");
         header("Cache-Control: ");
         echo $str;
+    }
+    public function part_test_summary_report() {
+        $data = array();        
+        $this->load->model('Product_model');
+        $data['products'] = $this->Product_model->get_all_products();
+        $data['parts'] = $this->Product_model->get_all_parts();
+        
+        $this->load->model('Plan_model');
+        $this->load->model('report_model');
+        $filters = $this->input->post() ? $this->input->post() : array() ;
+		//echo "fdbf";exit;
+        $data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
+      // echo '<pre>'; print_r($data['reports']);exit;
+        $_SESSION['pts_filters'] = $filters;
+        /* $reports1 =  $data['reports'];
+		foreach($reports1 as $report1){
+			
+				$data['res'] = $this->Plan_model->get_no_inspection_by_part($report1['part_no'],$filters['start_date'],$filters['end_date']);
+				if(!empty($data['res']))
+					echo $data['res']['insp_cnt'];
+				else
+					echo '0';
+		} */
+			
+			
+        $this->template->write_view('content', 'reports/part_test_summary_report', $data);
+        $this->template->render();
     }
     
 }

@@ -262,6 +262,11 @@
                                         <i class="icon-briefcase"></i> No Lot Report
                                     </a>
                                 </li>
+                                <li>
+								<a href="<?php echo base_url(); ?>reports/part_test_summary_report">
+                                        <i class="icon-briefcase"></i> Part-Test Summary Report
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         

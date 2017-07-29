@@ -257,15 +257,15 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['stage_id'];
         }
         
-        if(!empty($filters['start_date'])) {
-            $sql .= ' AND t.start_date >= ?';
-            $pass_array[] = $filters['start_date'];
-        }
-        
+      
         if(!empty($filters['supplier_id'])) {
             $sql .= ' AND t.supplier_id = ?';
             $pass_array[] = $filters['supplier_id'];
         } 
+          if(!empty($filters['start_date'])) {
+            $sql .= ' AND t.start_date >= ?';
+            $pass_array[] = $filters['start_date'];
+        }
         
         if(!empty($filters['end_date'])) {
             $sql .= ' AND t.start_date <= ?';
@@ -327,6 +327,37 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['year']."-".$filters['month']."-".date('t', strtotime($filters['year']."-".$filters['month']."-15"));
         }
         $sql .= ' GROUP BY t.id';
+        return $this->db->query($sql, $pass_array)->result_array();
+	}
+	
+	function get_part_based_test_report_count($filters = array()){
+        
+		//$sql = "SELECT t.*,count(t.part_id) as Part_test, mp.* FROM `test_records` as t INNER JOIN monthly_plan mp on t.part_id = mp.part_id";
+        $sql = "SELECT t.part_no,t.start_date,count(t.part_id) as test_cnt,t.test_id,t.part_id FROM `test_records` as t WHERE t.part_no IS NOT NULL ";
+        $pass_array = array();
+        
+        if(!empty($filters['product_id'])) {
+			$sql .= ' AND t.product_id = ?';
+            $pass_array[] = $filters['product_id'];
+        }
+        
+        if(!empty($filters['part_id'])) {
+            $sql .= ' AND t.part_id = ?';
+            $pass_array[] = $filters['part_id'];
+        } 
+		
+		if(!empty($filters['start_date'])) {
+            $sql .= ' AND t.start_date >= ?';
+            $pass_array[] = $filters['start_date'];
+        }
+        
+        if(!empty($filters['end_date'])) {
+            $sql .= ' AND t.start_date <= ?';
+            $pass_array[] = $filters['end_date'];
+        }
+        
+        $sql .= '  group by t.part_id';
+		//echo $sql;
         return $this->db->query($sql, $pass_array)->result_array();
 	}
 	

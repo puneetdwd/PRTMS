@@ -59,7 +59,9 @@
                                     
                                     <?php 
                                         $class = '';
-                                        if($pl['status'] == 'Pending' && $pl['schedule_date'] && strtotime('now') > strtotime('-1 day', strtotime($pl['schedule_date']))) {
+										if($pl['no_inspection'] == 'NO')
+											$class = '';
+                                        else if($pl['status'] == 'Pending' && $pl['schedule_date'] && strtotime('now') > strtotime('-1 day', strtotime($pl['schedule_date']))) {
                                             $alarm = true;
                                             $class = 'dashboard-noti-danger';
                                         } 
@@ -71,7 +73,13 @@
                                         <td><?php echo $pl['supplier']; ?></td>
                                         <td><?php echo $pl['test']; ?></td>
                                         <td><?php echo $pl['schedule_date'] ? date('jS M', strtotime($pl['schedule_date'])) : '--'; ?></td>
-                                        <td class="text-center <?php echo $class; ?>"><?php echo $pl['status']; ?></td>
+                                        <td class="text-center <?php echo $class; ?>">
+											<?php 
+												if($pl['no_inspection'] != 'NO')
+													echo $pl['status']; 
+												else echo 'No Lot';
+											?>
+										</td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
