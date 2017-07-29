@@ -245,6 +245,7 @@
                                     <th>End Date</th>
                                     <th>Chamber Category</th>
                                     <th>Chamber Name</th>
+                                    <th>Is Approved</th>
                                     <th class="no_sort" style="width:100px;">Action</th>
                                 </tr>
                             </thead>
@@ -259,6 +260,16 @@
                                         <td><?php echo $report['end_date']; ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
+                                        <td><?php 
+										if($report['is_approved'] == 1)
+										{ ?>
+												<p title='Approved by <?php $report['approved_by']; ?>'>
+												Approved
+												</p>
+											<?php
+										} else
+											echo 'Not Approved'
+										?></td>
                                         <td nowrap>
                                             <button type="button" class="button small view-test-modal-btn" data-index="<?php echo $report['code']; ?>">
                                                 View
