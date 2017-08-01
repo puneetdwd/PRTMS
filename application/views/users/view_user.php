@@ -72,7 +72,7 @@
                                         <label class="control-label col-md-4">User Type:</label>
                                         <div class="col-md-8">
                                             <p class="form-control-static">
-                                                <?php echo $user['user_type']; ?>
+                                                <?php echo $user['user_type'].' User'; ?>
                                             </p>
                                         </div>
                                     </div>
@@ -80,7 +80,8 @@
                             </div>
                             
                             <div class="row">
-                                <?php if(!$this->product_id) { ?>
+                                <?php if($user['user_type'] == 'Product') {
+									if($user['product_name'] != '') { ?>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Product:</label>
@@ -91,7 +92,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                <?php } ?>
+                                <?php } }
+								else 
+								if($user['user_type'] == 'Chamber') {
+										
+								if($user['chamber_name'] != '') { ?>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Chamber:</label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static">
+                                                    <?php echo $user['chamber_name']; ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } } ?>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">

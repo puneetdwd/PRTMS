@@ -638,6 +638,10 @@
                                 data-confirm="Are you sure you want to complete this test?">
                                     Complete
                                 </a>
+                                <a href="<?php echo base_url().'apps/mark_as_skiped/'.$test['code'];?>" class="button"
+                                data-confirm="Are you sure you want to SKIP this test?">
+                                    SKIP TEST
+                                </a>
                                 
                                 <a href="<?php echo base_url();?>" class="button white">
                                     Cancel

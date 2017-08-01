@@ -68,9 +68,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="ptc-mappings-product-search-error">
-                                        <label class="control-label">Select Product:</label>
+                                        <label class="control-label">Select Product:<span class='required'>*</span></label>
                                                 
-                                        <select name="product_id" class="form-control select2me" id="product-part-selector1"
+                                        <select name="product_id" class="required form-control select2me" id="product-part-selector1"
                                             data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
                                             <option></option>
                                             <?php foreach($products as $product) { ?>

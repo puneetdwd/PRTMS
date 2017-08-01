@@ -30,7 +30,7 @@
                                     <th style='border: 1px solid black;'>Test Item</th>
                                     <th style='border: 1px solid black;'>Schedule Date</th>
                                     <th style='border: 1px solid black;'>Status</th>
-                                    <th class="no_sort" style="width:100px;border: 1px solid black;"></th>
+                                    <!--th class="no_sort" style="width:100px;border: 1px solid black;"></th-->
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,15 +49,15 @@
 												else {	echo $pl['status']; }
 											?></td>
                                         
-                                        <td nowrap>
+                                       <!-- <td nowrap>
                                             
-											<!--
+											
                                             <a class="button small gray" href="<?php echo base_url()."plans/change_date/".$pl['id'];?>" data-target="#change-date-modal" data-toggle="modal">
                                                 Change Date
                                             </a>
-                                            -->
+                                           
 											
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 <?php } ?>
                             </tbody>

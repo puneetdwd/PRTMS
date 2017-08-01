@@ -52,6 +52,7 @@
                                     <th>Username</th>
                                     <th class="no_sort">User Type</th>
                                     <th>Chamber</th>
+                                    <th>Product</th>
                                     <th class="no_sort">Active</th>
                                     <th class="no_sort" style="width:150px;"></th>
                                 </tr>
@@ -64,6 +65,7 @@
                                         <td><?php echo $user['username']; ?></td>
                                         <td><?php echo $user['user_type'].' User'; ?></td>
                                         <td><?php echo $user['chamber_name']; ?></td>
+                                        <td><?php echo $user['product_name']; ?></td>
                                         <td><?php echo ($user['is_active'] ? '<i class="fa fa-check"></i>': '<i class="fa fa-times"></i>'); ?></td>
                                         <td nowrap>
                                             <a class="button small gray" 

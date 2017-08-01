@@ -1,3 +1,19 @@
+<?php
+
+
+if($this->user_type == 'Product' ){
+	/* print_r($_SESSION['product_ids']);
+echo array_search(2,$_SESSION['product_ids']); */
+	/* if(empty($_SESSION['product_switch']))
+	{
+		$session_product_id = $_SESSION['product_switch']['id'];
+	}else{
+		$session_product_id = '';//$_SESSION['product_switch']['id'];
+	} */
+}
+//exit; 
+?>
+
 <div class="page-content">
     <!-- BEGIN PAGE HEADER-->
     <div class="breadcrumbs">
@@ -66,16 +82,18 @@
                             
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-product-search-error">
-                                        <label class="control-label">Select Product:</label>
+                                        <label class="control-label">Select Product:<span class='required'>*</span></label>
                                                 
-                                        <select name="product_id" class="form-control select2me" id="product-part-selector"
+                                        <select name="product_id" class="required form-control select2me" id="product-part-selector"
                                             data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
                                             <option></option>
                                             <?php foreach($products as $product) { ?>
-                                                <option value="<?php echo $product['id']; ?>" <?php if($product['id'] == $this->input->post('product_id')) { ?> selected="selected" <?php } ?>>
+                                                <option 
+												
+												value="<?php echo $product['id']; ?>" <?php if($product['id'] == $this->input->post('product_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $product['name']; ?>
                                                 </option>
-                                            <?php } ?>        
+                                            <?php }  ?>        
                                         </select>
                                     </div>
                                 </div>
@@ -88,7 +106,7 @@
                                             data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['name'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['name']; ?>
                                                 </option>
                                             <?php } ?>        

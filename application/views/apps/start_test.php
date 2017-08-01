@@ -125,7 +125,7 @@
                                         <label class="control-label" for="part_id">Part:
                                         <span class="required">*</span></label>
                                         
-                                        <select name="part_id" id="part-selector" class="form-control required select2me "
+                                        <select name="part_id1" id="part-selector" class="form-control required select2me "
                                         data-placeholder="Select Part" data-error-container="#monitoring-form-part-error">
                                             <option value=""></option>
                                             
@@ -139,14 +139,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label" for="part_no">Part No.:
+                                        <label class="control-label" for="part_id">Part No.:
                                         <span class="required">*</span></label>
                                         <!--<input type="text" class="required form-control" name="part_no" placeholder="Enter Part No.">
                                         <span class="help-block">-->
-										<select name="part_no" id="part-selector_number" class="form-control required select2me part-test_mon-selector"
+										<select name="part_id" id="part-selector_number" class="form-control required select2me part-test_mon-selector"
                                         data-placeholder="Select Part Number" data-error-container="#monitoring-form-part-error">
                                             <option value=""></option>
-                                            
+                                            <?php foreach($parts as $part) { ?>
+                                                <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                    <?php echo $part['part_no']; ?>
+                                                </option>
+                                            <?php } ?>   
                                         </select>
                                         </span>
                                     </div>

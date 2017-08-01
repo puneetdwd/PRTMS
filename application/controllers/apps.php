@@ -39,7 +39,7 @@ class Apps extends Admin_Controller {
             $validate->set_rules('stage_id', 'Event', 'trim|required|xss_clean');
             $validate->set_rules('product_id', 'Product', 'trim|required|xss_clean');
             $validate->set_rules('part_id', 'Part Name', 'trim|required|xss_clean');
-            $validate->set_rules('part_no', 'Part No', 'trim|required|xss_clean');
+           // $validate->set_rules('part_no', 'Part No', 'trim|required|xss_clean');
             $validate->set_rules('supplier_id', 'Supplier', 'trim|required|xss_clean');
             $validate->set_rules('test_id', 'Test', 'trim|required|xss_clean');
             $validate->set_rules('samples', 'Samples', 'trim|required|xss_clean');
@@ -48,7 +48,10 @@ class Apps extends Admin_Controller {
 
             if($validate->run() === TRUE) {
                 $post_data = $this->input->post();
-				
+				$part_num =  $this->Product_model->get_part_number_by_id($post_data['product_id'],$post_data['part_id']);
+                $post_data['part_num'] = $part_num['part_no'];				
+				/* echo 'app=>';
+				print_r($post_data); */
                 $post_data['start_date'] = date('Y-m-d H:i:s');
                 $post_data['end_date'] = date('Y-m-d H:i:s', strtotime('+'.($post_data['duration']).' hours'));
                 $post_data['no_of_observations'] = floor($post_data['duration']/$post_data['observation_frequency'])+1;
@@ -75,6 +78,7 @@ class Apps extends Admin_Controller {
     public function on_going($code) {
         $data = array();
         $this->load->model('Apps_model');
+		//echo $this->chamber_ids;
         $data['test'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), $code);
 		//echo '<pre>';print_r($data['test']);exit;
         if(empty($data['test'])) {
@@ -364,6 +368,23 @@ class Apps extends Admin_Controller {
         $response = $this->Apps_model->update_test(array('completed' => 1), $on_going['id']);
         if($response) {
             $this->session->set_flashdata('success', 'Test successfully marked completed.');
+            redirect(base_url());
+        } else {
+            $this->session->set_flashdata('error', 'Something went wrong. Please try again');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        
+    }
+	public function mark_as_skiped($code) {
+		// print_r($_FILES);exit;
+        $this->load->model('Apps_model');
+        $on_going = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), $code);
+        if(empty($on_going)) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        $response = $this->Apps_model->update_test(array('skip_test' => 1,'completed' => 1), $on_going['id']);
+        if($response) {
+            $this->session->set_flashdata('success', 'Test successfully Skiped. Go for another Test');
             redirect(base_url());
         } else {
             $this->session->set_flashdata('error', 'Something went wrong. Please try again');

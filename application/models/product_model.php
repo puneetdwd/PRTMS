@@ -28,6 +28,11 @@ class Product_model extends CI_Model {
 
         return $this->db->get('products')->row_array();
     }
+	function get_product_session($id) {
+        $this->db->where('id', $id);
+
+        return $this->db->get('products')->result_array();
+    }
 
     function get_all_product_parts($product_id) {
         $sql = "SELECT pp.*
@@ -109,6 +114,14 @@ class Product_model extends CI_Model {
         
         return $this->db->get('product_parts')->result_array();
     }
+    function get_part_number_by_id($product_id, $id) {
+		
+        $this->db->where('id', $id);
+        $this->db->where('product_id', $product_id);
+        $this->db->where('is_deleted', 0);
+        
+        return $this->db->get('product_parts')->row_array();
+    }
     
     function update_product_part($data, $part_id){
         $needed_array = array('code', 'name', 'part_no','img_file', 'category', 'product_id', 'is_deleted');
@@ -146,4 +159,36 @@ class Product_model extends CI_Model {
         
         return $this->db->query($sql, array($product_id, $product_id));
     }
+	
+	 function allowed_products($username) {
+        $sql = "SELECT u.*, 
+        GROUP_CONCAT(c.id ORDER BY c.name SEPARATOR ',') as chamber_ids,
+        GROUP_CONCAT(c.name ORDER BY c.name SEPARATOR ',') as chamber_name ,
+		GROUP_CONCAT(p.id ORDER BY p.name SEPARATOR ',') as product_ids,
+        GROUP_CONCAT(p.name ORDER BY p.name SEPARATOR ',') as product_name 
+        FROM users u
+        LEFT JOIN chambers c
+        ON FIND_IN_SET(c.id, u.chamber_id)
+        LEFT JOIN products p
+        ON FIND_IN_SET(p.id, u.product_id)
+        WHERE u.username = ?
+        GROUP BY u.id";
+        
+        $pass_array = array($username);
+
+        return $this->db->query($sql, $pass_array)->row_array();
+    }
+	
+	function get_all_products_by_user($username){
+	$sql = "SELECT p.*
+        FROM products p
+        LEFT JOIN users u
+        ON FIND_IN_SET(p.id, u.product_id)
+        WHERE u.username = ?
+        GROUP BY p.id";
+        
+        $pass_array = array($username);
+
+        return $this->db->query($sql, $pass_array)->result_array();	
+	}
 }

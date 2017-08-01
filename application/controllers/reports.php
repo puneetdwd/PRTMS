@@ -8,7 +8,7 @@ class reports extends Admin_Controller {
         if($this->router->fetch_method() != 'get_parts_by_product') {
             $this->is_admin_user();
         }
-
+		//print_r($_SESSION['product_ids'] );exit;
         //render template
         $this->template->write('title', 'PMS | '.$this->user_type.' Dashboard');
         $this->template->write_view('header', 'templates/header', array('page' => 'masters'));
@@ -30,6 +30,13 @@ class reports extends Admin_Controller {
         $data = array();
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
+		if($this->user_type == 'Product'){
+			// echo $_SESSION['product_switch']['id'];exit;
+		if(!empty($_SESSION['product_switch']['id']))
+			$data['products'] = $this->Product_model->get_product_session($_SESSION['product_switch']['id']);
+		else	
+			$data['products'] = $this->Product_model->get_all_products_by_user($this->username);
+		}
         $data['parts'] = $this->Product_model->get_all_parts();
         
         $this->load->model('Chamber_model');
@@ -71,6 +78,11 @@ class reports extends Admin_Controller {
         
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
+		if($this->user_type == 'Product'){
+			
+        $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
+		//print_r($data['products']);exit;
+		}
         $data['parts'] = $this->Product_model->get_all_parts();
         
         $this->load->model('Chamber_model');
@@ -92,7 +104,11 @@ class reports extends Admin_Controller {
         
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
-        
+        if($this->user_type == 'Product'){
+			
+        $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
+		//print_r($data['products']);exit;
+		}
         $this->load->model('Supplier_model');
         $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
         
@@ -164,6 +180,11 @@ class reports extends Admin_Controller {
         
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
+		if($this->user_type == 'Product'){
+			
+        $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
+		//print_r($data['products']);exit;
+		}
         $data['parts'] = $this->Product_model->get_all_parts();
 
         $this->load->model('Chamber_model');
@@ -286,10 +307,19 @@ class reports extends Admin_Controller {
 			$this->load->model('Plan_model');
         
             $filters = @$_SESSION['pts_filters'] ;
-            // print_r($filters);
             $this->load->model('report_model');
+			/* if()
 			$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
-			/* $insp_status = array();
+			 */
+			if($this->user_type == 'Product')
+				$data['reports'] = $this->report_model->get_part_based_test_report_count_by_user($filters,$this->username);
+			else
+				$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
+		
+           // print_r($filters);exit;
+            //print_r($data['reports']);
+			 //exit;
+			 /* $insp_status = array();
 			$reports1 =  $data['reports'];
 			foreach($reports1 as $report1){
 				
@@ -336,15 +366,29 @@ class reports extends Admin_Controller {
         $data = array();        
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
+		if($this->user_type == 'Product'){
+			
+        $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
+		//print_r($data['products']);exit;
+		}
         $data['parts'] = $this->Product_model->get_all_parts();
         
         $this->load->model('Plan_model');
         $this->load->model('report_model');
         $filters = $this->input->post() ? $this->input->post() : array() ;
 		//echo "fdbf";exit;
-        $data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
-      // echo '<pre>'; print_r($data['reports']);exit;
+        //print_r($filters);exit;
+		if($this->input->post())
+		{
+			if($this->user_type == 'Product')
+				$data['reports'] = $this->report_model->get_part_based_test_report_count_by_user($filters,$this->username);
+			else
+				$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
+		}
+		//	echo $this->db->last_query();exit;
+		//echo '<pre>'; print_r($data['reports']);exit;
         $_SESSION['pts_filters'] = $filters;
+		//print_r($_SESSION['pts_filters']);exit;
         /* $reports1 =  $data['reports'];
 		foreach($reports1 as $report1){
 			

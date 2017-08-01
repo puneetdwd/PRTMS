@@ -11,10 +11,13 @@ class User_model extends CI_Model {
 
     function get_all_users() {
         $sql = "SELECT u.*, 
-        GROUP_CONCAT(c.name ORDER BY c.name SEPARATOR ', ') as chamber_name 
+        GROUP_CONCAT(c.name ORDER BY c.name SEPARATOR ', ') as chamber_name, 
+        GROUP_CONCAT(p.name ORDER BY p.name SEPARATOR ', ') as product_name 
         FROM users u
         LEFT JOIN chambers c
         ON FIND_IN_SET(c.id, u.chamber_id)
+        LEFT JOIN products p
+        ON FIND_IN_SET(p.id, u.product_id)
         GROUP BY u.id";
         
         $pass_array = array();
@@ -26,10 +29,14 @@ class User_model extends CI_Model {
     function get_user($username) {
         $sql = "SELECT u.*, 
         GROUP_CONCAT(c.id ORDER BY c.name SEPARATOR ',') as chamber_ids,
-        GROUP_CONCAT(c.name ORDER BY c.name SEPARATOR ',') as chamber_name 
+        GROUP_CONCAT(c.name ORDER BY c.name SEPARATOR ',') as chamber_name ,
+		GROUP_CONCAT(p.id ORDER BY p.name SEPARATOR ',') as product_ids,
+        GROUP_CONCAT(p.name ORDER BY p.name SEPARATOR ',') as product_name 
         FROM users u
         LEFT JOIN chambers c
         ON FIND_IN_SET(c.id, u.chamber_id)
+        LEFT JOIN products p
+        ON FIND_IN_SET(p.id, u.product_id)
         WHERE u.username = ?
         GROUP BY u.id";
         
@@ -56,7 +63,7 @@ class User_model extends CI_Model {
 
     function update_user($data, $user_id = '') {
         //filter unwanted fields while inserting in table.
-        $needed_array = array('chamber_id', 'first_name', 'last_name', 'username', 'password', 'user_type', 'is_active');
+        $needed_array = array('chamber_id', 'product_id', 'first_name', 'last_name', 'username', 'password', 'user_type', 'is_active');
         $data = array_intersect_key($data, array_flip($needed_array));
 		//print_r($data);exit;
         if(!empty($data['password'])) {

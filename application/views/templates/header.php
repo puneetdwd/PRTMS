@@ -1,11 +1,27 @@
 <!-- BEGIN HEADER -->
 <?php
-	   $CI =& get_instance();
-	   $CI->load->model('Product_model');
-	   $allowed_products = $CI->Product_model->get_all_products();   
-		//print_r($allowed_products);exit;	 
-				
+	    $CI =& get_instance();
+	    $CI->load->model('Product_model');
+		if($this->user_type == 'Approver'){
+			$allowed_products = $CI->Product_model->get_all_products();
+			// print_r($allowed_products);exit;			
+		}		
+		else if($this->user_type == 'Product'){
+		
+			$allowed_products = $CI->Product_model->allowed_products($this->username);   
+			//$allowed_products = $allowed_products['product_ids'];
+			$allowed_product_ids = explode(',',$allowed_products['product_ids']);		
+			$_SESSION['product_ids']  = $allowed_product_ids ;
+			$allowed_product_names = explode(',',$allowed_products['product_name']);		
+			$allowed_products = array_combine( $allowed_product_ids,$allowed_product_names);
+			if(empty($_SESSION['product_switch']['id']))
+			{
+				$product = $CI->Product_model->get_product($allowed_product_ids[0]);		
+				$_SESSION['product_switch'] = '';
+			} 
+		}
 	   $page = isset($page) ? $page : '';
+	   
 ?>
 <header class="page-header">
     <nav class="navbar mega-menu" role="navigation">
@@ -62,7 +78,9 @@
                                 </li>
                             <?php } ?>
                             -->
-						<?php if($this->session->userdata('user_type') == 'Approver') { ?>
+						<?php if($this->session->userdata('user_type') == 'Approver') { 
+						 // || $this->session->userdata('user_type') == 'Product'
+						?>
 					
 						   <li>
 									<div class="btn-group" >
@@ -74,6 +92,7 @@
 												<li>
 													<a href="<?php echo base_url().'users/switch_product/'.$ap['id']; ?>"> 
 														<?php echo $ap['name']; ?>
+														<?php //echo $value; ?>
 													</a>
 												</li>
 											<?php } ?>
@@ -108,7 +127,7 @@
             <?php if(!isset($no_header_links)) { ?>
                 <div class="nav-collapse collapse navbar-collapse navbar-responsive-collapse header-nav-links">
                     <ul class="nav navbar-nav">
-                        <?php if($this->session->userdata('user_type') != 'Approver' && $this->session->userdata('user_type') != 'Testing' ) { ?>
+                        <?php if($this->session->userdata('user_type') != 'Approver' && $this->session->userdata('user_type') != 'Testing' && $this->session->userdata('user_type') != 'Product' ) { ?>
 						<li class="<?php if($page == '') { ?>active selected<?php } ?>">
                             <a href="<?php echo base_url(); ?>" class="text-uppercase">
                                 <i class="icon-home"></i> Dashboard 
@@ -252,7 +271,8 @@
                         </li>
 						<?php } ?>
                         
-                            
+                          <?php if($this->session->userdata('user_type') != 'Approver') { ?>
+                          
                         <li class="dropdown more-dropdown">
                             <a href="javascript:;" class="text-uppercase">
                                 <i class="icon-layers"></i> Reports
@@ -285,6 +305,7 @@
                                 </li>
                             </ul>
                         </li>
+                        <?php } ?>
                         
 						
                     </ul>

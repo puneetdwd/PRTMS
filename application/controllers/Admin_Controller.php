@@ -32,6 +32,8 @@ class Admin_Controller extends CI_Controller {
         $this->user_type = $this->session->userdata('user_type');
         $this->chamber_id = $this->session->userdata('chamber_id');
         $this->chamber_ids = $this->session->userdata('chamber_ids');
+        $this->product_id = $this->session->userdata('product_id');
+        $this->product_ids = $this->session->userdata('product_ids');
 
     }
 
@@ -55,7 +57,7 @@ class Admin_Controller extends CI_Controller {
      */
     function is_admin_user() {
 
-        if($this->session->userdata('user_type') !== 'Admin' && $this->session->userdata('user_type') !== 'Testing') {
+        if($this->session->userdata('user_type') != 'Admin' && $this->session->userdata('user_type') != 'Testing' && $this->session->userdata('user_type') != 'Product') {
             $this->session->set_flashdata('error', 'Access Denied');
             redirect(base_url());
         }

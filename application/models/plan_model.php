@@ -93,7 +93,12 @@ class Plan_model extends CI_Model {
 		
     }
 	function get_no_inspection_by_part($part_no,$start_date,$end_date){
-			$sql = 'select *,count(planned_part_no) as insp_cnt from monthly_plan where planned_part_no = ? AND   no_inspection = "NO" AND schedule_date between ? AND ? group by planned_part_no';
+		
+			$sql = 'select *,count(planned_part_no) as insp_cnt from monthly_plan where planned_part_no = ? AND   no_inspection = "NO" ';
+			if($start_date != '' && $end_date != '')
+				$sql .= 'AND schedule_date between ? AND ? ';
+			
+			$sql .=' group by planned_part_no';
 			$pass_array = array($part_no,$start_date,$end_date);
             $res = $this->db->query($sql, $pass_array)->row_array();
 			//echo $this->db->last_query();

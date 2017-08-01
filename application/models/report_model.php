@@ -333,7 +333,46 @@ class report_model extends CI_Model {
 	function get_part_based_test_report_count($filters = array()){
         
 		//$sql = "SELECT t.*,count(t.part_id) as Part_test, mp.* FROM `test_records` as t INNER JOIN monthly_plan mp on t.part_id = mp.part_id";
-        $sql = "SELECT t.part_no,t.start_date,count(t.part_id) as test_cnt,t.test_id,t.part_id FROM `test_records` as t WHERE t.part_no IS NOT NULL ";
+        $sql = "SELECT t.start_date,t.end_date,t.product_id,t.part_no,t.start_date,count(t.part_id) as test_cnt,t.test_id,t.part_id 
+		FROM `test_records` as t 
+		WHERE t.part_no IS NOT NULL ";
+        $pass_array = array();
+        
+        if(!empty($filters['product_id'])) {
+			$sql .= ' AND t.product_id = ?';
+            $pass_array[] = $filters['product_id'];
+        }
+        
+        if(!empty($filters['part_id'])) {
+            $sql .= ' AND t.part_id = ?';
+            $pass_array[] = $filters['part_id'];
+        } 
+		
+		if(!empty($filters['start_date'])) {
+            $sql .= ' AND t.start_date >= ?';
+            $pass_array[] = $filters['start_date'];
+        }
+        
+        if(!empty($filters['end_date'])) {
+            $sql .= ' AND t.start_date <= ?';
+            $pass_array[] = $filters['end_date'];
+        }
+        
+        $sql .= '  group by t.part_id';
+		//echo $sql;
+        return $this->db->query($sql, $pass_array)->result_array();
+	}
+	
+	function get_part_based_test_report_count_by_user($filters = array(),$user){
+        
+		//$sql = "SELECT t.*,count(t.part_id) as Part_test, mp.* FROM `test_records` as t INNER JOIN monthly_plan mp on t.part_id = mp.part_id";
+        $sql = "SELECT t.start_date,t.end_date,t.product_id,t.part_no,t.start_date,count(t.part_id) as test_cnt,t.test_id,t.part_id 
+		FROM `test_records` as t 
+		LEFT JOIN users u
+        ON FIND_IN_SET(t.product_id, u.product_id)
+        
+		WHERE u.username = '".$user."'";
+		$sql .= " AND t.part_no IS NOT NULL ";
         $pass_array = array();
         
         if(!empty($filters['product_id'])) {

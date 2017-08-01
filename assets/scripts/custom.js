@@ -25,7 +25,10 @@ $(document).ready(function() {
         if(user_type == 'Chamber') {
             $('#add-user-chamber').removeAttr('disabled');
             $('#add-user-chamber').closest('.col-md-6').show();
-        } else {
+        } else if(user_type == 'Product') {
+            $('#add-user-product').removeAttr('disabled');
+            $('#add-user-product').closest('.col-md-6').show();
+        }else {
             $('#add-user-chamber').attr('disabled', 'disabled');
             $('#add-user-chamber').closest('.col-md-6').hide();
         }

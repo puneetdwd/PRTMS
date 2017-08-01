@@ -162,6 +162,11 @@
                             <tbody>
                                 <?php 
 								$CI =& get_instance();
+								/* if(empty($this->input->post('start_date')))
+									
+									
+								if($this->input->post('end_date'))
+								 */	
 								foreach($reports as $report) { ?>
                                     <tr>
                                         <td><?php 
@@ -178,6 +183,8 @@
 												echo $res['insp_cnt'];
 											else
 												echo '0';
+											//echo $this->db->last_query();exit;
+											//echo $report['part_no'].$this->input->post('start_date').$this->input->post('end_date');exit;
 										?>
 										</td>
                                     </tr>

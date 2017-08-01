@@ -14,7 +14,7 @@ class Users extends Admin_Controller {
         $this->is_admin_user();
         $this->load->model('User_model');
         $data['users'] = $this->User_model->get_all_users();
-
+//echo '<pre>';print_r($data['users']);exit;
         $this->template->write_view('content', 'users/index', $data);
         $this->template->render();
     }
@@ -25,7 +25,11 @@ class Users extends Admin_Controller {
         
         $this->load->model('Chamber_model');
         $data['chambers'] = $this->Chamber_model->get_all_chambers();
-        
+		
+		$this->load->model('Product_model');
+        $products = $this->Product_model->get_all_products();		
+        $data['products'] = $products;
+			
         $this->load->model('User_model');
 
         if(!empty($username)) {
@@ -46,9 +50,11 @@ class Users extends Admin_Controller {
 
             if($validate->run() === TRUE) {
                 $post_data = $this->input->post();
-				//print_r($post_data);exit;
                 if(!empty($post_data['chamber_id'])) {
                     $post_data['chamber_id']    = implode(',', $post_data['chamber_id']);
+                }
+				if(!empty($post_data['product_id'])) {
+                    $post_data['product_id']    = implode(',', $post_data['product_id']);
                 }
 
                 $id = !empty($user['id']) ? $user['id'] : '';
@@ -74,6 +80,7 @@ class Users extends Admin_Controller {
             }
         }
 
+				//print_r($data);exit;
         $this->template->write_view('content', 'users/add_user', $data);
         $this->template->render();
     }

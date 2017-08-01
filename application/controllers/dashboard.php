@@ -36,8 +36,11 @@ class Dashboard extends Admin_Controller {
             $this->template->write_view('content', 'approver_dashboard', $data);
             $this->template->render(); 
         }
+		else if($this->user_type == 'Product') {
+			redirect(base_url().'reports/completed_test_report');			
+        }
 		else if($this->user_type == 'Testing') {
-            redirect(base_url().'plans/display'); // logged in redirect to index page.
+			redirect(base_url().'plans/display'); // logged in redirect to index page.
         }
     }
     
@@ -93,7 +96,7 @@ class Dashboard extends Admin_Controller {
         $data = array();
         $this->load->model('Apps_model');
         $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'));
-        
+        //echo $this->chamber_ids.$this->db->last_query();exit;
         return $data;
     }
 

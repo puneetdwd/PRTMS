@@ -124,6 +124,9 @@
 											<option value="Testing" <?php if($user_type == 'Testing') { echo "selected='selected'"; } ?>>
                                                 Test User
                                             </option>
+											<option value="Product" <?php if($user_type == 'Product') { echo "selected='selected'"; } ?>>
+                                                Product User
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -148,6 +151,28 @@
                                         </select>
                                     </div>
                                 </div>
+								
+								<div class="col-md-6" <?php if($user_type != 'Product') { echo "style='display:none;'"; } ?>>
+                                    <div class="form-group" id="add-user-product-error">
+                                        <label class="control-label" for="product_id">Products:
+                                        <span class="required">*</span></label>
+                                        
+                                        <select name="product_id[]" id="add-user-product" class="form-control required select2me"
+                                        data-placeholder="Select Product" data-error-container="#add-user-product-error" multiple <?php if($user_type != 'Product') { echo "disabled='disabled'"; } ?>>
+                                            <option value=""></option>
+                                            
+                                            <?php $sel_product = (!empty($user['product_id']) ? explode(',', $user['product_id']) : array()); ?>
+                                            <?php foreach($products as $product) { ?>
+                                                <option value="<?php echo $product['id']; ?>" 
+                                                <?php if(in_array($product['id'], $sel_product)) { ?> selected="selected" <?php } ?>>
+                                                    <?php echo $product['name']; ?>
+                                                </option>
+                                            <?php } ?>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>
@@ -162,3 +187,11 @@
     </div>
     <!-- END PAGE CONTENT-->
 </div>
+
+<script type="text/javascript">
+ $().ready(function () {
+     $('.cls').change(function () {
+         alert('hi');
+     });
+ });
+ </script>
