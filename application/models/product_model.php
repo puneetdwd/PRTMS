@@ -22,6 +22,13 @@ class Product_model extends CI_Model {
         
         return $this->db->query($sql)->result_array();
     }
+	function get_all_phone_numbers($supplier_id) {
+        $this->db->where('supplier_id', $supplier_id);
+        $this->db->order_by('name');
+        
+        return $this->db->get('phone_numbers')->result_array();
+    }
+    
     
     function get_product($id) {
         $this->db->where('id', $id);

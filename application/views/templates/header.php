@@ -172,6 +172,11 @@
                                             <i class="icon-briefcase"></i> Suppliers 
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="<?php echo base_url(); ?>phones">
+                                            <i class="icon-briefcase"></i> Phone Numbers 
+                                        </a>
+                                    </li>
                                     
                                     <li>
                                         <a href="<?php echo base_url(); ?>chambers">

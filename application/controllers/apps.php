@@ -495,7 +495,7 @@ class Apps extends Admin_Controller {
     }
     
     public function add_observation($code) {
-		//print_r($_FILES);exit;
+		//print_r($this->input->post());exit;
         if($this->input->post()) {
             $post_data = $this->input->post();
 			
@@ -535,11 +535,63 @@ class Apps extends Admin_Controller {
             $observation_index = $post_data['observation_index'];
             $exists = $this->Apps_model->observation_index_exists($on_going['id'], $observation_index);
             
-            $id = !empty($exists) ? $exists['id'] : '';
-			//print_r($post_data);exit;
-            $response = $this->Apps_model->add_observation($post_data, $id);
+            $id = !empty($exists) ? $exists['id'] : '';		
+			
+			
+			$response = $this->Apps_model->add_observation($post_data, $id);
             if($response) {
-                $this->session->set_flashdata('success', 'Test successfully marked aborted.');
+				//Start Code for SMS in case of NG
+				if($post_data['observation_result'] == 'NG'){
+					//SMS needs to send to part Supplier in case of NG
+					//print_r($on_going);exit;..will get part, supplier,test detail
+					
+					    $this->load->model('Product_model');
+                        $phone_numbers = $this->Product_model->get_all_phone_numbers($on_going['supplier_id']);
+                        if(!empty($phone_numbers)) {
+                            $to = array();
+							
+                            foreach($phone_numbers as $phone_number) {
+                                $to[] = $phone_number['phone_number'];
+                            }
+                            
+                            $to = implode(',', $to);
+                            $sms = $on_going['supplier_name']." PRTMS - Inspn Rslt NG\nPart No. -".$on_going['part_no']."(".$on_going['test_name'];
+                            $sms .= ")\nDefect-".$on_going['test_judgement'];
+                            $ip_address = $this->get_server_ip();
+                            if($ip_address == '202.154.175.50'){
+                                
+                                if(isset($to) && isset($sms)){
+                                    $sms1= urlencode($sms);
+                                    $to1 = urlencode($to);
+                                    $data = array('to' => $to1, 'sms' => $sms1);
+                                    $url = "http://10.101.0.80:90/PRTMS/apps/send_sms_redirect";    	
+                                    //$url = "http://localhost/PRTMS_NEW/apps/send_sms_redirect";    	
+
+                                    $ch = curl_init();
+                                            curl_setopt_array($ch, array(
+                                            CURLOPT_URL => $url,
+                                            CURLOPT_RETURNTRANSFER => true,
+                                            CURLOPT_POSTFIELDS => $data,
+                                    ));
+                                    //get response
+                                    $output = curl_exec($ch);
+                                    $flag = true;
+                                    //Print error if any
+                                    if(curl_errno($ch))
+                                    {
+                                            $flag = false;
+                                    }
+                                    curl_close($ch);
+                                }
+                            }else{
+                                $this->send_sms($to, $sms);
+                            }
+                        }
+                        
+                    
+				}
+				//End Code for SMS in case of NG
+				$this->session->set_flashdata('success', 'Test successfully marked aborted.');
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong. Please try again');
             }
@@ -677,4 +729,37 @@ class Apps extends Admin_Controller {
         $this->template->render();
     }
    
+   public function send_sms_redirect() {
+        $user = 'Lgelectronic';
+        $password = 'Sid2014!';
+        $sender = "LGEILP";
+        
+        $sms = $this->input->post('sms');
+        $to = $this->input->post('to');
+        $message = $sms;
+
+        //API URL
+        $url="http://193.105.74.58/api/v3/sendsms/plain?user=".$user."&password=".$password."&sender=".$sender."&SMSText=".$message."&GSM=".$to;
+        
+        // init the resource
+        $ch = curl_init();
+        
+        curl_setopt_array($ch, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+        ));
+
+        //get response
+        $output = curl_exec($ch);
+
+        $flag = true;
+        //Print error if any
+        if(curl_errno($ch))
+        {
+            $flag = false;
+        }
+        
+        curl_close($ch);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

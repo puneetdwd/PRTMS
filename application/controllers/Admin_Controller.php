@@ -209,4 +209,112 @@ class Admin_Controller extends CI_Controller {
         exit;
         return $this->email->send();
     }
+	
+	 function get_server_ip() {                                      // Function to get the client IP address
+        $ipaddress = '';
+        /*if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];*/
+		if(isset($_SERVER['SERVER_ADDR']))
+			$ipaddress = $_SERVER['SERVER_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
+	public function send_sms($to, $sms) {
+        $user = 'Lgelectronic';
+        $password = 'Sid2014!';
+        $sender = "LGEILP";
+        $message = urlencode($sms);
+
+        /* //Prepare you post parameters
+        $postData = array(
+            'user' => 'Lgelectronic',
+            'password' => 'Sid2014!',
+            'sender' => $senderId,
+            'SMSText' => $message,
+            'GSM' => $to
+        ); */
+
+        //API URL
+        $url="http://193.105.74.58/api/v3/sendsms/plain?user=".$user."&password=".$password."&sender=".$sender."&SMSText=".$message."&GSM=".$to;
+        //echo $url;
+        // init the resource
+        $ch = curl_init();
+        curl_setopt_array($ch, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            //,CURLOPT_FOLLOWLOCATION => true
+        ));
+        //Ignore SSL certificate verification
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        //get response
+        $output = curl_exec($ch);
+
+        $flag = true;
+        //Print error if any
+        if(curl_errno($ch))
+        {
+            $flag = false;
+        }
+        //echo $flag;exit;
+        curl_close($ch);
+        return $flag;
+    }
+    
+    public function send_sms_redirect($to, $sms) {
+        $user = 'Lgelectronic';
+        $password = 'Sid2014!';
+        $sender = "LGEILP";
+        $message = urlencode($sms);
+
+        /* //Prepare you post parameters
+        $postData = array(
+            'user' => 'Lgelectronic',
+            'password' => 'Sid2014!',
+            'sender' => $senderId,
+            'SMSText' => $message,
+            'GSM' => $to
+        ); */
+
+        //API URL
+        $url="http://193.105.74.58/api/v3/sendsms/plain?user=".$user."&password=".$password."&sender=".$sender."&SMSText=".$message."&GSM=".$to;
+        //echo $url;
+        // init the resource
+        $ch = curl_init();
+        curl_setopt_array($ch, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            //,CURLOPT_FOLLOWLOCATION => true
+        ));
+        //Ignore SSL certificate verification
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        //get response
+        $output = curl_exec($ch);
+
+        $flag = true;
+        //Print error if any
+        if(curl_errno($ch))
+        {
+            $flag = false;
+        }
+        //echo $flag;exit;
+        curl_close($ch);
+        //return $flag;
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
 }
