@@ -32,10 +32,10 @@ class reports extends Admin_Controller {
         $data['products'] = $this->Product_model->get_all_products();
 		if($this->user_type == 'Product'){
 			// echo $_SESSION['product_switch']['id'];exit;
-		if(!empty($_SESSION['product_switch']['id']))
-			$data['products'] = $this->Product_model->get_product_session($_SESSION['product_switch']['id']);
-		else	
-			$data['products'] = $this->Product_model->get_all_products_by_user($this->username);
+			if(!empty($_SESSION['product_switch']['id']))
+				$data['products'] = $this->Product_model->get_product_session($_SESSION['product_switch']['id']);
+			else	
+				$data['products'] = $this->Product_model->get_all_products_by_user($this->username);
 		}
         $data['parts'] = $this->Product_model->get_all_parts();
         
