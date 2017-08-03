@@ -471,6 +471,7 @@ class Products extends Admin_Controller {
             $row['G'] = str_replace("\n", ' ', $row['G']);
             $row['H'] = str_replace("\n", ' ', $row['H']);
             $row['I'] = str_replace("\n", ' ', $row['I']);
+            $row['J'] = str_replace("\n", ' ', $row['J']);
 
             if($p !== trim($row['D']) && !empty($row['D'])) {
                 $p = $row['D'];
@@ -489,6 +490,7 @@ class Products extends Admin_Controller {
             $test['method'] = trim($row['G']);
             $test['judgement'] = trim($row['H']);
             $test['duration'] = trim($row['I']);
+           // $test['part_chamber_category'] = trim($row['J']);
             
             $exists = $this->Test_model->get_test_by_code($test['code']);
             $test_id = !empty($exists) ? $exists['id'] : '';
@@ -498,7 +500,10 @@ class Products extends Admin_Controller {
                 continue;
             }
             
-            $chamber_category = trim($row['J']);
+			$chamber_category = trim($row['J']);	
+			
+            $chamber_cat_id = $this->Product_model->get_part_catagory_id_by_name($chamber_category);
+			//print_r($chamber_cat_id);exit;
             $chambers = $this->Chamber_model->get_chambers_by_category($chamber_category);
             if(empty($chambers)) {
                 continue;
@@ -510,16 +515,18 @@ class Products extends Admin_Controller {
                 $mapping['product_id'] = $product_id;
                 $mapping['part_id'] = $part_id;
                 $mapping['chamber_id'] = $chamber['id'];
+                $mapping['part_category_id'] = $chamber_cat_id['id'];
+                $mapping['created'] = date("Y-m-d H:i:s");
                 $mappings[] = $mapping;
             }
+			//exit;
         }
-               // echo '<pre>';print_r($mappings);exit;
+		//echo '<pre>';print_r($mappings);
         
         if(!empty($mappings)) {
             $this->Test_model->insert_ptc_mappings($mappings);
             $this->Test_model->remove_dups();
-        }
-        
+        }        
         return true;
     }
     

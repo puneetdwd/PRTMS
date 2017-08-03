@@ -198,4 +198,10 @@ class Product_model extends CI_Model {
 
         return $this->db->query($sql, $pass_array)->result_array();	
 	}
+	function get_part_catagory_id_by_name($name) {
+		
+        $this->db->where('name', $name);
+        
+        return $this->db->get('part_categories')->row_array();
+    }
 }
