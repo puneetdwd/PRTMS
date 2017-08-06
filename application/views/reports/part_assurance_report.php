@@ -271,8 +271,8 @@
                             </tr>
 
                             <tr>
-                                <td><b>Sample Quantity : </b></td>
-                                <td><?php echo $samples; ?></td>
+                                <!--td><b>Sample Quantity : </b></td>
+                                <td><?php echo $samples; ?></td!-->
                                 <td><b>Judgement</b></td>
                                 <td><?php echo $judgement; ?></td>
                                 <td><b>Event : </b></td>

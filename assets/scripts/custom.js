@@ -647,3 +647,114 @@ function printPage(id) {
 			});
 		}
 	}
+	
+	
+function save_foolproof_data(checkpoint_id){
+    var base_url = $('#base_url').val();
+    var all_results = $('#result_'+checkpoint_id).val();
+    var all_values = $('#values_'+checkpoint_id).val();
+    
+    var lsl = $('#lsl_'+checkpoint_id).val();
+    var usl = $('#usl_'+checkpoint_id).val();
+    var np = '';
+    
+    all_results = (all_results) ? all_results : 0;
+    all_values = (all_values) ? all_values : 0;
+    
+	var formData = new FormData();
+    formData.append('checkpoint_id', checkpoint_id);    
+    
+    if ($('#np_'+checkpoint_id).is(":checked")){
+        //alert("checked");
+        np = $('#np_'+checkpoint_id).val();
+        if(all_results == 0){
+            all_values = np;
+        }else if(all_values == 0){
+            all_results = np;
+        }
+        formData.append('image', '');
+        
+    }else{
+        
+        if(lsl != '' || usl != ''){
+            if(all_values == 0){
+                bootbox.dialog({
+                    message: 'Please fill value before submit.',
+                    title: 'Alert',
+                    buttons: {
+                        confirm: {
+                            label: "OK",
+                            className: "button"
+                        }
+                    }
+                });
+
+                $('#values_'+checkpoint_id).css('border','1px solid #e35b5a');
+
+                return false;
+            }
+        }
+        
+        if (!$('#capture_'+checkpoint_id).val()) {
+            bootbox.dialog({
+                message: 'Please Upload Proper Image.',
+                title: 'Alert',
+                buttons: {
+                    confirm: {
+                        label: "OK",
+                        className: "button"
+                    }
+                }
+            });
+
+            $('#capture_'+checkpoint_id).closest('label').css('border','1px solid #e35b5a');
+            $('#capture_'+checkpoint_id).closest('label').css('color','#e35b5a');
+
+            return false;
+        }else{
+            var image = $('#capture_'+checkpoint_id)[0].files[0];
+            var image_name = $('#capture_'+checkpoint_id)[0].files[0].name;
+            $('#capture_'+checkpoint_id).closest('label').css('border','none');
+            $('#capture_'+checkpoint_id).closest('label').css('border-color','#EEE #CCC #CCC #EEE');
+            $('#capture_'+checkpoint_id).closest('label').css('color','#000');
+        }
+        
+        formData.append('image', image, image_name);
+        
+    }
+    
+    formData.append('all_results', all_results);
+    formData.append('all_values', all_values);
+    
+    //alert(all_results+' '+all_values);
+    $('#button_'+checkpoint_id).css('display','none');
+    $.ajax({
+        type: 'POST',
+        url: base_url+'fool_proof/save_result',
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData:false,
+        success: function(resp) {
+            //alert("Success");
+            if(all_results == 0){
+                $('#values_'+checkpoint_id).attr('disabled','true');
+            }else if(all_values == 0){
+                $('#result_'+checkpoint_id).attr('disabled','true');
+            }
+            
+            $('#np_'+checkpoint_id).attr('disabled','true');
+            $('#capture_'+checkpoint_id).closest('label').css('display','none');
+            if(all_values == 'NP' || all_results == 'NP'){
+                $('#capture_'+checkpoint_id).closest('td').html('NP');
+            }else{
+                $('#capture_'+checkpoint_id).closest('td').html('<img src='+base_url+'assets/foolproof_captured/'+image_name+' alt=image height=70 width=100 />');
+            }
+            $('#button_'+checkpoint_id).css('display','none');
+        },
+        error: function(jqXHR, textStatus, errorMessage) {
+           alert("something went wrong. Please try again."); // Optional
+           $('#button_'+checkpoint_id).css('display','block');
+        }
+    });
+}

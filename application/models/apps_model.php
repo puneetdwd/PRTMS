@@ -6,7 +6,7 @@ class Apps_model extends CI_Model {
 		$num = $data['part_num'];
         $needed_array = array('chamber_id', 'product_id',  'part_no','part_id', 'supplier_id', 
         'test_id', 'samples', 'duration', 'observation_frequency', 'no_of_observations', 'start_date', 'end_date',
-        'aborted', 'completed','is_approved','approved_by','retest_remark', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img', 'skip_test');
+        'aborted', 'completed','is_approved','approved_by','retest_remark', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img', 'skip_test','skip_remark');
         $data = array_intersect_key($data, array_flip($needed_array));
 		$data['part_no'] = $num;
         if(empty($id)) {

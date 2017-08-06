@@ -27,6 +27,7 @@ class Plan_model extends CI_Model {
     }
     
     function get_month_plan($month_year, $filters) {
+		// print_r($filters);exit;
         $sql = "SELECT mp.id, mp.`month_year`, mp.`supplier_id`, mp.`product_id`, mp.`part_id`, 
         mp.`planned_part_no`, mp.`test_id`, mp.schedule_date,mp.no_inspection,
         p.name as product, s.name as supplier, pp.name as part,

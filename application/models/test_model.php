@@ -42,6 +42,7 @@ class Test_model extends CI_Model {
 
     function get_ptc_mappings($filters = array()) {
         $sql = "SELECT ptc.*, p.name as product_name, 
+        pp.part_no as part_no, 
         pp.name as part_name, 
         t.name as test_name, 
         c.name as chamber_name, c.category as chamber_category

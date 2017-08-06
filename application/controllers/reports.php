@@ -62,8 +62,9 @@ class reports extends Admin_Controller {
             $data['reports'] = $this->report_model->get_completed_test_report($filters);
         
         }
-        
-        //echo $this->db->last_query(); exit;
+       // echo '<pre>';print_r($data['reports']);
+        //echo $this->db->last_query(); 
+		//exit;
         
         $_SESSION['ctr_filters'] = $filters;
         

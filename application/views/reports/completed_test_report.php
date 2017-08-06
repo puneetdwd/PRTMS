@@ -248,7 +248,7 @@ echo array_search(2,$_SESSION['product_ids']); */
                     </div>
                     
                 </div>
-                <div class="portlet-body">
+                <div class="portlet-body" style='overflow-x: AUTO;'>
                     <?php if(empty($reports)) { ?>
                         <p class="text-center">No Record Available.</p>
                     <?php } else { ?>
@@ -258,12 +258,17 @@ echo array_search(2,$_SESSION['product_ids']); */
                                     <th>Event</th>
                                     <th>Product Name</th>
                                     <th>Part Name</th>
+                                    <th>Part Number</th>
                                     <th>Test Name</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Chamber Category</th>
                                     <th>Chamber Name</th>
                                     <th>Is Approved</th>
+                                    <th>Supplier</th>
+                                    <th>Inspector</th>
+                                    <th>ASN No.</th>
+                                    <th>Result</th>
                                     <th class="no_sort" style="width:100px;">Action</th>
                                 </tr>
                             </thead>
@@ -272,10 +277,11 @@ echo array_search(2,$_SESSION['product_ids']); */
                                     <tr>
                                         <td><?php echo $report['stage_name']; ?></td>
                                         <td><?php echo $report['product_name']; ?></td>
-                                        <td><?php echo $report['part_name']."(".$report['part_no'].")"; ?></td>
+                                        <td><?php echo $report['part_name']; ?></td>
+                                        <td><?php echo $report['part_no']; ?></td>
                                         <td><?php echo $report['test_name']; ?></td>
-                                        <td><?php echo $report['start_date']; ?></td>
-                                        <td><?php echo $report['end_date']; ?></td>
+                                        <td><?php echo date('jS M, Y', strtotime($report['start_date'])); ?></td>
+                                        <td><?php echo date('jS M, Y', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
                                         <td><?php 
@@ -288,6 +294,14 @@ echo array_search(2,$_SESSION['product_ids']); */
 										} else
 											echo 'Not Approved'
 										?></td>
+										
+										<td><?php echo $report['supplier_name']; ?></td>
+                                        <td><?php echo $report['assistant_name']; ?></td>
+                                        <td><?php echo $report['lot_no']; ?></td>
+                                        <td><?php echo $report['observation_result']; ?></td>
+                                      
+										
+										
                                         <td nowrap>
                                             <button type="button" class="button small view-test-modal-btn" data-index="<?php echo $report['code']; ?>">
                                                 View

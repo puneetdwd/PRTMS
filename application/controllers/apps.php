@@ -382,7 +382,7 @@ class Apps extends Admin_Controller {
         if(empty($on_going)) {
             redirect($_SERVER['HTTP_REFERER']);
         }
-        $response = $this->Apps_model->update_test(array('skip_test' => 1,'completed' => 1), $on_going['id']);
+        $response = $this->Apps_model->update_test(array('skip_test' => 1,'skip_remark' => $this->input->post('skip_remark'),'completed' => 1), $on_going['id']);
         if($response) {
             $this->session->set_flashdata('success', 'Test successfully Skiped. Go for another Test');
             redirect(base_url());
@@ -505,7 +505,7 @@ class Apps extends Admin_Controller {
 				if($_FILES['test_img']['name'] != '') {			
 					$config['upload_path'] = $fullpath;
 					$config['allowed_types'] = 'jpg|jpeg|png|gif';
-					$config['file_name'] = uniqid() .$_FILES['test_img']['name'];
+					$config['file_name'] = $_FILES['test_img']['name'];
 					
 					//Load upload library and initialize configuration
 					$this->load->library('upload',$config);
@@ -762,4 +762,27 @@ class Apps extends Admin_Controller {
         curl_close($ch);
         redirect($_SERVER['HTTP_REFERER']);
     }
+	
+	
+	
+    
+    function upload_image($image){
+        $target_dir = "assets/test_images/";
+        $target_file = $target_dir . basename($image['image']['name']);
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($image['image']['tmp_name']);
+        if($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".";
+            move_uploaded_file($image['image']['tmp_name'], $target_file);
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+        
+        return $uploadOk;
+    }
+    
 }

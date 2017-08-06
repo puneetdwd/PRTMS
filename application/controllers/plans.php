@@ -191,7 +191,7 @@ class Plans extends Admin_Controller {
             return FALSE;
         }
         
-        //echo "<pre>";print_r($arr);exit;
+        //echo "<pre>";print_r($arr);
         
         $this->load->model('Product_model');
         $this->load->model('Supplier_model');
@@ -208,7 +208,10 @@ class Plans extends Admin_Controller {
         $plans = array();
         $tests = array();
         foreach($arr as $no => $row) {
-            if($no <= 2)
+            
+			/* echo $no;
+			*/
+			if($no <= 2)
                 continue;
             
             $row['B'] = str_replace("\n", ' ', $row['B']);
@@ -225,7 +228,7 @@ class Plans extends Admin_Controller {
                     //echo "<pre>";print_r();exit;
                 }
             }
-            
+            //echo "<pre>";print_r($tests);
             if(empty($part_id)) {
                 continue;
             }
@@ -245,7 +248,6 @@ class Plans extends Admin_Controller {
                 } else {
                     $supplier_id = $exists['id'];
                 }
-                
                 $mapping = array();
                 $mapping['supplier_id'] = $supplier_id;
                 $mapping['product_id'] = $product_id;
@@ -278,7 +280,7 @@ class Plans extends Admin_Controller {
 
                 
             }
-        }
+        
 
         if(!empty($mappings)) {
             $this->Supplier_model->insert_sp_mappings($mappings);
@@ -289,7 +291,7 @@ class Plans extends Admin_Controller {
         if(!empty($plans)) {
             $this->Plan_model->insert_monthly_plan($plans, $month_year);
         }
-
+	}
         return TRUE;
     }
 }

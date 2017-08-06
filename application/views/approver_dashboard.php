@@ -18,6 +18,29 @@
         margin-top: 5px;
         text-transform: uppercase;
     }
+	  .form-inline .select2-container--bootstrap{
+        width: 300px !important;
+    }
+    label.cameraButton {
+        display: inline-block;
+        /*margin: 1em 0;*/
+
+        /* Styles to make it look like a button */
+        padding: 0.2em 0.3em;
+        border: 2px solid #666;
+        border-color: #EEE #CCC #CCC #EEE;
+        background-color: #DDD;
+    }
+
+      /* Look like a clicked/depressed button */
+    label.cameraButton:active {
+        border-color: #CCC #EEE #EEE #CCC;
+    }
+
+    /* This is the part that actually hides the 'Choose file' text box for camera inputs */
+    label.cameraButton input[accept*="image"] {
+        display: none;
+    }
 </style>
 <div class="page-content">
     <div class="breadcrumbs">
@@ -84,6 +107,7 @@
                                     <th>Chamber Specification</th>-->
                                     <th>Chamber Name</th>
                                     <th>Status</th>
+                                    <th>Capture Photo</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Action</th>
@@ -108,6 +132,19 @@
                                         <td><?php if($completed_test['is_approved'] == 1) {
 											echo 'Approved';
 										}else{ echo 'Completed'; } ?></td>
+										
+										<td class="text-center" style="vertical-align:middle">
+											<?php if(empty($completed_test['test_img'])) { ?>
+											<label class="cameraButton">Take&nbsp;Photo
+												<form method="post" enctype='multipart/form-data'>
+													<input type="file" accept="image/*" id="capture_<?php echo $completed_test['code']; ?>" capture="camera" onchange="file_submit(<?php echo $completed_test['code']; ?>);">  
+												</form>												
+											</label>
+											<?php }else{ ?>
+											<img src="<?php echo base_url()."assets/test images/".$completed_test['test_img'];?>" alt="image" height="70" width="100" />
+											<?php } ?>
+										</td>
+										
                                         <!-- <td><?php echo $completed_test['chamber_name']; ?></td> 
                                         <td><?php echo $completed_test['test_name']; ?></td>-->
                                         
@@ -176,3 +213,96 @@
         
 </div>
 <!--Popup End-->
+
+
+<script>
+/*function file_submit(id){
+	var ele_id = '#capture_'+id;
+	var upload_data = $(ele_id).val()
+	// var post_url = "<?php echo base_url();?>index.php/gallery/upload";
+	var post_url = "<?php echo base_url()."apps/submit_appr_image/"; ?>"+id;
+	alert(post_url);exit;
+	$.ajax({
+		type: "POST",
+		url: post_url,
+		data: upload_data,
+		datatype: "json",
+		success: function(data) 
+		{
+			$('#upload_result_div').html("<span class=success>File Uploaded!</span>");
+    }}
+	);
+}*/
+
+function file_submit(test_id){
+    /* var base_url = $('#base_url').val();
+    var all_results = $('#result_'+test_id).val();
+    var all_values = $('#values_'+test_id).val();
+    
+    var lsl = $('#lsl_'+test_id).val();
+    var usl = $('#usl_'+test_id).val();
+    var np = '';
+    
+    all_results = (all_results) ? all_results : 0;
+    all_values = (all_values) ? all_values : 0;
+     */
+    var formData = new FormData();
+    formData.append('test_id', test_id);
+    
+    
+        if (!$('#capture_'+test_id).val()) {
+            bootbox.dialog({
+                message: 'Please Upload Proper Image.',
+                title: 'Alert',
+                buttons: {
+                    confirm: {
+                        label: "OK",
+                        className: "button"
+                    }
+                }
+            });
+
+            $('#capture_'+test_id).closest('label').css('border','1px solid #e35b5a');
+            $('#capture_'+test_id).closest('label').css('color','#e35b5a');
+
+            return false;
+        }else{
+            var image = $('#capture_'+test_id)[0].files[0];
+            var image_name = $('#capture_'+test_id)[0].files[0].name;
+            $('#capture_'+test_id).closest('label').css('border','none');
+            $('#capture_'+test_id).closest('label').css('border-color','#EEE #CCC #CCC #EEE');
+            $('#capture_'+test_id).closest('label').css('color','#000');
+        }
+        
+        formData.append('image', image, image_name);
+        
+    
+    
+   /*  formData.append('all_results', all_results);
+    formData.append('all_values', all_values);
+     */
+    //alert(all_results+' '+all_values);
+    $('#button_'+test_id).css('display','none');
+    $.ajax({
+        type: 'POST',
+        url: 'apps/submit_appr_image',
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData:false,
+        success: function(resp) {
+            alert("Success");
+            $('#capture_'+test_id).closest('label').css('display','none');
+            $('#capture_'+test_id).closest('td').html('<img src='+base_url+'assets/test_images/'+image_name+' alt=image height=70 width=100 />');
+            
+            $('#button_'+test_id).css('display','none');
+        },
+        error: function(jqXHR, textStatus, errorMessage) {
+           alert("something went wrong. Please try again."); // Optional
+           $('#button_'+test_id).css('display','block');
+        }
+    });
+}
+
+
+</script>

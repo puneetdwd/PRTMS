@@ -209,7 +209,9 @@
 											?></td>
                                         <td style='text-align: center;'>											
 											<!--<form>-->
+											<?php if($pl['status'] == 'Pending'){ ?>
 												<input <?php if($pl['no_inspection'] == 'NO'){ echo 'checked'; } ?> data-index="<?php echo $pl['id']; ?>" type="checkbox" name="no_inspec" id="no_inspec" onClick='no_inspection();' >
+											<?php } ?>
 												<!--<button type="button" class="button small view-test-modal-btn" data-index="<?php echo $pl['id']; ?>" onClick='no_inspection();'>
                                                 Submit
 												</button>

@@ -1,0 +1,1 @@
+ALTER TABLE `test_records` ADD `skip_remark` VARCHAR(500) NULL DEFAULT NULL AFTER `retest_remark`;

@@ -21,11 +21,17 @@
                                     <th>Event</th>
                                     <th>Product Name</th>
                                     <th>Part Name</th>
+                                    <th>Part Number</th>
                                     <th>Test Name</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Chamber Category</th>
                                     <th>Chamber Name</th>
+                                    <th>Is Approved</th>
+                                    <th>Supplier</th>
+                                    <th>Inspector</th>
+                                    <th>ASN No.</th>
+                                    <th>Result</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,14 +42,27 @@
                                         <td><?php echo $report['stage_name']; ?></td>
                                         <td><?php echo $report['product_name']; ?></td>
                                         <td><?php echo $report['part_name']; ?></td>
+                                        <td><?php echo $report['part_no']; ?></td>
                                         <td><?php echo $report['test_name']; ?></td>
-                                        <td><?php //echo $report['start_date']; 
-											echo date('jS M, Y h:i A', strtotime($report['start_date']));	?>
-										</td>
-                                        <td><?php //echo $report['end_date']; 
-											echo date('jS M, Y h:i A', strtotime($report['end_date'])); ?></td>
+                                        <td><?php echo date('jS M, Y', strtotime($report['start_date'])); ?></td>
+                                        <td><?php echo date('jS M, Y', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
+                                        <td><?php 
+										if($report['is_approved'] == 1)
+										{ ?>
+												<p title='Approved by <?php $report['approved_by']; ?>'>
+												Approved
+												</p>
+											<?php
+										} else
+											echo 'Not Approved'
+										?></td>
+										
+										<td><?php echo $report['supplier_name']; ?></td>
+                                        <td><?php echo $report['assistant_name']; ?></td>
+                                        <td><?php echo $report['lot_no']; ?></td>
+                                        <td><?php echo $report['observation_result']; ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

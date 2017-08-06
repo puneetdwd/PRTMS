@@ -36,17 +36,24 @@ class report_model extends CI_Model {
     
     function get_completed_test_report($filters = array()){
         //print_r($filters);exit;
-        $sql = "SELECT t.id as test_record_id, t.code,ts.test_set, c.name as chamber_name, t.start_date, t.end_date, 		t.is_approved,t.approved_by, c.category as chamber_category, 
-                t.part_no, p.name as product_name, pp.name as part_name, s.name as supplier_name, ts.name as test_name, st.name as stage_name 
+        $sql = "SELECT t.id as test_record_id, t.code,ts.test_set, c.name as chamber_name, t.start_date, t.end_date, t.lot_no, 	o.assistant_name,o.observation_result,t.is_approved,t.approved_by, c.category as chamber_category, 
+                t.part_no, p.name as product_name, pp.name as part_name, s.name as supplier_name, ts.name as test_name, st.name as stage_name
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 
+                LEFT JOIN test_observations o ON t.id = o.test_id 
                 LEFT JOIN products p ON p.id = t.product_id 
                 LEFT JOIN product_parts pp ON pp.id = t.part_id 
                 LEFT JOIN suppliers s ON s.id = t.supplier_id 
                 LEFT JOIN tests ts ON ts.id = t.test_id 
                 LEFT JOIN stages st ON st.id = t.stage_id
                 WHERE t.completed = 1";
-        
+				
+				/*  ,
+				CASE 
+					WHEN MAX(o.observation_result) = 'OK' THEN 'OK'
+					WHEN MAX(o.observation_result) = 'NG' THEN 'NG'
+				END as result */
+				
         $pass_array = array();
         
         if(!empty($filters['product_id'])) {

@@ -638,11 +638,14 @@
                                 data-confirm="Are you sure you want to complete this test?">
                                     Complete
                                 </a>
-                                <a href="<?php echo base_url().'apps/mark_as_skiped/'.$test['code'];?>" class="button"
+                                <!--<a href="<?php echo base_url().'apps/mark_as_skiped/'.$test['code'];?>" class="button"
                                 data-confirm="Are you sure you want to SKIP this test?">
                                     SKIP TEST
-                                </a>
-                                
+                                </a>-->
+								<button type="button" class="button"  data-toggle="modal" data-target="#myModal1">SKIP TEST</button>
+											
+                               
+								
                                 <a href="<?php echo base_url();?>" class="button white">
                                     Cancel
                                 </a>
@@ -744,7 +747,7 @@
                 <div class="modal-body"> 
                     <div class="row" style="margin-bottom:10px;">
                         <div class="form-group">
-                            <label for="observation_result" class="col-md-2 col-md-offset-6" style="margin-top: 7px;">Observation Result</label>
+                            <label for="observation_result" class="col-md-2 col-md-offset-6" style="margin-top: 7px;">Observation Result<span class='required'>*</span></label>
                             <div class="col-md-4">
                                 <input type="text" class="form-control required" name="observation_result" id="observation-id" placeholder="OK / NG">
                             </div>
@@ -1035,7 +1038,7 @@
 						<input type="hidden" name="max_observation" id="max_observation" value='<?php echo $max_observation; ?>' />
                     
 						<div class="form-group img_test">
-                            <label for="test_img" class="col-md-2 col-md-offset-6" style="margin-top: 7px;">Test Image</label>
+                            <label for="test_img" class="col-md-2 col-md-offset-6" style="margin-top: 7px;">Test Image<span class='required'>*</span></label>
                             <div class="col-md-4">
                                 <input type="file" class="form-control" name="test_img" placeholder="Choose Image">
 								<span class="help-block">Only jpg|png files are allowed.
@@ -1045,7 +1048,7 @@
 						<?php } ?>
                    
                         <div class="form-group">
-                            <label for="assistant_name" class="col-md-2 col-md-offset-6" style="margin-top: 7px;">Assistant Name</label>
+                            <label for="assistant_name" class="required col-md-2 col-md-offset-6" style="margin-top: 7px;">Assistant Name<span class='required'>*</span></label>
                             <div class="col-md-4">
                                 <input type="text" class="form-control" name="assistant_name">
                             </div>
@@ -1063,6 +1066,31 @@
     <!-- /.modal-dialog -->
 </div>
 
+ <!-- Modal -->
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h1>Remark for Skip test</h1>
+      </div>
+      <div class="modal-body">
+        <form id='test_remark_form' action="<?php echo base_url().'apps/mark_as_skiped/'.$test['code'];?>" method='post'>
+		Remark : 
+		<textarea required class="form-control" rows="5" name='skip_remark' id="skip_remark"></textarea>
+		</br>
+      <div class="modal-footer">
+		<input style='text-align:center' type='submit' class='button white' id='retest_submit' value='SUBMIT'/>
+        </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <script>
 $(".observation-modal-btn").click(function() {
     var obs_button = this.id; // or alert($(this).attr('id'));
@@ -1077,3 +1105,5 @@ $(".observation-modal-btn").click(function() {
 	}
 });
 </script>
+
+
