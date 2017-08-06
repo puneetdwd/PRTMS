@@ -188,6 +188,7 @@
                                 <tr>
                                     <th>Product Name</th>
                                     <th>Part Name</th>
+                                    <th>Part No.</th>
                                     <th>Test Name</th>
                                     <th>Chamber Category</th>
                                     <th>Chamber Name</th>
@@ -199,6 +200,7 @@
                                     <tr>
                                         <td><?php echo $ptc_mapping['product_name']; ?></td>
                                         <td><?php echo $ptc_mapping['part_name']; ?></td>
+                                        <td><?php echo $ptc_mapping['part_no']; ?></td>
                                         <td><?php echo $ptc_mapping['test_name']; ?></td>
                                         <td><?php echo $ptc_mapping['chamber_category']; ?></td>
                                         <td><?php echo $ptc_mapping['chamber_name']; ?></td>
