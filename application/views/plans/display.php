@@ -52,10 +52,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label">Select Month:</label>
+                                        <label class="control-label">Select Month:<span class='required'>*</span></label>
                                         
                                         <div class="input-group date month-picker" data-date-format="yyyy-mm-dd">
-                                            <input name="plan_month" type="text" class="required form-control" readonly
+                                            <input name="plan_month" type="text" class="form-control" readonly
                                             value="<?php echo $plan_month; ?>">
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
@@ -70,7 +70,7 @@
                                     <div class="form-group" id="plan-month-product-search-error">
                                         <label class="control-label">Select Product:</label>
                                                 
-                                        <select name="product_id" class="required form-control select2me" id="product-part-selector"
+                                        <select name="product_id" class="form-control select2me" id="product-part-selector"
                                             data-placeholder="Select Product" data-error-container="#plan-month-product-search-error">
                                             <option></option>
                                             <?php $selected = isset($filters['product_id']) ? $filters['product_id'] : ''; ?>
@@ -89,12 +89,12 @@
                                     <div class="form-group" id="plan-month-part-search-error1">
                                         <label class="control-label">Select Part:</label>
                                                 
-                                        <select name="part_id1" class="form-control select2me" id="part-selector"
+                                        <select name="part_id" class="form-control select2me" id="part-selector"
                                             data-placeholder="Select Part" data-error-container="#plan-month-part-search-error">
                                             <option></option>
                                             <?php $selected = isset($filters['part_id1']) ? $filters['part_id1'] : ''; ?>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $selected) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['name'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['name']; ?>
                                                 </option>
                                             <?php } ?>        
@@ -106,8 +106,8 @@
 							 <div class="row">
                                 <div class="col-md-12">
                                     <div class="required form-group" id="ptc-mappings-part-search-error">
-                                        <label class="control-label">Select Part Number:<span class="required">*</span></label>                                                
-                                        <select name="part_id1" class="required form-control select2me part-test-selector_plan" id="part-selector_number"
+                                        <label class="control-label">Select Part Number:</label>                                                
+                                        <select name="part_id1" class="form-control select2me part-test-selector_plan" id="part-selector_number"
                                             data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
@@ -123,8 +123,8 @@
                             <div class="row">
                                   <div class="col-md-12">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
-                                        <label class="required control-label">Select Supplier:<span class="required">*</span></label>                                                
-                                        <select name="supplier_id" class="required form-control select2me" id="part-selector_supplier"
+                                        <label class="required control-label">Select Supplier:</label>                                                
+                                        <select name="supplier_id" class="form-control select2me" id="part-selector_supplier"
                                             data-placeholder="Select Supplier" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($suppliers as $supplier) { ?>
@@ -142,7 +142,7 @@
                                     <div class="form-group" id="plan-month-test-search-error">
                                         <label class="control-label">Select Test:</label>
                                                 
-                                        <select name="test_id" class="form-control select2me"
+                                        <select name="test_id" class="form-control select2me" id='part-test_selector'
                                             data-placeholder="Select Test" data-error-container="#plan-month-test-search-error">
                                             <option></option>
                                             <?php $selected = isset($filters['test_id']) ? $filters['test_id'] : ''; ?>
@@ -188,7 +188,6 @@
                                     <th>Test Item</th>
                                     <th>Schedule Date</th>
                                     <th>Status</th>
-                                    <th>No Inspection</th>
                                     <th class="no_sort" style="width:100px;"></th>
                                 </tr>
                             </thead>
@@ -204,19 +203,11 @@
                                         <td><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
                                         <td><?php 
 												if($pl['no_inspection'] == 'NO')
-													{ echo 'No Lot'; }
+												{ echo 'No Lot'; }
 												else {	echo $pl['status']; }
-											?></td>
-                                        <td style='text-align: center;'>											
-											<!--<form>-->
-											<?php if($pl['status'] == 'Pending'){ ?>
-												<input <?php if($pl['no_inspection'] == 'NO'){ echo 'checked'; } ?> data-index="<?php echo $pl['id']; ?>" type="checkbox" name="no_inspec" id="no_inspec" onClick='no_inspection();' >
-											<?php } ?>
-												<!--<button type="button" class="button small view-test-modal-btn" data-index="<?php echo $pl['id']; ?>" onClick='no_inspection();'>
-                                                Submit
-												</button>
-											</form>-->
+											?>
 										</td>
+                                        
                                         <td nowrap>
                                             
 											<!--
@@ -256,9 +247,7 @@
         $(window).load(function() {
             groupTable($('table tr:has(td)'),0,3);
             $('table .deleted').remove();
-        });
-		
-		
+        });		
     </script>
 <?php } ?>
 

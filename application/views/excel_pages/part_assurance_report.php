@@ -15,8 +15,7 @@
     </div>-->
     <!-- END PAGE HEADER-->
     <!-- BEGIN PAGE CONTENT-->
-    <div class="row">
-    
+    <div class="row">    
         <div class="col-md-12">
             <div class="portlet light bordered">
                 <div class="portlet-body">
@@ -26,7 +25,7 @@
                         <table class="table table-hover table-light" border="1">
                             <tr>
                                 <td colspan="5" style="vertical-align:middle;"><h3>Mass Production Part Assurance Report</h3></td>
-                                <td colspan="4" align="right" style="vertical-align:middle;"><b>Product Name : </b>
+                                <td colspan="5" align="right" style="vertical-align:middle;"><b>Product Name : </b>
                                     <?php echo $reports_common['product_name']; ?>
                                 </td>
                             </tr>
@@ -34,7 +33,7 @@
                         <br>
                         <table class="table table-hover table-light" border="1">
                             <tr>
-                                <td colspan="3"><b>Part Name &nbsp;&nbsp;&nbsp;&nbsp;: </b>
+                                <td colspan="4"><b>Part Name &nbsp;&nbsp;&nbsp;&nbsp;: </b>
                                     <?php echo $reports_common['part_name']; ?>
                                 </td>
                                 <td colspan="3"><b>Part Number &nbsp;&nbsp;&nbsp;&nbsp;: </b>
@@ -51,12 +50,12 @@
                                 <td colspan="3"><b>Lot/ASN No. : </b>
                                     <?php echo $reports_common['lot_no']; ?>
                                 </td>
-                                <td colspan="3"><b>Supplier Name : </b>
+                                <td colspan="4"><b>Supplier Name : </b>
                                     <?php echo $reports_common['supplier_name']; ?>
                                 </td>
-                                <td colspan="3"><b>Sample Qty : </b>
+                                <!--td colspan="3"><b>Sample Qty : </b>
                                     <?php echo $samples; ?>
-                                </td>
+                                </td-->
                             </tr>
                         </table>
                         <table class="table table-hover table-light" border="2">
@@ -64,7 +63,7 @@
                                 <td colspan="6"><b>Judgement &nbsp;&nbsp;: </b>
                                     <?php echo $judgement; ?>
                                 </td>
-								<td colspan="3"><b>Event &nbsp;&nbsp;: </b>
+								<td colspan="4"><b>Event &nbsp;&nbsp;: </b>
                                     <?php echo $reports_event['name'];  ?>
                                 </td>
                             </tr>
@@ -83,15 +82,16 @@
                         
                         <table class="table table-hover table-light" border="1" style="width:400px">
                             <thead>
-                                <tr><th colspan="9" align="center">Test Details</th></tr>
+                                <tr><th colspan="10" align="center">Test Details</th></tr>
                                 <tr>
                                     <th width="5%">Sr No</th>
                                     <th width="10%">Name</th>
-                                    <th width="25%">Method</th>
+                                    <th width="20%">Method</th>
                                     <th width="15%">Judgement</th>
                                     <th width="5%">Samples</th>
                                     <th width="10%">Start Date</th>
                                     <th width="10%">End Date</th>
+                                    <th width="15%">Tests Image</th>
                                     <th width="10%">Result</th>
                                     <th width="10%">Remark</th>
                                 </tr>
@@ -104,8 +104,16 @@
                                         <td width="25%" style="vertical-align:middle;"><?php echo $report['method']; ?></td>
                                         <td width="15%" align="center" style="vertical-align:middle;"><?php echo $report['judgement']; ?></td>
                                         <td width="5%" align="center" style="vertical-align:middle;"><?php echo $report['samples']; ?></td>
-                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('jS M, y', strtotime($report['start_date'])); ?></td>
-                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('jS M, y', strtotime($report['end_date'])); ?></td>
+                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('d M y', strtotime($report['start_date'])); ?></td>
+                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('d M y', strtotime($report['end_date'])); ?></td>
+                                        <td width="10%" height='10%' align="center" style="vertical-align:middle;">
+										<?php if(!empty($report['test_img'])){	?>	
+											
+											<img width='8%' height='10%'  src='<?php echo base_url()."assets/test images/".$report['test_img']; ?>'>					
+											
+										<?php }else{
+											echo 'No Img';
+										} ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo strtoupper($report['observation_result']); ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo " "; ?></td>
                                     </tr>

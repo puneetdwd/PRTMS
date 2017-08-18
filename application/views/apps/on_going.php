@@ -291,8 +291,16 @@
 											<button style='border: none;background-color: #fff;color: black;font-size: 16px;' type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">(View Reference Image)</button>
 
 											<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+        
 											  <div class="modal-dialog">
 												<div class="modal-content">
+												
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h3>Reference Image</h3>
+												</div>
+												
 													<div class="modal-body">
 														<img src='<?php echo base_url()."assets/part reference files/".$test["img_file"]; ?>' class="img-responsive">
 													</div>

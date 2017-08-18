@@ -73,7 +73,29 @@
                                         <td><?php echo $part['part_no']; ?></td>
                                         <td>
 										<?php if(!empty($part['img_file'])){ ?>
-											<a href="<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>" target='_blank'>View Image</a>
+											<!--a href="<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>" target='_blank'>View Image</a-->
+											
+											
+											<button type="button" class="button small" style='text-transform:capitalize;color:#000 !important;border: none;border-shadow:none;background-color:#fff' data-toggle="modal" data-target="#myModal_img">Reference Image</button>
+
+											<div id="myModal_img" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											
+											  <div class="modal-dialog">
+											   
+												<div class="modal-content">
+												
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h3>Part Reference Image</h3>
+												</div>
+													<div class="modal-body">
+														<img src='<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>' class="img-responsive">
+													</div>
+												</div>
+											  </div>
+											</div>
+											
+											
 										<?php } ?>	
 										</td>
                                         <td nowrap>

@@ -25,7 +25,7 @@
                         <table class="table table-hover table-light" style='border: 1px solid black;border-collapse: collapse;'>
                             <thead style='background-color:"#D3D3D3"'>
                                 <tr>
-                                    <th style='border: 1px solid black;'>Start Date</th>
+                                    <th style='border: 1px solid black;'>Part Name</th>
                                     <th style='border: 1px solid black;'>Part No.</th>
                                     <th style='border: 1px solid black;'>Test Count</th>
                                     <th style='border: 1px solid black;'>No Lot Count</th>
@@ -39,12 +39,10 @@
 								foreach($reports as $report) { ?>
                                     <tr>
                                         <td style='border: 1px solid black;'><?php 
-										echo date('jS M, Y h:i A', strtotime($report['start_date'])); ?></td>
+										echo $report['part_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['part_no']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['test_cnt']; ?></td>
-                                        <td style='border: 1px solid black;'><?php //echo $report['no_inspection'];
-											
-											
+                                        <td style='border: 1px solid black;'><?php //echo $report['no_inspection'];											
 											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],$_SESSION['pts_filters']['start_date'],$_SESSION['pts_filters']['end_date']);							
 											if(!empty($res))
 												echo $res['insp_cnt'];
@@ -55,11 +53,9 @@
                                 <?php } ?>
                             </tbody>
                         </table>
-                    <?php } ?>
-                    
+                    <?php } ?>                    
                 </div>
             </div>
-
         </div>
     </div>
     <!-- END PAGE CONTENT-->

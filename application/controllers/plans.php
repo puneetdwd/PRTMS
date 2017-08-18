@@ -16,7 +16,7 @@ class Plans extends Admin_Controller {
         $data = array();
         $this->load->model('Plan_model');
         $data['plan'] = $this->Plan_model->get_month_plan(date('Y-m-01'), array());
-        
+       // echo  $this->db->last_query();exit;
         $this->template->write_view('content', 'plans/monthly_plan_screen', $data);
         $this->template->render();
     }
@@ -115,9 +115,9 @@ class Plans extends Admin_Controller {
         $filters = array();
         if($this->input->post()) {
             $plan_month = $this->input->post('plan_month');
-            $filters = $this->input->post();
+            $filters = $this->input->post();			
             $data['plan'] = $this->Plan_model->get_month_plan($plan_month, $filters);
-            
+            //echo $this->db->last_query();exit;
         } else if($this->input->get('plan_month')) {
             $plan_month = $this->input->get('plan_month');
             
@@ -134,6 +134,44 @@ class Plans extends Admin_Controller {
             
         
         $this->template->write_view('content', 'plans/display', $data);
+        $this->template->render();
+    }
+    public function part_no_inspection() {
+        $data = array();
+        
+        $this->load->model('Product_model');
+        $data['products'] = $this->Product_model->get_all_products();
+        
+        $this->load->model('Supplier_model');
+        $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
+        
+        $this->load->model('Test_model');
+        $data['tests'] = $this->Test_model->get_all_tests();
+        
+        $this->load->model('Plan_model');
+        
+        $filters = array();
+        if($this->input->post()) {
+            $plan_month = $this->input->post('plan_month');
+            $filters = $this->input->post();			
+            $data['plan'] = $this->Plan_model->get_month_plan_no_insp($plan_month, $filters);
+            //echo $this->db->last_query();exit;
+        } else if($this->input->get('plan_month')) {
+            $plan_month = $this->input->get('plan_month');
+            
+            $filters = array('product_id' => $this->input->get('product_id'));
+            $data['plan'] = $this->Plan_model->get_month_plan_no_insp($this->input->get('plan_month'), $filters);
+        }
+        
+        if(!empty($filters['product_id'])) {
+            $data['parts'] = $this->Product_model->get_all_product_parts($filters['product_id']);
+        }
+        
+        $data['filters'] = $filters;
+        $data['plan_month'] = isset($plan_month) ? $plan_month : '';
+            
+        
+        $this->template->write_view('content', 'plans/part_no_inspection', $data);
         $this->template->render();
     }
     
@@ -169,7 +207,12 @@ class Plans extends Admin_Controller {
     } */
 	
 	public function submit_inspection_status() {
-		if($this->input->post('id')) {
+		//s=>NO => for NO Part in Company means NO Inspection
+		//s=>YES => for Part in Company means there is Inspection
+		/* echo $this->input->post('id');
+		echo $this->input->post('s');exit;
+		 */
+		 if($this->input->post('id')) {
             $this->load->model('Plan_model');
             $res = $this->Plan_model->mark_no_inspection($this->input->post('id'),$this->input->post('s'));
 		}

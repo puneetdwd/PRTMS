@@ -613,9 +613,15 @@
                             
                             <div class="form-actions text-center">
 								
-                                <a href="<?php echo base_url();?>" class="button white">
+                                <!--a href="<?php echo base_url();?>" class="button white">
                                     Close
                                 </a>
+								<button type="button" class="button white" data-dismiss="modal">Close</button-->
+                    
+								<button type="button" class="button gray"  data-toggle="modal" data-target="#myModal_appr">Approve</button>
+											
+								<button type="button" class="button"  data-toggle="modal" data-target="#myModal">Re-test</button>
+								
                             </div>
                         </div>
                     </form>

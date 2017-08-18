@@ -229,6 +229,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="<?php echo base_url(); ?>plans/part_no_inspection">
+                                            <i class="icon-briefcase"></i> Manage No Inspections
+                                        </a>
+                                    </li>
+									<li>
                                         <a href="<?php echo base_url(); ?>plans/screen">
                                             <i class="icon-briefcase"></i> Plan Screen 
                                         </a>
@@ -286,6 +291,11 @@
                                 <li>
                                     <a href="<?php echo base_url(); ?>reports/completed_test_report">
                                         <i class="icon-briefcase"></i> Completed Test Report 
+                                    </a>
+                                </li>
+								<li>
+                                    <a href="<?php echo base_url(); ?>reports/approved_test_report">
+                                        <i class="icon-briefcase"></i> Approved Test Report 
                                     </a>
                                 </li>
                                 <li>

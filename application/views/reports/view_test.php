@@ -1,7 +1,7 @@
 <!--Popup Start-->
 <?php $category = $test['chamber_category']; ?>
 
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" id='view_comp'>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -512,6 +512,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="button white" data-dismiss="modal">Close</button>
+				<a class="button" onclick="printPage('view_comp');" href="javascript:void(0);">
+					<i class="fa fa-print"></i> Print
+				</a>
             </div>
         </div>
         <!-- /.modal-content -->

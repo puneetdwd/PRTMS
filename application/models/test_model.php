@@ -68,6 +68,10 @@ class Test_model extends CI_Model {
             $wheres[] = 'ptc.part_id = ?';
             $pass_array[] = $filters['part_id'];
         }
+		if(!empty($filters['part_id1'])) {
+            $wheres[] = 'pp.name = ?';
+            $pass_array[] = $filters['part_id1'];
+        }
         
         if(!empty($filters['test_id'])) {
             $wheres[] = 'ptc.test_id = ?';
@@ -81,6 +85,64 @@ class Test_model extends CI_Model {
         
         if(!empty($filters['chamber_category'])) {
             $wheres[] = 'c.category = ?';
+            $pass_array[] = $filters['chamber_category'];
+        }
+        
+        if(!empty($wheres)) {
+            $sql .= " WHERE ".implode(' AND ', $wheres);
+        }
+        
+        return $this->db->query($sql, $pass_array)->result_array();
+    }
+	function get_ptc_mappings_new($filters = array()) {
+        $sql = "SELECT ptc.*,pc.name as pc_name , p.name as product_name, 
+        pp.part_no as part_no, 
+        pp.name as part_name, 
+        t.name as test_name, 
+        c.name as chamber_name, c.category as chamber_category
+        FROM ptc_mappings ptc
+        INNER JOIN products p
+        ON ptc.product_id = p.id
+        INNER JOIN tests t
+        ON ptc.test_id = t.id
+        INNER JOIN product_parts pp
+        ON ptc.part_id = pp.id
+        INNER JOIN chambers c
+        ON ptc.chamber_id = c.id
+		
+        INNER JOIN part_categories pc
+        ON ptc.part_category_id = pc.id 
+		";
+        
+        $wheres = array();
+        $pass_array = array();
+        
+        if(!empty($filters['product_id'])) {
+            $wheres[] = 'ptc.product_id = ?';
+            $pass_array[] = $filters['product_id'];
+        }
+        
+        if(!empty($filters['part_id'])) {
+            $wheres[] = 'ptc.part_id = ?';
+            $pass_array[] = $filters['part_id'];
+        }
+		if(!empty($filters['part_id1'])) {
+            $wheres[] = 'pp.name = ?';
+            $pass_array[] = $filters['part_id1'];
+        }
+        
+        if(!empty($filters['test_id'])) {
+            $wheres[] = 'ptc.test_id = ?';
+            $pass_array[] = $filters['test_id'];
+        }
+        
+        if(!empty($filters['chamber_id'])) {
+            $wheres[] = 'ptc.chamber_id = ?';
+            $pass_array[] = $filters['chamber_id'];
+        }
+        
+        if(!empty($filters['chamber_category'])) {
+            $wheres[] = 'pc.name = ?';
             $pass_array[] = $filters['chamber_category'];
         }
         

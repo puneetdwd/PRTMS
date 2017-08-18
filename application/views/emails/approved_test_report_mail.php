@@ -1,7 +1,7 @@
 <html>
 <body>
 <p style="font-size: 16px;"><b>
-<h3>Completed Test Report</h3></br>
+<h3>Approved Test Report</h3></br>
 Date: <?php echo $yesterday; ?>
 </b></p>
 <p style="font-size: 20px;"><b>
@@ -9,13 +9,13 @@ Date: <?php echo $yesterday; ?>
 
 
                     <?php if(empty($reports)) { ?>
-                        <p class="text-center">No Test has been done yesterday.</p>
+                        <p class="text-center">No Test has been Approved yesterday.</p>
                     <?php } else { ?>
                         <table class="table table-hover table-light" border="1" style='border-collapse:collapse'>
                             <thead style='background-color:#D3D3D3'>
                                 <tr>
-                                    <th style='border: 1px solid black;' >Event</th>
-                                    <th style='border: 1px solid black;' >Product Name</th>
+                                    <th style='border: 1px solid black;'>Event</th>
+                                    <th style='border: 1px solid black;'>Product Name</th>
                                     <th style='border: 1px solid black;'>Part Name</th>
                                     <th style='border: 1px solid black;'>Part Number</th>
                                     <th style='border: 1px solid black;'>Test Name</th>
@@ -53,8 +53,7 @@ Date: <?php echo $yesterday; ?>
 											<?php
 										} else
 											echo 'Not Approved'
-										?></td>
-										
+										?></td>										
 										<td style='border: 1px solid black;'><?php echo $report['supplier_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['assistant_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['lot_no']; ?></td>

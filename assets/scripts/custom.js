@@ -237,29 +237,17 @@ $(document).ready(function() {
         });
         
         var part = $('#part-selector_number :selected').val();
-        var product = $('#product-part-selector :selected').val();
-        var chamber = $('#start-monitoring-chamber-sel :selected').val();
+       // var product = $('#product-part-selector :selected').val();
+       // var chamber = $('#start-monitoring-chamber-sel :selected').val();
         //alert(product);
         
         $.ajax({
             type: 'POST',
-            url: base_url+'apps/get_suppliers_by_part',
-            data: { part: part, product: product, chamber: chamber},
+            url: base_url+'apps/get_tests_by_partid',			
+            data: { part: part},
             dataType: 'json',
             success: function(resp) {
-               /*  if($('#part-based-supplier-selector :selected').val() != '') {
-                    $('#part-based-supplier-selector').select2('val', null);
-                }
-                
-                $('#part-based-supplier-selector').html('');
-                
-                $('#part-based-supplier-selector').append('<option value=""></option>');
-                $.each(resp.suppliers, function (i, item) {
-                    $('#part-based-supplier-selector').append($('<option>', { 
-                        value: item.id,
-                        text : item.name, 
-                    }));
-                }); */
+               
                 
                 if($('#part-based-test-selector :selected').val() != '') {
                     $('#part-based-test-selector').select2('val', null);
@@ -280,6 +268,8 @@ $(document).ready(function() {
         });
     });
     //
+	
+	
     $('#part-based-test-selector').change(function() {
         var portlet_id = $('.part-supplier-selector').closest('.portlet').attr('id');
         
@@ -457,7 +447,61 @@ $(document).ready(function() {
 	
 	//End Mapping Part-supplier
 	
+	//Part - test
+	$('.part-test-selector_plan').change(function() {
+        var portlet_id = $('.part-test-selector_plan').closest('.portlet').attr('id');
+        
+        App.blockUI({
+            target: '#'+portlet_id,
+            boxed: true
+        });
+        
+        var part = $('#part-selector_number :selected').val();
+       // var product = $('#product-part-selector :selected').val();
+       /// var chamber = $('#start-monitoring-chamber-sel :selected').val();
+        //alert(part);
+        
+        $.ajax({
+            type: 'POST',
+            url: base_url+'apps/get_tests_by_partid',
+            data: { part: part},
+            dataType: 'json',
+            success: function(resp) {
+                if($('#part-test_selector :selected').val() != '') {
+                    $('#part-test_selector').select2('val', null);
+                }
+                
+                $('#part-test_selector').html('');
+                
+                $('#part-test_selector').append('<option value=""></option>');
+                $.each(resp.tests, function (i, item) {
+                    $('#part-test_selector').append($('<option>', { 
+                        value: item.id,
+                        text : item.name, 
+                    }));
+                }); 
+                
+                /* if($('#part-based-test-selector :selected').val() != '') {
+                    $('#part-based-test-selector').select2('val', null);
+                }
+                
+                $('#part-based-test-selector').html('');
+                
+                $('#part-based-test-selector').append('<option value=""></option>');
+                $.each(resp.tests, function (i, item) {
+                    $('#part-based-test-selector').append($('<option>', { 
+                        value: item.id,
+                        text : item.name, 
+                    }));
+                }); */
+                
+                App.unblockUI('#'+portlet_id);
+            }
+        });
+    });
+    
 	
+	//Part - test
     if($('.dashboard-noti-warning').length > 0) {
         addPulsateWarning();
     }
@@ -502,7 +546,6 @@ $(document).ready(function() {
 	 if($('.view-test-modal-btn1').length > 0) {
         $('.view-test-modal-btn1').click(function() {
             //$('#observation_index').val($(this).attr('data-index'));
-            
             var code = $(this).attr('data-index');
            
             $.ajax({
@@ -516,7 +559,6 @@ $(document).ready(function() {
                   $('#view-test-modal1').html(data);
                 }
             }),
-            
             $('#view-test-modal1').modal('show');
         });
     } 
@@ -619,9 +661,10 @@ function printPage(id) {
     printWin.close();
 }
 
-	function no_inspection() {
+	function no_inspection(id) {
 			var c = document.getElementById('no_inspec');
-			var id = $('#no_inspec').attr('data-index');            
+			//var id = $('#no_inspec').attr('data-index');  
+			//alert(id);exit;			
 			//alert(base_url+'plans/submit_inspection_status/'+id);
 			if(c.checked){
 			var s = 'NO';

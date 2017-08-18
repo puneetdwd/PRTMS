@@ -81,9 +81,9 @@
 	<?php }
 	?>
 	
-    <div class="row">
+    <div class="row portlet">
         <div class="col-md-12">
-            <div class="mt-element-ribbon bg-grey-steel">
+            <div class="mt-element-ribbon bg-grey-steel" id='modal_view'>
                 <div class="ribbon ribbon-clip ribbon-color-danger uppercase" style="font-size: 20px;">
                     <div class="ribbon-sub ribbon-clip"></div> Completed tests need to Approve
                 </div>
@@ -107,7 +107,7 @@
                                     <th>Chamber Specification</th>-->
                                     <th>Chamber Name</th>
                                     <th>Status</th>
-                                    <th>Capture Photo</th>
+                                    <th>Image</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Action</th>
@@ -134,15 +134,32 @@
 										}else{ echo 'Completed'; } ?></td>
 										
 										<td class="text-center" style="vertical-align:middle">
-											<?php if(empty($completed_test['test_img'])) { ?>
-											<label class="cameraButton">Take&nbsp;Photo
-												<form method="post" enctype='multipart/form-data'>
-													<input type="file" accept="image/*" id="capture_<?php echo $completed_test['code']; ?>" capture="camera" onchange="file_submit(<?php echo $completed_test['code']; ?>);">  
-												</form>												
-											</label>
-											<?php }else{ ?>
-											<img src="<?php echo base_url()."assets/test images/".$completed_test['test_img'];?>" alt="image" height="70" width="100" />
-											<?php } ?>
+											 <?php if(!empty($completed_test["test_img"])){ ?>
+										
+											<button type="button" class="button small gray" data-toggle="modal" data-target="#myModal_img">Test Image</button>
+
+											<div id="myModal_img" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											
+											  <div class="modal-dialog">
+											   
+												<div class="modal-content">
+												
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h3>Test Image</h3>
+												</div>
+													<div class="modal-body">
+														<img src='<?php echo base_url()."assets/test images/".$completed_test["test_img"]; ?>' class="img-responsive">
+													</div>
+												</div>
+											  </div>
+											</div>
+											
+											 <?php }else{ 
+												echo "No Image";
+												//echo $completed_test['code'];
+											  } 
+											  ?>
 										</td>
 										
                                         <!-- <td><?php echo $completed_test['chamber_name']; ?></td> 
@@ -162,12 +179,62 @@
 											<button type="button" class="button small view-test-modal-btn1" data-index="<?php echo $completed_test['code']; ?>">
                                                 View
                                             </button>
-											<a class="button small gray" 
+											
+											<!--a class="button small gray" 
                                                 href="<?php echo base_url()."apps/mark_as_approved/".$completed_test['code'];?>">
                                                 Approve
-                                            </a>
+                                            </a-->
+											
+											<button type="button" class="button small gray"  data-toggle="modal" data-target="#myModal_appr">Approve</button>
+											<div id="myModal_appr" class="modal fade" role="dialog" style='z-index:99999'>
+											  <div class="modal-dialog">
+
+												<div class="modal-content">
+												  <div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h1>Remark for Approve Test</h1>
+												  </div>
+												  <div class="modal-body">
+													<form id='test_remark_form' action="<?php echo base_url().'apps/mark_as_approved/'.$completed_test['code'];?>" method='post'>
+													Remark : 
+													<textarea required class="required form-control" rows="5" name='appr_test_remark' id="appr_test_remark"></textarea>
+													</br>
+												  <div class="modal-footer">
+													<input style='text-align:center' type='submit' class='button white' id='retest_submit' value='SUBMIT'/>
+													</div>
+													</form>
+												  </div>
+												</div>
+
+											  </div>
+											</div>
+
+
 											
 											<button type="button" class="button small"  data-toggle="modal" data-target="#myModal">Re-test</button>
+											
+											<div id="myModal" class="modal fade" role="dialog" style='z-index:99999'>
+											  <div class="modal-dialog">
+
+												<div class="modal-content">
+												  <div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h1>Remark for Re-test</h1>
+												  </div>
+												  <div class="modal-body">
+													<form id='test_remark_form' action="<?php echo base_url().'apps/sent_to_retest/'.$completed_test['code'];?>" method='post'>
+													Remark : 
+													<textarea required class="required form-control" rows="5" name='retest_remark' id="retest_remark"></textarea>
+													</br>
+												  <div class="modal-footer">
+													<input style='text-align:center' type='submit' class='button white' id='retest_submit' value='SUBMIT'/>
+													</div>
+													</form>
+												  </div>
+												</div>
+
+											  </div>
+											</div>
 											
 										</td>
 										<?php } ?>
@@ -180,33 +247,9 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h1>Remark for Re-test</h1>
-      </div>
-      <div class="modal-body">
-        <form id='test_remark_form' action="<?php echo base_url().'apps/sent_to_retest/'.$completed_test['code'];?>" method='post'>
-		Remark : 
-		<textarea required class="form-control" rows="5" name='retest_remark' id="retest_remark"></textarea>
-		</br>
-      <div class="modal-footer">
-		<input style='text-align:center' type='submit' class='button white' id='retest_submit' value='SUBMIT'/>
-        </div>
-        </form>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
 <!--Popup Start-->
 <div class="modal fade bs-modal-lg" id="view-test-modal1" tabindex="-1" role="dialog" aria-hidden="true" style='width: 80%;   margin-top: 50px;margin-left: auto;margin-right: auto;'>
@@ -214,95 +257,3 @@
 </div>
 <!--Popup End-->
 
-
-<script>
-/*function file_submit(id){
-	var ele_id = '#capture_'+id;
-	var upload_data = $(ele_id).val()
-	// var post_url = "<?php echo base_url();?>index.php/gallery/upload";
-	var post_url = "<?php echo base_url()."apps/submit_appr_image/"; ?>"+id;
-	alert(post_url);exit;
-	$.ajax({
-		type: "POST",
-		url: post_url,
-		data: upload_data,
-		datatype: "json",
-		success: function(data) 
-		{
-			$('#upload_result_div').html("<span class=success>File Uploaded!</span>");
-    }}
-	);
-}*/
-
-function file_submit(test_id){
-    /* var base_url = $('#base_url').val();
-    var all_results = $('#result_'+test_id).val();
-    var all_values = $('#values_'+test_id).val();
-    
-    var lsl = $('#lsl_'+test_id).val();
-    var usl = $('#usl_'+test_id).val();
-    var np = '';
-    
-    all_results = (all_results) ? all_results : 0;
-    all_values = (all_values) ? all_values : 0;
-     */
-    var formData = new FormData();
-    formData.append('test_id', test_id);
-    
-    
-        if (!$('#capture_'+test_id).val()) {
-            bootbox.dialog({
-                message: 'Please Upload Proper Image.',
-                title: 'Alert',
-                buttons: {
-                    confirm: {
-                        label: "OK",
-                        className: "button"
-                    }
-                }
-            });
-
-            $('#capture_'+test_id).closest('label').css('border','1px solid #e35b5a');
-            $('#capture_'+test_id).closest('label').css('color','#e35b5a');
-
-            return false;
-        }else{
-            var image = $('#capture_'+test_id)[0].files[0];
-            var image_name = $('#capture_'+test_id)[0].files[0].name;
-            $('#capture_'+test_id).closest('label').css('border','none');
-            $('#capture_'+test_id).closest('label').css('border-color','#EEE #CCC #CCC #EEE');
-            $('#capture_'+test_id).closest('label').css('color','#000');
-        }
-        
-        formData.append('image', image, image_name);
-        
-    
-    
-   /*  formData.append('all_results', all_results);
-    formData.append('all_values', all_values);
-     */
-    //alert(all_results+' '+all_values);
-    $('#button_'+test_id).css('display','none');
-    $.ajax({
-        type: 'POST',
-        url: 'apps/submit_appr_image',
-        data: formData,
-        contentType: false,
-        cache: false,
-        processData:false,
-        success: function(resp) {
-            alert("Success");
-            $('#capture_'+test_id).closest('label').css('display','none');
-            $('#capture_'+test_id).closest('td').html('<img src='+base_url+'assets/test_images/'+image_name+' alt=image height=70 width=100 />');
-            
-            $('#button_'+test_id).css('display','none');
-        },
-        error: function(jqXHR, textStatus, errorMessage) {
-           alert("something went wrong. Please try again."); // Optional
-           $('#button_'+test_id).css('display','block');
-        }
-    });
-}
-
-
-</script>

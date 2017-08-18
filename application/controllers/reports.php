@@ -57,9 +57,89 @@ class reports extends Admin_Controller {
         $filters = $this->input->post() ? $this->input->post() : array() ;
         
         if($filters){
-        
+			
+			//echo '<pre>';print_r($filters);exit;
+			
+			//Array ( [start_date] => [end_date] => [product_id] => 1 [part_id] => Adaptor [part_id1] => 40 [stage_id] => 3 [test_id] => 6 [chamber_category] => Electrical [chamber_id] => 7 [supplier_id] => 116 )
+			
             $this->load->model('report_model');
             $data['reports'] = $this->report_model->get_completed_test_report($filters);
+			
+			
+
+			if(!empty($filters['product_id'])){
+				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+			}
+			if(!empty($filters['part_id1'])){
+				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
+        
+			}
+			else if(!empty($filters['part_id'])){
+				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			}
+        
+        }
+        //echo '<pre>';print_r($filters);exit;
+        
+        
+        $_SESSION['ctr_filters'] = $filters;
+        
+        $this->template->write_view('content', 'reports/completed_test_report', $data);
+        $this->template->render();
+        
+    }
+    public function approved_test_report(){
+        
+        $data = array();
+        $this->load->model('Product_model');
+        $data['products'] = $this->Product_model->get_all_products();
+		if($this->user_type == 'Product'){
+			// echo $_SESSION['product_switch']['id'];exit;
+			if(!empty($_SESSION['product_switch']['id']))
+				$data['products'] = $this->Product_model->get_product_session($_SESSION['product_switch']['id']);
+			else	
+				$data['products'] = $this->Product_model->get_all_products_by_user($this->username);
+		}
+        $data['parts'] = $this->Product_model->get_all_parts();
+        
+        $this->load->model('Chamber_model');
+        $data['chambers'] = $this->Chamber_model->get_all_chambers();
+        $data['categories'] = $this->Chamber_model->get_chamber_categories();
+        
+        $this->load->model('Stage_model');
+        $data['stages'] = $this->Stage_model->get_all_stages();
+        
+        $this->load->model('Supplier_model');
+        $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
+        
+        //print_r($data['suppliers']); exit;
+        
+        $this->load->model('Test_model');
+        $data['tests'] = $this->Test_model->get_all_tests();
+        
+        $filters = $this->input->post() ? $this->input->post() : array() ;
+        
+        if($filters){			
+
+			if(!empty($filters['product_id'])){
+				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+			}
+			if(!empty($filters['part_id1'])){
+				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
+        
+			}
+			else if(!empty($filters['part_id'])){
+				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			}
+        
+            $this->load->model('report_model');
+            $data['reports'] = $this->report_model->get_approved_test_report($filters);
         
         }
        // echo '<pre>';print_r($data['reports']);
@@ -68,7 +148,7 @@ class reports extends Admin_Controller {
         
         $_SESSION['ctr_filters'] = $filters;
         
-        $this->template->write_view('content', 'reports/completed_test_report', $data);
+        $this->template->write_view('content', 'reports/approved_test_report', $data);
         $this->template->render();
         
     }
@@ -105,6 +185,8 @@ class reports extends Admin_Controller {
         
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
+		$data['parts'] = $this->Product_model->get_all_parts();
+        
         if($this->user_type == 'Product'){
 			
         $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
@@ -123,18 +205,32 @@ class reports extends Admin_Controller {
         if($this->input->post()) {
             $plan_month = $this->input->post('plan_month');
             $filters = $this->input->post();
+			//print_r($filters);exit;
             $data['plan'] = $this->report_model->get_no_lot_plan($plan_month, $filters);
+			
+			if(!empty($filters['product_id'])){
+				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+			}
+			if(!empty($filters['part_id1'])){
+				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
+        
+			}
+			else if(!empty($filters['part_id'])){
+				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			}
             
         } else if($this->input->get('plan_month')) {
-            $plan_month = $this->input->get('plan_month');
-            
+            $plan_month = $this->input->get('plan_month');            
             $filters = array('product_id' => $this->input->get('product_id'));
             $data['plan'] = $this->report_model->get_no_lot_plan($this->input->get('plan_month'), $filters);
         }
         
-        if(!empty($filters['product_id'])) {
+        /*  if(!empty($filters['product_id'])) {
             $data['parts'] = $this->Product_model->get_all_product_parts($filters['product_id']);
-        }
+        } */
         
         $data['filters'] = $filters;
 		 $_SESSION['nl_filters'] = $filters;
@@ -202,16 +298,25 @@ class reports extends Admin_Controller {
         $_SESSION['par_filters'] = $filters;
         
         if(!empty($filters)){
-            // print_r($filters);exit;
-			// Array ( [month] => 4 [year] => 2017 [stage_id] => 3 [product_id] => 2 [part_id] => PCB Assembly Main [part_id1] => 7 [supplier_id] => 14 ) 
+			
+			if(!empty($filters['product_id'])){
+				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+			}
+			if(!empty($filters['part_id1'])){
+				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				//$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
+        
+			}
+			else if(!empty($filters['part_id'])){
+				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			}
+			
             $this->load->model('report_model');
             $data['reports_common'] = $this->report_model->get_common_details_part_based_test_report($filters);
-			//echo "<pre>"; print_r($filters); exit;
-			//echo $this->db->last_query(); exit;
-            $data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
-			//$data['reports_common']['event_name'] = $data['reports_event']['name'];
-			///print_r($data['reports_common']);exit;
-            $data['reports'] = $this->report_model->get_part_based_test_report($filters);
+			$data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
+			$data['reports'] = $this->report_model->get_part_based_test_report($filters);
             $samples = 0;
             $judgement = 'OK';
             foreach($data['reports'] as $rep){
@@ -223,7 +328,7 @@ class reports extends Admin_Controller {
             $data['samples'] = $samples;
             $data['judgement'] = $judgement;
         }
-        
+        //echo '<pre>';print_r($data['reports']);exit;
         $this->template->write_view('content', 'reports/part_assurance_report', $data);
         $this->template->render();
     }
@@ -275,6 +380,19 @@ class reports extends Admin_Controller {
             
             header('Content-Type: application/force-download');
             header('Content-disposition: attachment; filename=completed_test_report.xls');
+            
+        }else if($excel_page == 'approved_test_report'){
+            
+            $filters = @$_SESSION['ctr_filters'] ;
+            //unset($_SESSION['ctr_filters']);
+            
+            $this->load->model('report_model');
+            //$filters = $this->input->post() ? $this->input->post() : array() ;
+            $data['reports'] = $this->report_model->get_approved_test_report($filters);
+            $str = $this->load->view('excel_pages/approved_test_report', $data, true);
+            
+            header('Content-Type: application/force-download');
+            header('Content-disposition: attachment; filename=approved_test_report.xls');
             
         }else if($excel_page == 'chamber_wise_test_count_report'){
             
@@ -381,6 +499,13 @@ class reports extends Admin_Controller {
         //print_r($filters);exit;
 		if($this->input->post())
 		{
+			
+			if(!empty($filters['product_id'])){
+				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+			}
+			else if(!empty($filters['part_id'])){
+				$data['parts'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			}	
 			if($this->user_type == 'Product')
 				$data['reports'] = $this->report_model->get_part_based_test_report_count_by_user($filters,$this->username);
 			else

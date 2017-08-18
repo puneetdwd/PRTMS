@@ -24,20 +24,17 @@ class Product_model extends CI_Model {
     }
 	function get_all_phone_numbers($supplier_id) {
         $this->db->where('supplier_id', $supplier_id);
-        $this->db->order_by('name');
-        
+        $this->db->order_by('name');        
         return $this->db->get('phone_numbers')->result_array();
     }
     
     
     function get_product($id) {
         $this->db->where('id', $id);
-
         return $this->db->get('products')->row_array();
     }
 	function get_product_session($id) {
         $this->db->where('id', $id);
-
         return $this->db->get('products')->result_array();
     }
 
@@ -45,9 +42,8 @@ class Product_model extends CI_Model {
         $sql = "SELECT pp.*
         FROM product_parts pp
         WHERE pp.is_deleted = 0
-        AND pp.product_id = ?
-        ORDER BY pp.name";
-        
+        AND pp.product_id = ? group BY pp.name
+        ORDER BY pp.name ";        
         return $this->db->query($sql, array($product_id))->result_array();
     }
     
@@ -56,8 +52,7 @@ class Product_model extends CI_Model {
         FROM product_parts pp
         WHERE pp.is_deleted = 0
         AND pp.name like ? AND pp.product_id = ?
-        ORDER BY pp.name";        
-		
+        ORDER BY pp.name";   		
         return $this->db->query($sql, array($part_name,$product_id))->result_array();
     }
     
@@ -69,6 +64,22 @@ class Product_model extends CI_Model {
        ON pp.product_id = p.id";
        
        return $this->db->query($sql)->result_array();
+    }
+	function get_all_parts_by_product($product_id = '') {
+       $sql = "SELECT pp.*, p.name as product_name, 
+       p.code as product_code
+       FROM product_parts as pp
+       INNER JOIN products as p
+       ON pp.product_id = p.id";
+	   
+	   //$pass_array = array();
+        
+       if(!empty($product_id)) {
+            $sql .= " WHERE pp.product_id = ?";
+			//$pass_array[] = $filters['product_id'];
+       }
+	   $sql .=" GROUP BY pp.name";
+       return $this->db->query($sql,$product_id)->result_array();
     }
     
     function get_product_part($product_id, $id) {
@@ -113,10 +124,13 @@ class Product_model extends CI_Model {
         return $this->db->get('product_parts')->row_array();
     }
     
-	function get_part_numbers_by_name($product_id, $name) {
-		
-        $this->db->where('name', $name);
-        $this->db->where('product_id', $product_id);
+	function get_part_numbers_by_name($product_id = '', $name = '') {
+		if(!empty($name)){
+			$this->db->where('name', $name);
+        }
+		if(!empty($product_id)){
+			$this->db->where('product_id', $product_id);
+        }
         $this->db->where('is_deleted', 0);
         
         return $this->db->get('product_parts')->result_array();

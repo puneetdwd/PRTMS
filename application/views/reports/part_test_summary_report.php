@@ -67,9 +67,9 @@
                         <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="sp-mappings-product-search-error">
-                                        <label class="control-label">Select Product:<span class="required">*</span></label>
+                                        <label class="control-label">Select Product:</label>
                                                 
-                                        <select name="product_id" class="required form-control select2me" id="product-part-selector_map"
+                                        <select name="product_id" class="form-control select2me" id="product-part-selector_map"
                                             data-placeholder="Select Product" data-error-container="#sp-mappings-product-search-error">
                                             <option></option>
                                             <?php foreach($products as $product) { ?>
@@ -85,13 +85,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="sp-mappings-part-search-error">
-                                        <label class="control-label">Select Part:<span class="required">*</span></label>
+                                        <label class="control-label">Select Part:</label>
                                                 
-                                        <select name="part_id1" class=" required form-control select2me" id="part-selector_map"
+                                        <select name="part_id" class="form-control select2me" id="part-selector_map"
                                             data-placeholder="Select Part" data-error-container="#sp-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['name'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['name']; ?>
                                                 </option>
                                             <?php } ?>        
@@ -103,12 +103,12 @@
 							<div class="row">
                                 <div class="col-md-12">
                                     <div class="required form-group" id="ptc-mappings-part-search-error">
-                                        <label class="control-label">Select Part Number:<span class="required">*</span></label>                                                
-                                        <select name="part_id" class="required form-control select2me" id="part-selector_number_map"
+                                        <label class="control-label">Select Part Number:</label>                                                
+                                        <select name="part_id1" class="form-control select2me" id="part-selector_number_map"
                                             data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id1')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['part_no']; ?>
                                                 </option>
                                             <?php } ?>        
@@ -150,10 +150,10 @@
                     <?php if(empty($reports)) { ?>
                         <p class="text-center">No Record Available.</p>
                     <?php } else { ?>
-                        <table class="table table-hover table-light">
+                        <table class="table table-hover table-light" id='make-data-table'>
                             <thead>
                                 <tr>
-                                    <th>Start Date</th>
+                                    <th>Part Name</th>
                                     <th>Part No.</th>
                                     <th>Test Count</th>
                                     <th>No Lot Count</th>
@@ -169,10 +169,7 @@
 								 */	
 								foreach($reports as $report) { ?>
                                     <tr>
-                                        <td><?php 
-										echo date('jS M, Y', strtotime($report['start_date']))
-										//echo $report['start_date']; 
-										?></td>
+                                        <td><?php echo $report['part_name']; ?></td>
                                         <td><?php echo $report['part_no']; ?></td>
                                         <td><?php echo $report['test_cnt']; ?></td>
                                         <td><?php //echo $report['no_inspection'];

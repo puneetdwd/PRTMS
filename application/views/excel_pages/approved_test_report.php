@@ -2,7 +2,7 @@
     <!-- BEGIN PAGE HEADER-->
     <div class="breadcrumbs">
         <h1>
-            Completed Test Report
+            Approved Test Report
         </h1>
     </div>
     <!-- END PAGE HEADER-->
@@ -70,7 +70,6 @@
 										<td><?php echo $report['appr_test_remark']; ?></td>
                                         <td><?php echo $report['retest_remark']; ?></td>
                                         <td><?php echo $report['skip_remark']; ?></td>
-                                      
                                     </tr>
                                 <?php } ?>
                             </tbody>

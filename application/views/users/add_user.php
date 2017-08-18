@@ -80,6 +80,16 @@
                                         </span>
                                     </div>
                                 </div>
+								<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="email_id">Email ID
+                                        <span class="required">*</span></label>
+                                        <input type="email" class="required form-control" name="email_id"
+                                        value="<?php echo isset($user['email_id']) ? $user['email_id'] : ''; ?>">
+                                        <span class="help-block">
+                                        </span>
+                                    </div>
+                                </div>
 
                                 <?php if(isset($user['id'])) { ?>
                                     <div class="col-md-6">
@@ -99,10 +109,8 @@
                                         </div>
                                     </div>
                                 <?php } ?>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
+								
+								<div class="col-md-6">
                                     <div class="form-group" id="user-admin-error">
                                         <label class="control-label">User Type</label>
                                         <select name="user_type" id="add-user-type-sel" class="form-control required select2me"
@@ -130,6 +138,10 @@
                                         </select>
                                     </div>
                                 </div>
+                                
+                            </div>
+
+                            <div class="row">
                                 
                                 <div class="col-md-6" <?php if($user_type != 'Chamber') { echo "style='display:none;'"; } ?>>
                                     <div class="form-group" id="add-user-chamber-error">

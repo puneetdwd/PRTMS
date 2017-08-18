@@ -2,13 +2,13 @@
     <!-- BEGIN PAGE HEADER-->
     <div class="breadcrumbs">
         <h1>
-            No Lot Report
+            Manage No Inspections
         </h1>
         <ol class="breadcrumb">
             <li>
-                <a href="<?php echo base_url(); ?>">Home</a>
+                <a href="<?php echo base_url(); ?>">Plans</a>
             </li>
-            <li class="active">No Lot Report</li>
+            <li class="active">Manage No Inspections</li>
         </ol>
         
     </div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    <form role="form" class="validate-form" method="post" action="<?php echo base_url().'reports/no_lot_report';?>">
+                    <form role="form" class="validate-form" method="post" action="<?php echo base_url().'plans/part_no_inspection';?>">
                         <div class="form-body" style="padding:0px;">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-close="alert"></button>
@@ -52,10 +52,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label">Select Month:<span class="required">*</span></label>
+                                        <label class="control-label">Select Month:<span class='required'>*</span></label>
                                         
                                         <div class="input-group date month-picker" data-date-format="yyyy-mm-dd">
-                                            <input name="plan_month" type="text" class="required form-control" readonly
+                                            <input name="plan_month" type="text" class="form-control" readonly
                                             value="<?php echo $plan_month; ?>">
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
@@ -92,9 +92,9 @@
                                         <select name="part_id" class="form-control select2me" id="part-selector"
                                             data-placeholder="Select Part" data-error-container="#plan-month-part-search-error">
                                             <option></option>
-                                            <?php $selected = isset($filters['part_id']) ? $filters['part_id'] : ''; ?>
+                                            <?php $selected = isset($filters['part_id1']) ? $filters['part_id1'] : ''; ?>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['name']; ?>" <?php if($part['name'] == $selected) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['name'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['name']; ?>
                                                 </option>
                                             <?php } ?>        
@@ -110,7 +110,7 @@
                                         <select name="part_id1" class="form-control select2me part-test-selector_plan" id="part-selector_number"
                                             data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
-                                            <?php foreach($parts_num as $part) { ?>
+                                            <?php foreach($parts as $part) { ?>
                                                 <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id1')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['part_no']; ?>
                                                 </option>
@@ -137,12 +137,12 @@
                                 </div>
                             </div>
                             
-                            <!--<div class="row">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="plan-month-test-search-error">
                                         <label class="control-label">Select Test:</label>
                                                 
-                                        <select name="test_id" class="form-control select2me"
+                                        <select name="test_id" class="form-control select2me" id='part-test_selector'
                                             data-placeholder="Select Test" data-error-container="#plan-month-test-search-error">
                                             <option></option>
                                             <?php $selected = isset($filters['test_id']) ? $filters['test_id'] : ''; ?>
@@ -154,7 +154,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div-->
+                            </div>
                             
                         </div>
                         
@@ -165,71 +165,60 @@
                 </div>
             </div>
         </div>
-    <div class="portlet-title">
-		<?php if(!empty($plan)) { ?>
-		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/no_lot_report"; ?>">
-				<i class="fa fa-download"></i> Export Report
-			</a>
-		</div>
-		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" onclick="printPage('no_lot_report');" href="javascript:void(0);">
-				<i class="fa fa-print"></i> Print
-			</a>
-		</div>
-		<?php } ?>
-	</div>
-        <div class="col-md-9" id='no_lot_report'>
+    
+        <div class="col-md-9">
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-reorder"></i>No lot Report
+                        <i class="fa fa-reorder"></i>Pending Month Plans
                     </div>
                     <div class="actions">
                     </div>
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($plan)) { ?>
-                        <p class="text-center">No data for NO Lot.</p>
+                        <p class="text-center">No Plan.</p>
                     <?php } else { ?>
-                        <table class="table table-hover table-light" id='make-data-table'>
+                        <table class="table table-hover table-light">
                             <thead>
                                 <tr>
                                     <th>Part Name</th>
                                     <th>Part Number</th>
                                     <th>Supplier</th>
-                                    <th>Test Item</th>
+                                    <!--th>Test Item</th>
                                     <th>Schedule Date</th>
-                                    <th>Status</th>
+                                    <!--th>Status</th-->
+                                    <th>No Inspection</th>
                                     <th class="no_sort" style="width:100px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php 
 								//print_r($plan);exit;
-								foreach($plan as $pl) { ?>
-                                    <tr>
+								foreach($plan as $pl) { 
+                                    if($pl['status'] == 'Pending'){ ?>
+									<tr>
                                         <td><?php echo $pl['part']; ?></td>
                                         <td><?php echo $pl['planned_part_no']; ?></td>
                                         <td><?php echo $pl['supplier']; ?></td>
-                                        <td><?php echo $pl['test']; ?></td>
+                                        <!--td><?php echo $pl['test']; ?></td>
                                         <td><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
                                         <td><?php 
 												if($pl['no_inspection'] == 'NO')
-													{ echo 'No Lot'; }
+												{ echo 'No Lot'; }
 												else {	echo $pl['status']; }
-											?></td>
-                                        
-                                        <td nowrap>
-                                            
-											<!--
-                                            <a class="button small gray" href="<?php echo base_url()."plans/change_date/".$pl['id'];?>" data-target="#change-date-modal" data-toggle="modal">
-                                                Change Date
-                                            </a>
-                                            -->
+											?>
+										</td-->
+                                        <td style='text-align: center;'>											
+												<input <?php if($pl['no_inspection'] == 'NO'){ echo 'checked'; } ?> data-index="<?php echo $pl['id']; ?>" type="checkbox" name="no_inspec[]" id="no_inspec" onchange="return no_inspection(<?php echo $pl['id']; ?>);" />
 											
+												
+										</td>
+                                        <td nowrap>
+                                           											
                                         </td>
                                     </tr>
+										<?php } ?>
                                 <?php } ?>
                             </tbody>
                         </table>
@@ -255,13 +244,11 @@
 </div>
 
 <?php if(!empty($plan)) { ?>
-    <script>
+    <!--script>
         $(window).load(function() {
-            groupTable($('table tr:has(td)'),0,3);
+            groupTable($('table tr:has(td)'),0,4);
             $('table .deleted').remove();
-        });
-		
-		
-    </script>
+        });		
+    </script-->
 <?php } ?>
 

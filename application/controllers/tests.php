@@ -52,9 +52,16 @@ class Tests extends Admin_Controller {
     public function ptc_mappings() {
         $data = array();
         $this->load->model('Product_model');
+        $filters = $this->input->post() ? $this->input->post() : array() ;
+		
         $data['products'] = $this->Product_model->get_all_products();
-        $data['parts'] = $this->Product_model->get_all_parts();
-        
+        $data['parts'] = $this->Product_model->get_all_parts_by_product($this->input->post('product_id'));
+        $data['parts_num'] = $this->Product_model->get_part_numbers_by_name($this->input->post('product_id'));
+		
+		if(!empty($filters))
+		{
+			$data['parts_num'] = $this->Product_model->get_part_numbers_by_name($this->input->post('product_id'),$this->input->post('part_id1'));
+        }
         $this->load->model('Chamber_model');
         $data['chambers'] = $this->Chamber_model->get_all_chambers();
         $data['categories'] = $this->Chamber_model->get_chamber_categories();
@@ -62,9 +69,9 @@ class Tests extends Admin_Controller {
         $this->load->model('Test_model');
         $data['tests'] = $this->Test_model->get_all_tests();
         
-        $filters = $this->input->post() ? $this->input->post() : array() ;
-        $data['ptc_mappings'] = $this->Test_model->get_ptc_mappings($filters);
-        
+        $data['ptc_mappings'] = $this->Test_model->get_ptc_mappings_new($filters);
+		//echo '<pre>';print_r($data['ptc_mappings']);exit;
+         //echo $this->db->last_query();exit;
         $this->template->write_view('content', 'tests/ptc_mappings', $data);
         $this->template->render();
     }
@@ -98,7 +105,7 @@ class Tests extends Admin_Controller {
             $validate = $this->form_validation;
             $validate->set_rules('product_id', 'Product', 'trim|required|xss_clean');
             $validate->set_rules('part_id', 'Part', 'trim|required|xss_clean');
-            $validate->set_rules('part_category_id', 'Part', 'trim|required|xss_clean');
+            $validate->set_rules('part_category_id', 'Categories', 'trim|required|xss_clean');
             $validate->set_rules('test_id', 'Test', 'trim|required|xss_clean');
             $validate->set_rules('chamber_id', 'Chamber', 'required|xss_clean');
             
@@ -126,7 +133,7 @@ class Tests extends Admin_Controller {
 					}
                 }
                 
-                $this->session->set_flashdata('success', 'Part-Test-Chamber Mapping successfully '.(($ptc_mapping_id) ? 'updated' : 'added').'.');
+                $this->session->set_flashdata('success', 'Part-Test-Chamber Mapped successfully '.(($ptc_mapping_id) ? 'updated' : 'added').'.');
                 redirect(base_url().'tests/ptc_mappings');
             } else {
                 $data['error'] = validation_errors();

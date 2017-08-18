@@ -50,6 +50,7 @@
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Username</th>
+                                    <th>Email ID</th>
                                     <th class="no_sort">User Type</th>
                                     <th>Chamber</th>
                                     <th>Product</th>
@@ -63,6 +64,7 @@
                                         <td><?php echo $user['first_name']; ?></td>
                                         <td><?php echo $user['last_name']; ?></td>
                                         <td><?php echo $user['username']; ?></td>
+                                        <td><?php echo $user['email_id']; ?></td>
                                         <td><?php echo $user['user_type'].' User'; ?></td>
                                         <td><?php echo $user['chamber_name']; ?></td>
                                         <td><?php echo $user['product_name']; ?></td>

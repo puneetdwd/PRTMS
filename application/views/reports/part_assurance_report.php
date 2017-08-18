@@ -176,7 +176,7 @@
                                         <select name="part_id1" class="required form-control select2me" id="part-selector_number"
                                             data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
-                                            <?php foreach($parts as $part) { ?>
+                                            <?php foreach($parts_num as $part) { ?>
                                                 <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id1')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['part_no']; ?>
                                                 </option>
@@ -248,7 +248,7 @@
                         <p class="text-center">No Record Available.</p>
                     <?php } else { ?>
                         
-                        <table class="table table-hover table-light">
+                        <table class="table table-hover table-light" id='make-data-table'>
                             <tr>
                                 <td><b>Product Name : </b></td>
                                 <td><?php echo $reports_common['product_name']; ?></td>
@@ -314,6 +314,7 @@
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Result</th>
+                                    <th style='width: 100px;'>Image</th>
                                     <th>Remark</th>
                                     <!--<th class="no_sort" style="width:100px;">Action</th>-->
                                 </tr>
@@ -327,15 +328,25 @@
                                         <td><?php echo $report['judgement']; ?></td>
                                         <td><?php echo $report['samples']; ?></td>
                                         <td><?php //echo $report['start_date']; 
-										echo date('jS M, Y h:i A', strtotime($report['start_date']));
+										echo date('d M Y h:i A', strtotime($report['start_date']));
 										
 										?></td>
                                         <td><?php //echo $report['end_date']; 
-										echo date('jS M, Y h:i A', strtotime($report['end_date']));
+										echo date('d M Y h:i A', strtotime($report['end_date']));
 										
 										?></td>
-                                        <td><?php echo strtoupper($report['observation_result']); ?></td>
-                                        <td><?php echo " "; ?></td>
+										 <td><?php echo strtoupper($report['observation_result']); ?></td>
+                                        
+                                        <td>
+										<?php if(!empty($report['test_img'])){	?>	
+											
+											<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test images/".$report['test_img']; ?>' class="img-responsive">					
+											
+										<?php }else{
+											echo 'No Img';
+										} ?>
+										</td>
+                                       <td><?php echo " "; ?></td>
                                         <!--<td nowrap>
                                             <button type="button" class="button small view-test-modal-btn" data-index="<?php echo $report['code']; ?>">
                                                 View

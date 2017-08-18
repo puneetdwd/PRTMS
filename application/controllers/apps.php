@@ -394,13 +394,13 @@ class Apps extends Admin_Controller {
     }
     public function mark_as_approved($code) {
 		$this->load->model('Apps_model');
+		$post_data = $this->input->post();
+		$remark = $post_data['appr_test_remark'];
         $comp_test = $this->Apps_model->completed_test($_SESSION['product_switch']['id'],date('Y-m-d'), $code);//product_id->2
         if(empty($comp_test)) {
             redirect($_SERVER['HTTP_REFERER']);
         }
-        
-        
-        $response = $this->Apps_model->update_test(array('is_approved' => 1,'approved_by' => $this->session->userdata('name')), $comp_test['id']);
+        $response = $this->Apps_model->update_test(array('appr_test_remark' => $remark ,'is_approved' => 1,'approved_by' => $this->session->userdata('name')), $comp_test['id']);
 		//echo $response." ". $comp_test['id'];print_r($comp_test);exit;
         if($response) {
             $this->session->set_flashdata('success', 'Test successfully marked Approved.');
@@ -414,6 +414,7 @@ class Apps extends Admin_Controller {
     
 	public function sent_to_retest($code) {
         $this->load->model('Apps_model');
+		
 		$post_data = $this->input->post();
 		$remark = $post_data['retest_remark'];
 				
@@ -424,10 +425,17 @@ class Apps extends Admin_Controller {
         $response = $this->Apps_model->update_test(array('aborted' => 1), $on_going['id']);
 		*/
         $comp_test = $this->Apps_model->completed_test($_SESSION['product_switch']['id'],date('Y-m-d'), $code);
+		//echo '<pre>';print_r($comp_test);exit;
         if(empty($comp_test)) {
             redirect($_SERVER['HTTP_REFERER']);
         }
-        $response = $this->Apps_model->update_test(array('retest_remark' => $remark ,'completed' => 0,'approved_by' => '','is_approved' => 0), $comp_test['id']);
+		
+		//Store Retest ID to link old test
+		$response = $this->Apps_model->update_test(array('retest_id' => $comp_test['id'] ,'retest_remark' => $remark, 'approved_by' => '','completed' => 0,'is_approved' => 0), $comp_test['id']);
+		
+		
+		
+        //$response = $this->Apps_model->update_test(array('retest_remark' => $remark 'approved_by' => '','is_approved' => 0), $comp_test['id']);
 		 //echo $code.$this->db->last_query();
 		// echo $response;
 		// exit;
@@ -459,7 +467,7 @@ class Apps extends Admin_Controller {
             
             $response = $this->Apps_model->update_test($update_data, $on_going['id']);
             if($response) {
-                $this->session->set_flashdata('success', 'Test successfully marked aborted.');
+                $this->session->set_flashdata('success', 'Test successfully Extended.');
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong. Please try again');
             }
@@ -484,7 +492,7 @@ class Apps extends Admin_Controller {
             
             $response = $this->Apps_model->update_test($update_data, $on_going['id']);
             if($response) {
-                $this->session->set_flashdata('success', 'Test successfully marked aborted.');
+                $this->session->set_flashdata('success', 'Test Chamber successfully Switched.');
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong. Please try again');
             }
@@ -613,6 +621,17 @@ class Apps extends Admin_Controller {
             $this->load->model('Test_model');
             // $data['tests'] = $this->Test_model->get_tests_by_part_chamber($part['id'], $this->input->post('chamber'));
             $data['tests'] = $this->Test_model->get_tests_by_part_chamber($part['id'], $this->input->post('chamber'));
+        }
+        
+        echo json_encode($data);
+    }
+	public function get_tests_by_partid() {
+        $data = array('tests' => array());
+        
+        if($this->input->post('part')) {
+            $this->load->model('Test_model');
+            // $data['tests'] = $this->Test_model->get_tests_by_part_chamber($part['id'], $this->input->post('chamber'));
+            $data['tests'] = $this->Test_model->get_tests_by_part($this->input->post('part'),$this->input->post('product'));
         }
         
         echo json_encode($data);
@@ -764,7 +783,68 @@ class Apps extends Admin_Controller {
     }
 	
 	
-	
+	function submit_appr_image(){
+		 print_r($this->input->post('formData'));
+		exit; 
+		if($this->input->post()){
+
+            $this->load->model('Test_model');
+            $test = $this->Test_model->get_test($this->input->post('test_id'));
+            print_r($test);exit;
+           /*  if($this->input->post('all_results') == 'NP'){
+                //echo "here 1";
+                $data['all_results'] = $this->input->post('all_results');
+                $data['all_values'] = '';
+                $data['result'] = $this->input->post('all_results');
+            }else if($this->input->post('all_values') == 'NP'){
+                //echo "here 2";
+                $data['all_results'] = '';
+                $data['all_values'] = $this->input->post('all_values');
+                $data['result'] = $this->input->post('all_values');
+            }else{
+                //echo "here 3 ".$this->input->post('all_results')."end ";
+                if($this->input->post('all_results') === '0'){
+                    echo "here 4";
+                    $data['all_results'] = '';
+                    $data['all_values'] = $this->input->post('all_values');
+                    if(($this->input->post('all_values') > $checkpoint['usl']) || ($this->input->post('all_values') < $checkpoint['lsl'])){
+                        $data['result'] = 'NG';
+                    }else{
+                        $data['result'] = 'OK';
+                    }
+                }else{
+                    //echo "here 5";
+                    $data['all_results'] = $this->input->post('all_results');
+                    $data['all_values'] = '';
+                    $data['result'] = $this->input->post('all_results');
+                }
+            } */
+            
+            //$post    = $this->input->post('image');
+            //$post    = json_decode($post, true);
+            if($_FILES){
+                $upload = $this->upload_image($_FILES);
+                if($upload){
+                    $data['image'] = $_FILES['image']['name'];
+                }else{
+                    return false;
+                }
+            }else{
+                $data['image'] = '';
+            }
+            
+            //print_r($data);
+            
+            $data = array_merge($test_id,$data);
+            
+            $this->foolproof_model->insert_result($data);
+            //echo $this->db->last_query();
+            return true;
+            //redirect($_SERVER['HTTP_REFERER']);
+        }else{
+            return false;
+        }
+	}
     
     function upload_image($image){
         $target_dir = "assets/test_images/";

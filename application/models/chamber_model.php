@@ -24,14 +24,12 @@ class Chamber_model extends CI_Model {
     }
     
     function get_chamber_categories() {
-        $sql = 'SELECT DISTINCT category FROM chambers';
-        
+        $sql = 'SELECT DISTINCT category FROM chambers';        
         return $this->db->query($sql)->result_array();
     }
     
     function get_chamber($id) {
         $this->db->where('id', $id);
-
         return $this->db->get('chambers')->row_array();
     }
     

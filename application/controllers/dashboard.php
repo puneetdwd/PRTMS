@@ -100,7 +100,7 @@ class Dashboard extends Admin_Controller {
         return $data;
     }
 
-	 public  function approver_dashboard() {
+	public  function approver_dashboard() {
         $data = array();
         $this->load->model('Apps_model');
         $this->load->model('Product_model');
@@ -110,7 +110,7 @@ class Dashboard extends Admin_Controller {
 			$_SESSION['product_switch'] = $product;
 		}
         $data['completed_tests'] = $this->Apps_model->completed_test($_SESSION['product_switch']['id'], date('Y-m-d'));$this->template->write_view('content', 'approver_dashboard', $data);
-		//print_r($data['completed_tests'] );exit;
+		// echo '<pre>';print_r($data['completed_tests'] );exit;
         $this->template->render();  
        
     }

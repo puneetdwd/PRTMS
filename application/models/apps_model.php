@@ -6,7 +6,7 @@ class Apps_model extends CI_Model {
 		$num = $data['part_num'];
         $needed_array = array('chamber_id', 'product_id',  'part_no','part_id', 'supplier_id', 
         'test_id', 'samples', 'duration', 'observation_frequency', 'no_of_observations', 'start_date', 'end_date',
-        'aborted', 'completed','is_approved','approved_by','retest_remark', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img', 'skip_test','skip_remark');
+        'aborted', 'completed','is_approved','appr_test_remark','approved_by','retest_remark','retest_id', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img', 'skip_test','skip_remark');
         $data = array_intersect_key($data, array_flip($needed_array));
 		$data['part_no'] = $num;
         if(empty($id)) {
@@ -36,7 +36,7 @@ class Apps_model extends CI_Model {
     
     function on_going_test($chamber_ids, $date, $code = '', $limit = '') {
         $sql = "SELECT tr.*, p.name as product_name, pp.img_file as img_file,
-        pp.name as part_name, s.name as supplier_name,
+        pp.name as part_name, pp.part_no as part_no, s.name as supplier_name,
         t.name as test_name, t.method as test_method, t.judgement as test_judgement,
 		t.display_temp_set as display_temp_set,
 		t.humidity_set as humidity_set,
@@ -181,7 +181,7 @@ class Apps_model extends CI_Model {
 		INNER JOIN chambers c ON tr.chamber_id = c.id   
 		INNER JOIN stages st ON tr.stage_id = st.id        		
 		INNER JOIN suppliers s ON tr.supplier_id = s.id 
-		WHERE tr.completed = 1 AND tr.product_id = ? ";
+		WHERE tr.completed = 1 AND tr.is_approved = 0 AND tr.product_id = ? ";
 		$pass_array = array($product_id);
         if($code) {
             $sql .= " AND tr.code = ?";

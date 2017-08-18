@@ -183,7 +183,7 @@ class Admin_Controller extends CI_Controller {
         return $response;
     }
     
-    function sendMail($to, $subject, $message, $attachment = '') {
+   /*  function sendMail($to, $subject, $message, $attachment = '') {
         $this->load->library('email');
 
         $this->email->from('info@crgroup.co.in');
@@ -209,7 +209,33 @@ class Admin_Controller extends CI_Controller {
         //print_r($return); 
         exit;
         return $this->email->send();
+    } */
+	function sendMail($to, $subject, $message, $bcc = '', $attachment = '', $cc = '') {
+        $this->load->library('email');
+        $this->email->clear(TRUE);
+        
+       // $this->email->from('noreply@lge.com', 'LG SQIM');
+       $this->email->from('komal@crgroup.co.in', 'Test');
+        $this->email->to($to);
+        $this->email->subject($subject);
+        
+        if(!empty($bcc)) {
+            $this->email->bcc($bcc);
+        }
+        
+        if(!empty($cc)) {
+            $this->email->cc($cc);
+        }
+        
+        if(!empty($attachment)) {
+            $this->email->attach($attachment);
+        }
+
+        $this->email->message($message);
+
+        return $this->email->send();
     }
+    
 	
 	 function get_server_ip() {                                      // Function to get the client IP address
         $ipaddress = '';

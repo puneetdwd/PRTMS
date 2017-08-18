@@ -63,7 +63,7 @@ class User_model extends CI_Model {
 
     function update_user($data, $user_id = '') {
         //filter unwanted fields while inserting in table.
-        $needed_array = array('chamber_id', 'product_id', 'first_name', 'last_name', 'username', 'password', 'user_type', 'is_active');
+        $needed_array = array('chamber_id', 'product_id', 'first_name', 'last_name', 'username','email_id', 'password', 'user_type', 'is_active');
         $data = array_intersect_key($data, array_flip($needed_array));
 		//print_r($data);exit;
         if(!empty($data['password'])) {

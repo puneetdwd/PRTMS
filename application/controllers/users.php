@@ -14,7 +14,7 @@ class Users extends Admin_Controller {
         $this->is_admin_user();
         $this->load->model('User_model');
         $data['users'] = $this->User_model->get_all_users();
-//echo '<pre>';print_r($data['users']);exit;
+		//echo '<pre>';print_r($data['users']);exit;
         $this->template->write_view('content', 'users/index', $data);
         $this->template->render();
     }
@@ -47,6 +47,7 @@ class Users extends Admin_Controller {
             $validate->set_rules('first_name', 'First Name', 'trim|required|xss_clean');
             $validate->set_rules('last_name', 'Last Name', 'trim|required|xss_clean');
             $validate->set_rules('username', 'Username', 'trim|required|xss_clean');
+            $validate->set_rules('email_id', 'email_id', 'trim|required|xss_clean');
 
             if($validate->run() === TRUE) {
                 $post_data = $this->input->post();

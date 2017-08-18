@@ -271,27 +271,20 @@ class Products extends Admin_Controller {
     }
 
     public function get_parts_by_product() {
-        $data = array('parts' => array());
-        
+        $data = array('parts' => array());        
         if($this->input->post('product')) {
             $this->load->model('Product_model');
             $data['parts'] = $this->Product_model->get_all_product_parts($this->input->post('product'));
-        }
-        
+        }       
         echo json_encode($data);
     }
 	public function get_part_number_by_part() {
         $data = array('parts' => array());
-        //echo '123';exit;
         if($this->input->post('part')) {
             $this->load->model('Product_model');
             $data['parts'] = $this->Product_model->get_part_num_by_part($this->input->post('part'),$this->input->post('product'));
-			
-			//echo $this->db->last_query(); exit;
-        }
-			// echo $this->input->post('part').'123';print_r($data['parts']);exit;
-        
-        echo json_encode($data);
+		}
+		echo json_encode($data);
     }
 	
 	 public function get_suppliers_by_part() {

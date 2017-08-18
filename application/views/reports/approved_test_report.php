@@ -18,13 +18,13 @@ echo array_search(2,$_SESSION['product_ids']); */
     <!-- BEGIN PAGE HEADER-->
     <div class="breadcrumbs">
         <h1>
-            Completed Test Report
+            Approved Test Report
         </h1>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo base_url(); ?>">Home</a>
             </li>
-            <li class="active">Completed Test Report</li>
+            <li class="active">Approved Test Report</li>
         </ol>
         
     </div>
@@ -153,7 +153,7 @@ echo array_search(2,$_SESSION['product_ids']); */
                                     <div class="form-group" id="ptc-mappings-test-search-error">
                                         <label class="control-label">Select Test:</label>
                                                 
-                                        <select name="test_id" class="form-control select2me" id='part-test_selector'
+                                        <select name="test_id" class="form-control select2me"  id='part-test_selector'
                                             data-placeholder="Select Test" data-error-container="#ptc-mappings-test-search-error">
                                             <option></option>
                                             <?php foreach($tests as $test) { ?>
@@ -229,22 +229,22 @@ echo array_search(2,$_SESSION['product_ids']); */
      <div class="portlet-title">
 		<?php if(!empty($reports)) { ?>
 		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/completed_test_report"; ?>">
+			<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/approved_test_report"; ?>">
 				<i class="fa fa-download"></i> Export Report
 			</a>
 		</div>
 		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" onclick="printPage('comp_report_table');" href="javascript:void(0);">
+			<a class="button normals btn-circle" onclick="printPage('appr_report_table');" href="javascript:void(0);">
 				<i class="fa fa-print"></i> Print
 			</a>
 		</div>
 		<?php } ?>
 	</div>
-        <div class="col-md-12" id='comp_report_table'>
+        <div class="col-md-12" id='appr_report_table'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-reorder"></i><b>Completed Test Report</b>
+                        <i class="fa fa-reorder"></i><b>Approved Test Report</b>
                     </div>
                     
                 </div>
@@ -256,7 +256,7 @@ echo array_search(2,$_SESSION['product_ids']); */
                             <thead>
                                 <tr>
                                     <th>Event</th>
-                                    <th>Product</th>
+                                    <th>Product Name</th>
                                     <th>Part Name</th>
                                     <th>Part Number</th>
                                     <th>Test Name</th>
@@ -267,11 +267,12 @@ echo array_search(2,$_SESSION['product_ids']); */
                                     <th>Is Approved</th>
                                     <th>Supplier</th>
                                     <th>Inspector</th>
-                                    <th>Sample/ASN No.</th>
+                                    <th>ASN No.</th>
                                     <th>Result</th>
-                                    <th>Approver Remark</th>
+									<th>Approver Remark</th>
                                     <th>Retest Remark</th>
                                     <th>Skiped Remark</th>
+                                    
                                     <th class="no_sort" style="width:100px;">Action</th>
                                 </tr>
                             </thead>
@@ -279,12 +280,12 @@ echo array_search(2,$_SESSION['product_ids']); */
                                 <?php foreach($reports as $report) { ?>
                                     <tr>
                                         <td><?php echo $report['stage_name']; ?></td>
-                                        <td><?php echo $report['product_code']; ?></td>
+                                        <td><?php echo $report['product_name']; ?></td>
                                         <td><?php echo $report['part_name']; ?></td>
                                         <td><?php echo $report['part_no']; ?></td>
                                         <td><?php echo $report['test_name']; ?></td>
-                                        <td><?php echo date('d M Y H:i:s', strtotime($report['start_date'])); ?></td>
-                                        <td><?php echo date('d M Y H:i:s', strtotime($report['end_date'])); ?></td>
+                                        <td><?php echo date('jS M, Y H:s:i', strtotime($report['start_date'])); ?></td>
+                                        <td><?php echo date('jS M, Y H:s:i', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
                                         <td><?php 
@@ -302,10 +303,9 @@ echo array_search(2,$_SESSION['product_ids']); */
                                         <td><?php echo $report['assistant_name']; ?></td>
                                         <td><?php echo $report['lot_no']; ?></td>
                                         <td><?php echo $report['observation_result']; ?></td>
-                                        <td><?php echo $report['appr_test_remark']; ?></td>
+										<td><?php echo $report['appr_test_remark']; ?></td>
                                         <td><?php echo $report['retest_remark']; ?></td>
                                         <td><?php echo $report['skip_remark']; ?></td>
-                                      
 										
 										
                                         <td nowrap>

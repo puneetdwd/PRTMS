@@ -143,7 +143,7 @@
                                         <span class="required">*</span></label>
                                         <!--<input type="text" class="required form-control" name="part_no" placeholder="Enter Part No.">
                                         <span class="help-block">-->
-										<select name="part_id" id="part-selector_number" class="form-control required select2me part-test_mon-selector"
+										<select name="part_id" id="part-selector_number" class="form-control required select2me part-test_mon-selector part-test-selector_plan"
                                         data-placeholder="Select Part Number" data-error-container="#monitoring-form-part-error">
                                             <option value=""></option>
                                             <?php foreach($parts as $part) { ?>
@@ -175,7 +175,7 @@
                                     <div class="form-group" id="monitoring-form-test-error">
                                         <label class="control-label" for="test_id">Test:
                                         <span class="required">*</span></label>
-                                        
+                                        <!-- part-test_selector -->
                                         <select name="test_id" id="part-based-test-selector" class="form-control required select2me"
                                         data-placeholder="Select Test" data-error-container="#monitoring-form-test-error">
                                             <option value=""></option>
