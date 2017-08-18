@@ -53,7 +53,7 @@
                         </span>
                     
                     </div>
-                    <div>
+					<div>
                         
                         <ul class="user-info-links">
                             <!--

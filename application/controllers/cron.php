@@ -8,8 +8,8 @@ class cron extends Admin_Controller {
         if($this->router->fetch_method() != 'get_parts_by_product') {
             $this->is_admin_user();
         }
-		 $this->load->model('report_model');
-		 $this->load->model('user_model');   
+		$this->load->model('report_model');
+		$this->load->model('user_model');   
        
         //render template
         $this->template->write('title', 'PRTMS | '.$this->user_type.' Dashboard');
@@ -28,8 +28,8 @@ class cron extends Admin_Controller {
         $data = array();
         $filters = array();
 		$admins = $this->user_model->get_all_users();
-		$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24 * 60);//24
-		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24 * 30);
+		$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);//24
+		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
 		$data['reports'] = $this->report_model->get_completed_test_report($filters);
 		$data['yesterday'] = date('jS M, Y', strtotime(date('Y-m-d',time() - 60 * 60 * 24)));
 		$mail_content = $this->load->view('emails/completed_test_report_mail', $data,true);
@@ -39,7 +39,7 @@ class cron extends Admin_Controller {
 			$toemail = $admin['email_id'];
 			$subject = "Completed Test Report";
 			$this->sendMail($toemail,$subject,$mail_content);
-	// echo $mail_content;exit;
+			// echo $mail_content;exit;
 		}
 		
 		//echo $this->email->print_debugger();exit;

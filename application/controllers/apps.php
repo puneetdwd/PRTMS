@@ -532,6 +532,7 @@ class Apps extends Admin_Controller {
 			
             $this->load->model('Apps_model');
             $on_going = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), $code);
+			//print_r($on_going);exit;
             if(empty($on_going)) {
                 redirect($_SERVER['HTTP_REFERER']);
             }
@@ -554,7 +555,12 @@ class Apps extends Admin_Controller {
 					//print_r($on_going);exit;..will get part, supplier,test detail
 					
 					    $this->load->model('Product_model');
+					    $this->load->model('user_model');
                         $phone_numbers = $this->Product_model->get_all_phone_numbers($on_going['supplier_id']);
+						
+						$sms = $on_going['supplier_name']." PRTMS - Inspn Rslt NG<br>Part No. -".$on_going['part_no']."(".$on_going['test_name'];
+                        $sms .= ")<br>Defect-".$on_going['test_judgement'];
+                            
                         if(!empty($phone_numbers)) {
                             $to = array();
 							
@@ -563,8 +569,6 @@ class Apps extends Admin_Controller {
                             }
                             
                             $to = implode(',', $to);
-                            $sms = $on_going['supplier_name']." PRTMS - Inspn Rslt NG\nPart No. -".$on_going['part_no']."(".$on_going['test_name'];
-                            $sms .= ")\nDefect-".$on_going['test_judgement'];
                             $ip_address = $this->get_server_ip();
                             if($ip_address == '202.154.175.50'){
                                 
@@ -595,7 +599,19 @@ class Apps extends Admin_Controller {
                                 $this->send_sms($to, $sms);
                             }
                         }
-                        
+							///NG mail MAil
+							$users = $this->user_model->get_users_admins_productwise($on_going['product_id'],$this->session->userdata('username'));
+							/* echo $this->db->last_query();
+							print_r($users);exit; */
+							foreach($users as $user) {
+								
+								$toemail = $user['email_id'];
+								$subject = "NG Part -".$on_going['part_no'];
+								$mail_content = "Hello ".$user['first_name']." ".$user['last_name'].",<br>".$sms."<br><br>Thanks,<br>SQIM Administrator,<br>LG Electronics, Pune";
+								$this->sendMail($toemail,$subject,$mail_content);
+								// echo $mail_content;exit;
+							}
+							//End mail
                     
 				}
 				//End Code for SMS in case of NG

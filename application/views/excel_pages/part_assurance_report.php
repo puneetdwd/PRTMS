@@ -77,10 +77,9 @@
                 <div class="portlet-body">
                     <?php if(empty($reports)) { ?>
                         <p class="text-center">No Record Available.</p>
-                    <?php } else { ?>
+                    <?php } else { ?>  
                         
-                        
-                        <table class="table table-hover table-light" border="1" style="width:400px">
+                        <table class="table table-hover table-light" border="1" style="width:400px;border-collapse:collapse">
                             <thead>
                                 <tr><th colspan="10" align="center">Test Details</th></tr>
                                 <tr>

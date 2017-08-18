@@ -191,4 +191,10 @@ class User_model extends CI_Model {
 
         return FALSE;
     }
+	
+	function get_users_admins_productwise($product_id,$username) {
+        $sql = "SELECT u.* FROM users as u where (FIND_IN_SET(".$product_id.", u.product_id) AND u.user_type like 'Product') OR u.user_type like 'Admin'  OR u.username like ".$username;
+		
+		return $this->db->query($sql)->result_array();
+    }
 }
