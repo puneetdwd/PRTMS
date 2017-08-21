@@ -98,6 +98,15 @@ class Users extends Admin_Controller {
         $this->template->write_view('content', 'users/view_user', $data);
         $this->template->render();
     }
+	public function view_uploads() {
+        $this->is_admin_user();
+        $this->load->model('User_model');
+        $uploaded_files = $this->User_model->get_uploaded_file_detail();
+        $data['uploaded_files'] = $uploaded_files;
+		//$this->print_array($data['uploaded_files']);exit;
+        $this->template->write_view('content', 'users/view_uploads', $data);
+        $this->template->render();
+    }
 
     public function login() {
         if($this->session->userdata('is_logged_in')) {

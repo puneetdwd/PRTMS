@@ -45,13 +45,12 @@
                 <div class="topbar-actions">
                     <div style="text-align: right; margin-right: 10px;">
                         <span id="user-info">Welcome, <?php echo $this->session->userdata('name'); ?>
-                        <?php if($this->chamber_id) { ?>
-                            <small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> User ]</small>
-                        <?php } else { ?>
-                            <small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> ]</small>
-                        <?php } ?>
-                        </span>
-                    
+							<?php if($this->chamber_id || $this->session->userdata('user_type') == 'Product') { ?>
+								<small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> User ]</small>
+							<?php } else { ?>
+								<small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> ]</small>
+							<?php } ?>
+                        </span>                    
                     </div>
 					<div>
                         
@@ -148,6 +147,11 @@
                                     <li>
                                         <a href="<?php echo base_url(); ?>products/ptc_master">
                                             <i class="icon-briefcase"></i> Part-Test-Chamber Master 
+                                        </a>
+                                    </li>
+									<li>
+                                        <a href="<?php echo base_url(); ?>users/view_uploads">
+                                            <i class="icon-briefcase"></i> View Upload Masters 
                                         </a>
                                     </li>
                                 </ul>

@@ -151,6 +151,7 @@ class Products extends Admin_Controller {
         $this->template->render();
     }
     
+	    
     public function add_product_part($product_id, $part_id = '') {
         $data = array();
         $this->load->model('Product_model');
@@ -739,4 +740,6 @@ class Products extends Admin_Controller {
         // print_r($temp);exit;
         return TRUE;
     }
+	
+	
 }

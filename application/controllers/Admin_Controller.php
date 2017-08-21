@@ -135,10 +135,15 @@ class Admin_Controller extends CI_Controller {
             $upload_data = $this->upload->data();
             $result = array(
                 'status' => 'success',
-                'file' => $upload_path.$upload_data['file_name']
+                'file' => $upload_path.$upload_data['file_name']			 
             );
+			$this->load->model('user_model');
+			
+			$file_name = ucwords(str_replace('_',' ',$file_name));
+			
+			$upload =  $this->user_model->add_uploads_detail($result,$this->session->userdata('name'),$this->session->userdata('user_type'),$file_name);
         }
-        
+       // $this->print_array($result);exit;
         return $result;
     }
     

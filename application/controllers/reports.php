@@ -363,8 +363,8 @@ class reports extends Admin_Controller {
             $data['year'] = $filters['year'];
             $data['export'] = true;
 			// echo "<pre>";print_r($data);
-           echo  $str = $this->load->view('excel_pages/part_assurance_report', $data, true);
-            exit;
+            $str = $this->load->view('excel_pages/part_assurance_report', $data, true);
+            
             header('Content-Type: application/force-download; charset=utf-8');
             header('Content-disposition: attachment; filename=Part_Assurance_Report.xls');
             

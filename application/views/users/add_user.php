@@ -167,8 +167,7 @@
 								<div class="col-md-6" <?php if($user_type != 'Product') { echo "style='display:none;'"; } ?>>
                                     <div class="form-group" id="add-user-product-error">
                                         <label class="control-label" for="product_id">Products:
-                                        <span class="required">*</span></label>
-                                        
+                                        <span class="required">*</span></label>                                        
                                         <select name="product_id[]" id="add-user-product" class="form-control required select2me"
                                         data-placeholder="Select Product" data-error-container="#add-user-product-error" multiple <?php if($user_type != 'Product') { echo "disabled='disabled'"; } ?>>
                                             <option value=""></option>
@@ -179,8 +178,7 @@
                                                 <?php if(in_array($product['id'], $sel_product)) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $product['name']; ?>
                                                 </option>
-                                            <?php } ?>
-                                            
+                                            <?php } ?>                                            
                                         </select>
                                     </div>
                                 </div>
