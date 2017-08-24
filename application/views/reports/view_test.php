@@ -156,7 +156,7 @@
                             <label class="control-label col-md-5"><b>Part No:</b></label>
                             <div class="col-md-7">
                                 <p class="form-control-static">
-                                    <?php echo $test['part_no']; ?>
+                                    <?php echo $test['part_num']; ?>
                                 </p>
                             </div>
                         </div>

@@ -393,11 +393,14 @@ class Apps extends Admin_Controller {
         
     }
     public function mark_as_approved($code) {
+		//echo $code;exit;
 		$this->load->model('Apps_model');
 		$post_data = $this->input->post();
 		$remark = $post_data['appr_test_remark'];
         $comp_test = $this->Apps_model->completed_test($_SESSION['product_switch']['id'],date('Y-m-d'), $code);//product_id->2
-        if(empty($comp_test)) {
+        /* echo '<pre>';print_r($comp_test);
+		exit; */
+		if(empty($comp_test)) {
             redirect($_SERVER['HTTP_REFERER']);
         }
         $response = $this->Apps_model->update_test(array('appr_test_remark' => $remark ,'is_approved' => 1,'approved_by' => $this->session->userdata('name')), $comp_test['id']);

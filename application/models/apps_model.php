@@ -176,7 +176,7 @@ class Apps_model extends CI_Model {
 		s.name as supplier_name
 		FROM test_records tr
 		INNER JOIN products p ON tr.product_id = p.id 
-		INNER JOIN product_parts pp ON tr.part_id = pp.id 
+		INNER JOIN product_parts pp ON pp.id = tr.part_id
 		INNER JOIN tests t ON tr.test_id = t.id       
 		INNER JOIN chambers c ON tr.chamber_id = c.id   
 		INNER JOIN stages st ON tr.stage_id = st.id        		

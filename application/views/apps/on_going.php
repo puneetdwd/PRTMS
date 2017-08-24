@@ -279,7 +279,9 @@
                                     </div>
                                 </div>
                                 
-                            </div>
+                            </div> 
+							
+                           
                             
                             <div class="portlet light">
                                 <div class="portlet-title">

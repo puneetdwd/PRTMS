@@ -326,6 +326,25 @@
                         </li>
                         <?php } ?>
                         
+					
+                        <?php if($this->session->userdata('user_type') == 'Approver') { ?>
+                         
+                        <li class="dropdown more-dropdown">
+                            <a href="javascript:;" class="text-uppercase">
+                                <i class="icon-layers"></i> Reports
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+								<li>
+                                    <a href="<?php echo base_url(); ?>reports/approved_test_report">
+                                        <i class="icon-briefcase"></i> Approved Test Report 
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        <?php } ?>
+                        
 						
                     </ul>
                 </div>

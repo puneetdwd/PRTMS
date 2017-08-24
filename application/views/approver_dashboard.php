@@ -185,8 +185,8 @@
                                                 Approve
                                             </a-->
 											
-											<button type="button" class="button small gray"  data-toggle="modal" data-target="#myModal_appr">Approve</button>
-											<div id="myModal_appr" class="modal fade" role="dialog" style='z-index:99999'>
+											<button type="button" class="button small gray"  data-toggle="modal" data-target="#myModal_appr_<?php echo $completed_test['code']; ?>">Approve</button>
+											<div id="myModal_appr_<?php echo $completed_test['code']; ?>" class="modal fade" role="dialog" style='z-index:99999'>
 											  <div class="modal-dialog">
 
 												<div class="modal-content">
@@ -196,7 +196,7 @@
 												  </div>
 												  <div class="modal-body">
 													<form id='test_remark_form' action="<?php echo base_url().'apps/mark_as_approved/'.$completed_test['code'];?>" method='post'>
-													Remark : 
+													Remark : <?php echo $completed_test['code']; ?>
 													<textarea required class="required form-control" rows="5" name='appr_test_remark' id="appr_test_remark"></textarea>
 													</br>
 												  <div class="modal-footer">
@@ -211,9 +211,9 @@
 
 
 											
-											<button type="button" class="button small"  data-toggle="modal" data-target="#myModal">Re-test</button>
+											<button type="button" class="button small"  data-toggle="modal" data-target="#myModal_<?php echo $completed_test['code']; ?>">Re-test</button>
 											
-											<div id="myModal" class="modal fade" role="dialog" style='z-index:99999'>
+											<div id="myModal_<?php echo $completed_test['code']; ?>" class="modal fade" role="dialog" style='z-index:99999'>
 											  <div class="modal-dialog">
 
 												<div class="modal-content">
