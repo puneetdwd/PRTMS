@@ -279,9 +279,7 @@
                                     </div>
                                 </div>
                                 
-                            </div> 
-							
-                           
+                            </div>
                             
                             <div class="portlet light">
                                 <div class="portlet-title">
@@ -339,13 +337,7 @@
                                                     <td><?php echo $ob; ?></td>
                                                 <?php } ?>
                                             </tr>
-                                            <tr>
-                                                <td class="merged-col">Result</td>
-                                                
-                                                <?php foreach($observations['observation_result'] as $ob) { ?>
-                                                    <td><?php echo $ob; ?></td>
-                                                <?php } ?>
-                                            </tr>
+                                            
                                             
                                             <?php if($category == 'Electrical') { ?>
                                                 <tr>
@@ -603,6 +595,12 @@
                                                     <?php } ?>
                                                 </tr>
                                             <?php } ?>
+											<tr>
+                                                <td colspan="2" class="merged-col">Result</td>                                             
+                                                <?php foreach($observations['observation_result'] as $ob) { ?>
+                                                    <td><?php echo $ob; ?></td>
+                                                <?php } ?>
+                                            </tr>
                                             
                                             <tr>
                                                 <td colspan="2" class="merged-col">Assistant Name</td>

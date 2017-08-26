@@ -304,10 +304,7 @@ echo array_search(2,$_SESSION['product_ids']); */
                                         <td><?php echo $report['observation_result']; ?></td>
                                         <td><?php echo $report['appr_test_remark']; ?></td>
                                         <td><?php echo $report['retest_remark']; ?></td>
-                                        <td><?php echo $report['skip_remark']; ?></td>
-                                      
-										
-										
+                                        <td><?php echo $report['skip_remark']; ?></td>									
                                         <td nowrap>
                                             <button type="button" class="button small view-test-modal-btn" data-index="<?php echo $report['code']; ?>">
                                                 View

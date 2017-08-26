@@ -248,7 +248,7 @@
                         <p class="text-center">No Record Available.</p>
                     <?php } else { ?>
                         
-                        <table class="table table-hover table-light" id='make-data-table'>
+                        <table class="table table-hover table-light" id='make-data-table' border=1 style='border-collapse:collapse'>
                             <tr>
                                 <td><b>Product Name : </b></td>
                                 <td><?php echo $reports_common['product_name']; ?></td>
@@ -303,7 +303,7 @@
                     <?php } else { ?>
                         
                         
-                        <table class="table table-hover table-light">
+                        <table class="table table-hover table-light"  id='make-data-table' border=1 style='border-collapse:collapse'>
                             <thead>
                                 <tr>
                                     <th>Sr. No.</th>

@@ -98,6 +98,22 @@ class Plans extends Admin_Controller {
         $this->template->render();
     }
     
+    public function monthly_plan_export() {
+		//echo 'Plan';
+		 $this->load->model('Plan_model');
+		$filters = @$_SESSION['plan_filters'] ;
+		$plan_month = @$_SESSION['plan_month'] ;
+		$data['plan_date'] = $plan_month;
+		$data['plan'] = $this->Plan_model->get_month_plan($plan_month, $filters);
+		$str = $this->load->view('excel_pages/display_plan', $data, true);
+		
+		header('Content-Type: application/force-download');
+        header('Content-disposition: attachment; filename=monthly_plan_report.xls');
+            
+		header("Pragma: ");
+        header("Cache-Control: ");
+        echo $str;     
+	}
     public function display() {
         $data = array();
         
@@ -115,7 +131,9 @@ class Plans extends Admin_Controller {
         $filters = array();
         if($this->input->post()) {
             $plan_month = $this->input->post('plan_month');
-            $filters = $this->input->post();			
+            $filters = $this->input->post();
+			$_SESSION['plan_filters'] = $filters;			
+			$_SESSION['plan_month'] = $plan_month;			
             $data['plan'] = $this->Plan_model->get_month_plan($plan_month, $filters);
             //echo $this->db->last_query();exit;
         } else if($this->input->get('plan_month')) {

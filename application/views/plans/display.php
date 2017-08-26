@@ -172,8 +172,14 @@
                     <div class="caption">
                         <i class="fa fa-reorder"></i>Plan for the Month
                     </div>
+					 <?php if(!empty($plan)) { ?>
                     <div class="actions">
-                    </div>
+					
+						<a class="button normals btn-circle" href="<?php echo base_url()."plans/monthly_plan_export"; ?>">
+							<i class="fa fa-download"></i> Export Report
+						</a>
+					</div>
+					 <?php } ?>
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($plan)) { ?>

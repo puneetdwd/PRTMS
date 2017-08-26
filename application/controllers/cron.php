@@ -28,9 +28,10 @@ class cron extends Admin_Controller {
         $data = array();
         $filters = array();
 		$admins = $this->user_model->get_all_users();
-		$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);//24
-		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
-		$data['reports'] = $this->report_model->get_completed_test_report($filters);
+		//$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);//24
+		$filters['end_date'] = '%'.date('Y-m-d',time() - 60 * 60 * 24).'%';
+		$data['reports'] = $this->report_model->get_completed_test_report_mail($filters);
+		//print_r($data['reports']);exit;
 		$data['yesterday'] = date('jS M, Y', strtotime(date('Y-m-d',time() - 60 * 60 * 24)));
 		$mail_content = $this->load->view('emails/completed_test_report_mail', $data,true);
 		$this->load->library('email');
@@ -39,7 +40,7 @@ class cron extends Admin_Controller {
 			$toemail = $admin['email_id'];
 			$subject = "Completed Test Report";
 			$this->sendMail($toemail,$subject,$mail_content);
-			// echo $mail_content;exit;
+			//echo $mail_content;exit;
 		}
 		
 		//echo $this->email->print_debugger();exit;
@@ -49,40 +50,39 @@ class cron extends Admin_Controller {
         $data = array();
         $filters = array();
 		$admins = $this->user_model->get_all_users();
-		$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);
+		//$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);
 		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
-		$data['reports'] = $this->report_model->get_approved_test_report($filters);
-		$data['yesterday'] = date('jS M, Y', strtotime(date('Y-m-d',time() - 60 * 60 * 24)));
+		$data['reports'] = $this->report_model->get_approved_test_report_mail($filters);
+		$data['yesterday'] = date('jS M, Y', strtotime($filters['end_date']));
 		$mail_content = $this->load->view('emails/approved_test_report_mail', $data,true);
 		$this->load->library('email');
 		foreach($admins as $admin) {
 			
 			$toemail = $admin['email_id'];
-			$subject = "Completed Test Report";
+			$subject = "Approved Test Report";
 			$this->sendMail($toemail,$subject,$mail_content);
-	
+			//echo $mail_content;exit;
 		}
 		//echo $this->email->print_debugger();exit;
-
     }
-	public function pending_test_report_mail(){
+	public function incomplete_test_report_mail(){
         $data = array();
         $filters = array();
 		$admins = $this->user_model->get_all_users();
 		//$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);
-		//$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24  * 30);
-		$data['reports'] = $this->report_model->get_pending_test_report(date('Y-m-d',time() - 60 * 60 * 24));
+		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
+		$data['reports'] = $this->report_model->get_incompleted_test_report_mail($filters);
 		//echo $this->db->last_query();exit;
-		$data['yesterday'] = date('jS M, Y', strtotime(date('Y-m-d',time() - 60 * 60 * 24)));
-		$mail_content = $this->load->view('emails/pending_test_report_mail', $data,true);
+		$data['yesterday'] = date('jS M, Y', strtotime($filters['end_date']));
+		$mail_content = $this->load->view('emails/incompleted_test_report_mail', $data,true);
 		$this->load->library('email');
 		foreach($admins as $admin) {
 			
-			$toemail = $admin['email_id'];
-			$subject = "Pending Test Report";
-			$this->sendMail($toemail,$subject,$mail_content);
+			$toemail = 'komal@crgroup.co.in';//$admin['email_id'];
+			$subject = "Incomplete Test Report";
+			//$this->sendMail($toemail,$subject,$mail_content);
 	
-		//echo $mail_content;exit;
+		echo $mail_content;exit;
 		}
 		//echo $this->email->print_debugger();exit;
 

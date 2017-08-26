@@ -196,11 +196,20 @@ class User_model extends CI_Model {
     }
 	
 	function get_users_admins_productwise($product_id,$username) {
-        $sql = "SELECT u.* FROM users as u where (FIND_IN_SET(".$product_id.", u.product_id) AND u.user_type like 'Product') OR u.user_type like 'Admin'  OR u.username like ".$username;		
+        $sql = "SELECT u.* FROM users as u where (FIND_IN_SET(".$product_id.", u.product_id) AND u.user_type like 'Product') OR u.user_type like 'Admin'  OR u.username like '".$username."'";		
 		return $this->db->query($sql)->result_array();
     }
 	
 	function add_uploads_detail($data, $username, $user_type,$master_type) {
+		
+		$this->db->where('master_type', $master_type);
+		$get_cnt = $this->db->count_all_results('uploaded_files');		
+		//print_r($get_cnt);exit;
+		if($get_cnt > 2)
+		{
+			$sql = "delete from uploaded_files where master_type like '".$master_type."' order by created ASC limit 1";
+			$this->db->query($sql);
+		}	
 		$upload_data['username'] = $username;
 		$upload_data['user_type'] = $user_type;
 		$upload_data['master_type'] = $master_type;
@@ -208,6 +217,6 @@ class User_model extends CI_Model {
 		$upload_data['upload_status'] = $data['status'];
 		$upload_data['created'] = date("Y-m-d H:i:s");
 		//print_r($upload_data);exit;
-		return (($this->db->insert('uploaded_files', $upload_data)) ? $this->db->insert_id() : False);       
+		return (($this->db->insert('uploaded_files', $upload_data)) ? $this->db->insert_id() : False);  
     }
 }

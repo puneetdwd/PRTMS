@@ -603,16 +603,49 @@ class Apps extends Admin_Controller {
                             }
                         }
 							///NG mail MAil
+							//echo 'hi';exit;
 							$users = $this->user_model->get_users_admins_productwise($on_going['product_id'],$this->session->userdata('username'));
-							/* echo $this->db->last_query();
-							print_r($users);exit; */
-							foreach($users as $user) {
+							/*  echo $tdis->db->last_query();
+							print_r($users);exit; 
+							  */foreach($users as $user) {
 								
 								$toemail = $user['email_id'];
-								$subject = "NG Part -".$on_going['part_no'];
-								$mail_content = "Hello ".$user['first_name']." ".$user['last_name'].",<br>".$sms."<br><br>Thanks,<br>SQIM Administrator,<br>LG Electronics, Pune";
+								$subject = "PRTMS - NG Part - ".$on_going['part_no'];
+								$mail_content = "Hello All,<br>".
+								"
+								<br><br>
+								<html>
+									<body>
+									<b>PRTMS Inspection Result - NG mail</b>	<br><br><br>							
+									<table style='text-align:left'>
+										<tr>
+											<th>Part No.</th> 
+											<td>".$on_going['part_no']."</td>
+										</tr>									  
+										<tr>									  
+											<th>Supplier </th>
+											<td>".$on_going['supplier_name']."</td>
+										</tr>
+										<tr>
+											 <th>Inspector </th>
+											<td>".$user['first_name']." ".$user['first_name']."</td>
+										</tr>
+										<tr>
+											<th>Test Name </th>
+											<td>".$on_going['test_name']."</td>
+										</tr>
+										<tr>
+											<th>Test Judgment </th>
+											<td>".$on_going['test_judgement']."</td>									   
+										</tr>
+									</table>
+								</body>
+								</html>
+								"."<br><br>Thanks,<br>PRTMS Administrator,<br>LG Electronics, Pune<br><br><br><br>
+								<i>(This is system genrated mail. Please do not reply.)</i>
+								";
 								$this->sendMail($toemail,$subject,$mail_content);
-								// echo $mail_content;exit;
+								//echo $mail_content;exit;
 							}
 							//End mail
                     

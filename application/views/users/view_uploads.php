@@ -46,6 +46,7 @@
                                     <th>Uploaded By</th>
                                     <th>User Type</th>
                                     <th>File Type</th>
+                                    <th>Uploaded Date</th>
                                     <th>View File</th>
                                 </tr>
                             </thead>
@@ -55,27 +56,14 @@
                                         <td><?php echo $uploaded_file['username']; ?></td>
                                         <td><?php echo $uploaded_file['user_type']; ?></td>
                                         <td><?php echo $uploaded_file['master_type']; ?></td>
+                                        <td><?php echo $uploaded_file['created']; ?></td>
                                         <td><?php //echo $uploaded_file['filename']; ?>
 											<a class="button small gray" 
                                                 href="<?php echo base_url().$uploaded_file['filename'];?>">
-                                                <i class="fa fa-edit"></i> View
+                                                <i class="fa fa-download"></i> Download
                                             </a>
 										
 										</td>
-                                        <!--td nowrap>
-                                            <a class="button small gray" 
-                                                href="<?php echo base_url()."users/add/".$user['username'];?>">
-                                                <i class="fa fa-edit"></i> Edit
-                                            </a>
-                                            <a class="button small gray" 
-                                                href="<?php echo base_url()."users/view/".$user['username'];?>">
-                                                <i class="fa fa-eye"></i> View
-                                            </a>
-                                            <a class="btn btn-xs btn-outline sbold red-thunderbird" data-confirm="Are you sure you want to mark this user as <?php echo $user['is_active'] ? 'inactive' : 'active';?>?"
-                                                href="<?php echo base_url()."users/status/".$user['username'].'/'.($user['is_active'] ? 'inactive' : 'active' );?>">
-                                                <i class="fa fa-trash-o"></i> <?php echo $user['is_active'] ? 'Mark Inactive' : 'Mark Active';?>
-                                            </a>
-                                        </td-->
                                     </tr>
                                 <?php } ?>
                             </tbody>
