@@ -60,7 +60,7 @@ class Apps extends Admin_Controller {
 			   
                 if($response) {
                     $this->Apps_model->add_observation(array('observation_index' => 0, 'test_id' => $response));
-
+					//echo $response;exit;
                     $this->session->set_flashdata('success', 'Test successfully started.');
                     redirect(base_url());
                 } else {
@@ -176,6 +176,125 @@ class Apps extends Admin_Controller {
         $this->template->render();
     }
     
+    public function on_going_retest($code) {
+        $data = array();
+        $this->load->model('Apps_model');
+		//Insert This row again in same table
+		//$test_id = $tests['id'];
+		/*
+		$obs_res = $this->Apps_model->get_test_obv_by_test_id($test_id);
+		//echo $this->db->last_query();
+		foreach($obs_res as $obs){
+			$res_obv[] = $this->Apps_model->copy_observations_by_id($obs['id']);
+		}
+		exit; */
+		
+		//Uncomment following line
+		//
+		
+		$test_code = $this->Apps_model->get_test_by_code($code);
+		if(count($test_code)  < 2){
+			$res = $this->Apps_model->copy_test_by_code($code);
+			$result_test = $this->Apps_model->get_test_by_id($res);
+			$update_data['start_date'] = date('Y-m-d H:i:s');
+            $update_data['end_date'] = date('Y-m-d H:i:s', strtotime('+'.($result_test['duration']).' hours'));
+            $this->Apps_model->update_test($update_data,$res);   
+		 
+		}
+		//exit;
+		$data['test'] = $this->Apps_model->on_going_retest($this->chamber_ids, date('Y-m-d'), $code);
+		
+		//echo '<pre>';print_r($data['test']);exit;
+		
+	
+		//End Insertion
+		
+        if(empty($data['test'])) {
+            redirect(base_url());
+        }
+        
+        $test = $data['test'];
+        
+		if($test['id'] && count($test_code)  < 2) 
+		{
+			//Uncomment this ->
+			$this->Apps_model->add_retest_observation(array('observation_index' => 0, 'test_id' => $test['id']));
+			
+		} 
+		
+		//exit;
+        $total_duration = strtotime($test['end_date'])-strtotime($test['start_date']);
+        $total_duration = $total_duration/3600;
+        
+        $duration_completed = strtotime(date('Y-m-d H:i:s'))-strtotime($test['start_date']);
+        $duration_completed = $duration_completed/3600;
+
+        $data['progress'] = round(($duration_completed/$total_duration)*100, 1);
+        if($data['progress'] > 100) {
+            $data['progress'] = 100;
+        }
+        
+        $observations = $this->Apps_model->get_observations($test['id']);
+		/* echo $this->db->last_query();
+		echo '<pre>';print_r($observations);exit;
+         */
+		$f_observations = array();
+        
+        $total_obs = $test['no_of_observations']*$test['samples'];
+        foreach($observations as $ob_key => $ob) {
+            foreach($ob as $col => $val) {
+                if(!isset($f_observations[$col])) {
+                    $f_observations[$col] = array_fill(0, $total_obs, '');
+                }
+                $f_observations[$col][$ob['observation_index']] = $val;
+            }
+        }
+        
+        if(!isset($f_observations['allowed'])) {
+            $f_observations['allowed'] = array_fill(0, $total_obs, '');
+        }
+        
+        $s = 0;
+        for($i = 0; $i < $test['no_of_observations']; $i++) {
+            for($y = 0; $y < $test['samples']; $y++) {
+                $f_observations['sample'][] = $y+1;
+            }
+                
+            if($i === 0) {
+                for($z = 0; $z < $test['samples']; $z++) {
+                    $f_observations['allowed'][$s] = 'Yes';
+                    $s++;
+                }
+            } else {
+                $dur = ($test['observation_frequency']*($i)) - 2;
+                $allowed_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours', strtotime($test['start_date'])));
+                
+                if(strtotime($allowed_time) <= strtotime('now')) {
+                    for($z = 0; $z < $test['samples']; $z++) {
+                        $f_observations['allowed'][$s] = 'Yes';
+                        $s++;
+                    }
+                } else {
+                    for($z = 0; $z < $test['samples']; $z++) {
+                        $f_observations['allowed'][$s] = 'No';
+                        $s++;
+                    }
+                }
+            }
+        }
+
+        
+        $data['observations'] = $f_observations;
+
+        $this->load->model('Test_model');
+        $allowed_chambers = explode(',', $this->session->userdata('chamber_ids'));
+        $switch_chambers = $this->Test_model->get_chambers_by_part_test($test['part_id'], $test['test_id'], $allowed_chambers);
+        $data['switch_chambers'] = $switch_chambers;
+        
+        $this->template->write_view('content', 'apps/on_going', $data);
+        $this->template->render();
+    }
+    
     public function view_test_ajax($code) {
         $data = array();
         $this->load->model('Apps_model');
@@ -252,8 +371,6 @@ class Apps extends Admin_Controller {
         $data['switch_chambers'] = $switch_chambers;
         
         $this->load->view('reports/view_test',$data);
-        //$this->template->write_view('content', 'apps/on_going', $data);
-        //$this->template->render();
     }
     public function view_test_ajax_completed($code) {
         $data = array();
@@ -435,6 +552,7 @@ class Apps extends Admin_Controller {
 		
 		//Store Retest ID to link old test
 		$response = $this->Apps_model->update_test(array('retest_id' => $comp_test['id'] ,'retest_remark' => $remark, 'approved_by' => '','completed' => 0,'is_approved' => 0), $comp_test['id']);
+		
 		
 		
 		
@@ -658,6 +776,161 @@ class Apps extends Admin_Controller {
         }
         
         redirect(base_url().'apps/on_going/'.$code);
+    }
+    
+    public function add_retest_observation($code) {
+		//print_r($this->input->post());exit;
+        if($this->input->post()) {
+            $post_data = $this->input->post();
+			
+				//test Image Upload
+				$test_img = $_FILES['test_img']['name'];      
+				$fullpath = 'assets/test images/';				
+				if($_FILES['test_img']['name'] != '') {			
+					$config['upload_path'] = $fullpath;
+					$config['allowed_types'] = 'jpg|jpeg|png|gif';
+					$config['file_name'] = $_FILES['test_img']['name'];
+					
+					//Load upload library and initialize configuration
+					$this->load->library('upload',$config);
+					$this->upload->initialize($config);
+					
+					if($this->upload->do_upload('test_img')){
+						$uploadData = $this->upload->data();
+						$test_img = $uploadData['file_name'];
+					}
+				}
+				if($test_img){
+					$post_data['test_img'] = $test_img;
+				}				
+				//End Image Upload
+				
+			
+            $this->load->model('Apps_model');
+            $on_going = $this->Apps_model->on_going_retest($this->chamber_ids, date('Y-m-d'), $code);
+			//print_r($on_going);exit;
+            if(empty($on_going)) {
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+            
+
+            $post_data['test_id'] = $on_going['id'];
+            $post_data['observation_at'] = date('Y-m-d H:i:s');
+            
+            $observation_index = $post_data['observation_index'];
+            $exists = $this->Apps_model->observation_index_exists($on_going['id'], $observation_index);
+            
+            $id = !empty($exists) ? $exists['id'] : '';		
+			
+			
+			$response = $this->Apps_model->add_observation($post_data, $id);
+            if($response) {
+				//Start Code for SMS in case of NG
+				if($post_data['observation_result'] == 'NG'){
+					//SMS needs to send to part Supplier in case of NG
+					//print_r($on_going);exit;..will get part, supplier,test detail
+					
+					    $this->load->model('Product_model');
+					    $this->load->model('user_model');
+                        $phone_numbers = $this->Product_model->get_all_phone_numbers($on_going['supplier_id']);
+						
+						$sms = $on_going['supplier_name']." PRTMS - Inspn Rslt NG<br>Part No. -".$on_going['part_no']."(".$on_going['test_name'];
+                        $sms .= ")<br>Defect-".$on_going['test_judgement'];
+                            
+                        if(!empty($phone_numbers)) {
+                            $to = array();
+							
+                            foreach($phone_numbers as $phone_number) {
+                                $to[] = $phone_number['phone_number'];
+                            }
+                            
+                            $to = implode(',', $to);
+                            $ip_address = $this->get_server_ip();
+                            if($ip_address == '202.154.175.50'){
+                                
+                                if(isset($to) && isset($sms)){
+                                    $sms1= urlencode($sms);
+                                    $to1 = urlencode($to);
+                                    $data = array('to' => $to1, 'sms' => $sms1);
+                                    $url = "http://10.101.0.80:90/PRTMS/apps/send_sms_redirect";    	
+                                    //$url = "http://localhost/PRTMS_NEW/apps/send_sms_redirect";    	
+
+                                    $ch = curl_init();
+                                            curl_setopt_array($ch, array(
+                                            CURLOPT_URL => $url,
+                                            CURLOPT_RETURNTRANSFER => true,
+                                            CURLOPT_POSTFIELDS => $data,
+                                    ));
+                                    //get response
+                                    $output = curl_exec($ch);
+                                    $flag = true;
+                                    //Print error if any
+                                    if(curl_errno($ch))
+                                    {
+                                            $flag = false;
+                                    }
+                                    curl_close($ch);
+                                }
+                            }else{
+                                $this->send_sms($to, $sms);
+                            }
+                        }
+							///NG mail MAil
+							//echo 'hi';exit;
+							$users = $this->user_model->get_users_admins_productwise($on_going['product_id'],$this->session->userdata('username'));
+							/*  echo $tdis->db->last_query();
+							print_r($users);exit; 
+							  */foreach($users as $user) {
+								
+								$toemail = $user['email_id'];
+								$subject = "PRTMS - NG Part - ".$on_going['part_no'];
+								$mail_content = "Hello All,<br>".
+								"
+								<br><br>
+								<html>
+									<body>
+									<b>PRTMS Inspection Result - NG mail</b>	<br><br><br>							
+									<table style='text-align:left'>
+										<tr>
+											<th>Part No.</th> 
+											<td>".$on_going['part_no']."</td>
+										</tr>									  
+										<tr>									  
+											<th>Supplier </th>
+											<td>".$on_going['supplier_name']."</td>
+										</tr>
+										<tr>
+											 <th>Inspector </th>
+											<td>".$user['first_name']." ".$user['first_name']."</td>
+										</tr>
+										<tr>
+											<th>Test Name </th>
+											<td>".$on_going['test_name']."</td>
+										</tr>
+										<tr>
+											<th>Test Judgment </th>
+											<td>".$on_going['test_judgement']."</td>									   
+										</tr>
+									</table>
+								</body>
+								</html>
+								"."<br><br>Thanks,<br>PRTMS Administrator,<br>LG Electronics, Pune<br><br><br><br>
+								<i>(This is system genrated mail. Please do not reply.)</i>
+								";
+								$this->sendMail($toemail,$subject,$mail_content);
+								//echo $mail_content;exit;
+							}
+							//End mail
+                    
+				}
+				//End Code for SMS in case of NG
+				$this->session->set_flashdata('success', 'Test successfully marked aborted.');
+            } else {
+                $this->session->set_flashdata('error', 'Something went wrong. Please try again');
+            }
+        }
+        
+        redirect(base_url().'apps/on_going_retest/'.$code);
     }
     
     public function get_suppliers_by_part() {

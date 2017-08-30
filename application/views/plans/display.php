@@ -185,7 +185,7 @@
                     <?php if(empty($plan)) { ?>
                         <p class="text-center">No Plan.</p>
                     <?php } else { ?>
-                        <table class="table table-hover table-light">
+                        <table class="table table-hover table-light" id="make-data-table">
                             <thead>
                                 <tr>
                                     <th>Part Name</th>

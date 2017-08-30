@@ -112,19 +112,27 @@
                                             </div>
                                         </td>
                                         <td nowrap>
+											<?php if(empty($on_going_test['retest_id'])){ ?>										
                                             <a class="button small gray" 
                                                 href="<?php echo base_url()."apps/on_going/".$on_going_test['code'];?>">
                                                 View
                                             </a>
-                                            
+                                            <?php } ?>
+											<?php if($on_going_test['retest_id']){ ?>
+											<a class="button small gray" 
+                                                href="<?php echo base_url()."apps/on_going_retest/".$on_going_test['code'];?>">
+                                                Retest
+                                            </a>
+											<?php } ?>
                                             <a class="button small" href="<?php echo base_url().'apps/mark_as_abort/'.$on_going_test['code'];?>" data-confirm="Are you sure you want to cancel this Test?">
                                                 Stop
                                             </a>
-                                        
+											
                                         </td>
                                         <td class="text-center">
                                             <?php 
-                                                if($on_going_test['no_of_observations'] == $on_going_test['observation_done']) {
+                                                
+												if($on_going_test['no_of_observations'] == $on_going_test['observation_done']) {
                                                     $class = 'fa fa-smile-o text-success';
                                                     $div_class = '';
                                                 } else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
@@ -157,6 +165,7 @@
                                                         }
                                                     }
                                                 }
+												
                                             ?>
                                             <div class="<?php echo $div_class; ?>" style="padding:5px;">
                                                 <i class="<?php echo $class; ?>" style="font-size: 40px; font-weight: bold; line-height:40px;"></i>

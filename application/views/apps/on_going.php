@@ -280,6 +280,21 @@
                                 </div>
                                 
                             </div>
+							
+							<?php if($test['retest_remark']){ ?>
+							<div class='row'>
+								<div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-5"><b>Retest Remark:</b></label>
+                                        <div class="col-md-7">
+                                            <p class="form-control-static">
+                                                <?php echo $test['retest_remark']; ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<?php } ?>
                             
                             <div class="portlet light">
                                 <div class="portlet-title">
@@ -342,7 +357,7 @@
                                             <?php if($category == 'Electrical') { ?>
                                                 <tr>
                                                     <td class="merged-col">Check Items</td>
-                                                    <td>Unit</td>
+                                                    <!--td>Unit</td-->
                                                     
                                                     <?php foreach($observations['check_items'] as $ob) { ?>
                                                         <td><?php echo $ob; ?></td>
@@ -746,7 +761,15 @@
 
 <div class="modal fade bs-modal-lg" id="observation-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="validate-form" id="observation-form" action="<?php echo base_url().'apps/add_observation/'.$test['code']; ?>" method="post" enctype='multipart/form-data'>
+	<?php 
+		if(empty($test['retest_remark'])){
+			$add_obv = 'apps/add_observation/';
+		}
+		else{
+			$add_obv = 'apps/add_retest_observation/';
+		}
+	?>
+        <form class="validate-form" id="observation-form" action="<?php echo base_url().$add_obv.$test['code']; ?>" method="post" enctype='multipart/form-data'>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>

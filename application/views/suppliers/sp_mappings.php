@@ -149,7 +149,7 @@
                     <?php if(empty($sp_mappings)) { ?>
                         <p class="text-center">No Suppliers.</p>
                     <?php } else { ?>
-                        <table class="table table-hover table-light">
+                        <table class="table table-hover table-light" id="make-data-table">
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
