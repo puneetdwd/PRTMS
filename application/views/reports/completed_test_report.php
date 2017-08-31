@@ -113,11 +113,9 @@ echo array_search(2,$_SESSION['product_ids']); */
                                         </select>
                                     </div>
                                 </div>
-                                
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
-                                        <label class="control-label">Select Part Number:</label>
-                                                
+                                        <label class="control-label">Select Part Number:</label>                               
                                         <select name="part_id1" class="form-control select2me part-test-selector_plan" id="part-selector_number"
                                             data-placeholder="Select Part" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>

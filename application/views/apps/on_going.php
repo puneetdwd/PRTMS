@@ -47,9 +47,15 @@
         
             <div class="portlet light bordered" id="monitoring-form-portlet">
                 <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-reorder"></i> On Going Test Screen
-                    </div>
+                    <?php if(empty($test['retest_remark'])){ ?>						
+						<div class="caption">
+							<i class="fa fa-reorder"></i> On Going Test Screen
+						</div>
+					<?php }	else{ ?>						
+						<div class="caption">
+							<i class="fa fa-reorder"></i> On Going Re-Test Screen
+						</div>
+					<?php }	?>
                     
                     <div style="float: right; padding-top: 10px; width: 60%;">
                         <div class="progress progress-striped active" style="margin-bottom: 15px;">

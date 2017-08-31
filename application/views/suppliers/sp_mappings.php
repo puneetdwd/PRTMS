@@ -92,7 +92,7 @@
                                         <select name="part_id" class="required form-control select2me" id="part-selector_number_map"
                                             data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
-                                            <?php foreach($parts as $part) { ?>
+                                            <?php foreach($parts_num as $part) { ?>
                                                 <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['part_no']; ?>
                                                 </option>

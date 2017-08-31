@@ -110,7 +110,7 @@
                                         <select name="part_id1" class="form-control select2me part-test-selector_plan" id="part-selector_number"
                                             data-placeholder="Select Part Number" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
-                                            <?php foreach($parts as $part) { ?>
+                                            <?php foreach($parts_num as $part) { ?>
                                                 <option value="<?php echo $part['id']; ?>" <?php if($part['id'] == $this->input->post('part_id1')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['part_no']; ?>
                                                 </option>

@@ -83,11 +83,20 @@ class Suppliers extends Admin_Controller {
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
         $data['parts'] = $this->Product_model->get_all_parts();
-        
+        $data['parts_num'] = $this->Product_model->get_all_parts();
+       
         $this->load->model('Supplier_model');
         $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
         
         $filters = $this->input->post() ? $this->input->post() : array() ;
+		if(!empty($filters['product_id'])){
+			$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+		}
+		
+		if(!empty($filters['part_id1'])){
+			$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id1'],$filters['product_id']);
+		}
+		
         $data['sp_mappings'] = $this->Supplier_model->get_all_sp_mappings($filters);
 
         $this->template->write_view('content', 'suppliers/sp_mappings', $data);

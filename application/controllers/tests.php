@@ -52,22 +52,36 @@ class Tests extends Admin_Controller {
     public function ptc_mappings() {
         $data = array();
         $this->load->model('Product_model');
+        $this->load->model('Test_model');
         $filters = $this->input->post() ? $this->input->post() : array() ;
 		
         $data['products'] = $this->Product_model->get_all_products();
         $data['parts'] = $this->Product_model->get_all_parts_by_product($this->input->post('product_id'));
-        $data['parts_num'] = $this->Product_model->get_part_numbers_by_name($this->input->post('product_id'));
-		
-		if(!empty($filters))
+        //$data['parts_num'] = $this->Product_model->get_part_numbers_by_name($this->input->post('product_id'));
+		$data['parts_num'] = $this->Product_model->get_all_parts();
+        //$this->load->model('Test_model');
+        $data['tests'] = $this->Test_model->get_all_tests();
+       
+		/* if(!empty($filters))
 		{
 			$data['parts_num'] = $this->Product_model->get_part_numbers_by_name($this->input->post('product_id'),$this->input->post('part_id1'));
-        }
+        } */
+		if(!empty($filters['product_id'])){
+			$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+		}
+		
+		if(!empty($filters['part_id1'])){
+			$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id1'],$filters['product_id']);
+		}
+		/* if(!empty($filters['part_id'])){
+			$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id']);
+	
+		} */
         $this->load->model('Chamber_model');
         $data['chambers'] = $this->Chamber_model->get_all_chambers();
         $data['categories'] = $this->Chamber_model->get_chamber_categories();
         
-        $this->load->model('Test_model');
-        $data['tests'] = $this->Test_model->get_all_tests();
+       
         
         $data['ptc_mappings'] = $this->Test_model->get_ptc_mappings_new($filters);
 		//echo '<pre>';print_r($data['ptc_mappings']);exit;

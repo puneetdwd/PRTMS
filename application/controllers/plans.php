@@ -119,7 +119,8 @@ class Plans extends Admin_Controller {
         
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
-        
+        $data['parts_num'] = $this->Product_model->get_all_parts();
+       
         $this->load->model('Supplier_model');
         $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
         
@@ -146,7 +147,16 @@ class Plans extends Admin_Controller {
         if(!empty($filters['product_id'])) {
             $data['parts'] = $this->Product_model->get_all_product_parts($filters['product_id']);
         }
+		if(!empty($filters['part_id1'])){
+				//$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
+				$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
         
+			}
+        if(!empty($filters['part_id'])){
+				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			}
         $data['filters'] = $filters;
         $data['plan_month'] = isset($plan_month) ? $plan_month : '';
             

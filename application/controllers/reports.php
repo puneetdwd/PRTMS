@@ -38,7 +38,7 @@ class reports extends Admin_Controller {
 				$data['products'] = $this->Product_model->get_all_products_by_user($this->username);
 		}
         $data['parts'] = $this->Product_model->get_all_parts();
-        
+        $data['parts_num'] = $this->Product_model->get_all_parts();
         $this->load->model('Chamber_model');
         $data['chambers'] = $this->Chamber_model->get_all_chambers();
         $data['categories'] = $this->Chamber_model->get_chamber_categories();
@@ -71,13 +71,14 @@ class reports extends Admin_Controller {
 				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 			}
 			if(!empty($filters['part_id1'])){
-				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				
+				//$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
         
 			}
-			else if(!empty($filters['part_id'])){
+			if(!empty($filters['part_id'])){
 				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
 			}
         
@@ -104,7 +105,8 @@ class reports extends Admin_Controller {
 				$data['products'] = $this->Product_model->get_all_products_by_user($this->username);
 		}
         $data['parts'] = $this->Product_model->get_all_parts();
-        
+        $data['parts_num'] = $this->Product_model->get_all_parts();
+       
         $this->load->model('Chamber_model');
         $data['chambers'] = $this->Chamber_model->get_all_chambers();
         $data['categories'] = $this->Chamber_model->get_chamber_categories();
@@ -128,13 +130,13 @@ class reports extends Admin_Controller {
 				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 			}
 			if(!empty($filters['part_id1'])){
-				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
         
 			}
-			else if(!empty($filters['part_id'])){
+			if(!empty($filters['part_id'])){
 				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
 			}
         
@@ -186,7 +188,8 @@ class reports extends Admin_Controller {
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
 		$data['parts'] = $this->Product_model->get_all_parts();
-        
+        $data['parts_num'] = $this->Product_model->get_all_parts();
+       
         if($this->user_type == 'Product'){
 			
         $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
@@ -212,13 +215,13 @@ class reports extends Admin_Controller {
 				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 			}
 			if(!empty($filters['part_id1'])){
-				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
         
 			}
-			else if(!empty($filters['part_id'])){
+			if(!empty($filters['part_id'])){
 				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
 			}
             
@@ -283,7 +286,8 @@ class reports extends Admin_Controller {
 		//print_r($data['products']);exit;
 		}
         $data['parts'] = $this->Product_model->get_all_parts();
-
+		$data['parts_num'] = $this->Product_model->get_all_parts();
+       
         $this->load->model('Chamber_model');
         $data['chambers'] = $this->Chamber_model->get_all_chambers();
         $data['categories'] = $this->Chamber_model->get_chamber_categories();
@@ -303,13 +307,13 @@ class reports extends Admin_Controller {
 				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 			}
 			if(!empty($filters['part_id1'])){
-				$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				//$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				//$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
         
 			}
-			else if(!empty($filters['part_id'])){
+			if(!empty($filters['part_id'])){
 				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
 			}
 			
@@ -491,7 +495,8 @@ class reports extends Admin_Controller {
 		//print_r($data['products']);exit;
 		}
         $data['parts'] = $this->Product_model->get_all_parts();
-        
+        $data['parts_num'] = $this->Product_model->get_all_parts();
+       
         $this->load->model('Plan_model');
         $this->load->model('report_model');
         $filters = $this->input->post() ? $this->input->post() : array() ;
@@ -500,12 +505,22 @@ class reports extends Admin_Controller {
 		if($this->input->post())
 		{
 			
+			/* if(!empty($filters['product_id'])){
+				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+			}
+			if(!empty($filters['part_id'])){
+				$data['parts'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			} */	
+			
 			if(!empty($filters['product_id'])){
 				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 			}
-			else if(!empty($filters['part_id'])){
-				$data['parts'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
-			}	
+			
+			if(!empty($filters['part_id'])){
+				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+			}
+			
+			
 			if($this->user_type == 'Product')
 				$data['reports'] = $this->report_model->get_part_based_test_report_count_by_user($filters,$this->username);
 			else
