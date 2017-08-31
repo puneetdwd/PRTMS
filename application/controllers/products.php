@@ -484,8 +484,8 @@ class Products extends Admin_Controller {
             $test['method'] = trim($row['G']);
             $test['judgement'] = trim($row['H']);
             $test['duration'] = trim($row['I']);
-           // $test['part_chamber_category'] = trim($row['J']);
-            
+			// $test['part_chamber_category'] = trim($row['J']);
+            //print_r($test);exit;
             $exists = $this->Test_model->get_test_by_code($test['code']);
             $test_id = !empty($exists) ? $exists['id'] : '';
             $test_id = $this->Test_model->add_test($test, $test_id);
