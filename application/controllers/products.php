@@ -161,8 +161,17 @@ class Products extends Admin_Controller {
             redirect(base_url().'products');
 
         $data['product'] = $product;
-        
+		$num = $this->input->post('part_no');
+		if($this->input->post('part_no')){
+			$part_num_record = $this->Product_model->get_product_part_by_code_num($product_id, $num);
+			//print_r($part_num_record);
+			if(empty($part_id) && !empty($part_num_record)) {
+				$this->session->set_flashdata('success', 'Record with same Part No. found.');
+				redirect(base_url().'products/parts/'.$product['id']);
+			}
+		}
         if(!empty($part_id)) {
+			//echo 'HI';exit;
             $part = $this->Product_model->get_product_part($product_id, $part_id);
             if(empty($part))
                 redirect(base_url().'products/parts/'.$product['id']);
@@ -174,43 +183,43 @@ class Products extends Admin_Controller {
         $data['categories'] = $this->Category_model->get_all_categories();
         
         if($this->input->post()) {
+			//echo 'HIqq';exit;
             $post_data = $this->input->post();
             $post_data['product_id'] = $product['id'];
-            //print_r($post_data);exit;
-            		
-        
-        
-		$fullpath = 'assets/part reference files/';
-		//for Product directory
-		// print_r($_FILES);exit;
-		if($_FILES['img_file']['name'] != '') {			
-			//echo $_FILES['img_file']['name'];exit;
-		 
+            // print_r($post_data);exit;
+            
+			$fullpath = 'assets/part reference files/';
+			//for Product directory
+			// print_r($_FILES);exit;
+			if($_FILES['img_file']['name'] != '') {			
+				//echo $_FILES['img_file']['name'];exit;
+			 
+				
+				$config['upload_path'] = $fullpath;
+				$config['allowed_types'] = 'jpg|jpeg|png';
+				$config['file_name'] = uniqid() .$_FILES['img_file']['name'];
+				$post_data['img_file'] = $config['file_name'];
+				
+				//Load upload library and initialize configuration
+				$this->load->library('upload',$config);
+				$this->upload->initialize($config);
+				
+				if($this->upload->do_upload('img_file')){
+					$uploadData = $this->upload->data();
+					$img_file = $uploadData['file_name'];
+				}
+			}///end img/file upload
 			
-			$config['upload_path'] = $fullpath;
-			$config['allowed_types'] = 'jpg|jpeg|png';
-			$config['file_name'] = uniqid() .$_FILES['img_file']['name'];
-            $post_data['img_file'] = $config['file_name'];
+			$response = $this->Product_model->update_product_part($post_data, $part_id); 
+				if($response) {
+					$this->session->set_flashdata('success', 'Product part successfully '.(($part_id) ? 'updated' : 'added').'.');
+					redirect(base_url().'products/parts/'.$product_id);
+				} else {
+					$data['error'] = 'Something went wrong, Please try again';
+				}	
 			
-			//Load upload library and initialize configuration
-			$this->load->library('upload',$config);
-			$this->upload->initialize($config);
-			
-			if($this->upload->do_upload('img_file')){
-				$uploadData = $this->upload->data();
-				$img_file = $uploadData['file_name'];
 			}
-		}///end img/file upload
 		
-		$response = $this->Product_model->update_product_part($post_data, $part_id); 
-            if($response) {
-                $this->session->set_flashdata('success', 'Product part successfully '.(($part_id) ? 'updated' : 'added').'.');
-                redirect(base_url().'products/parts/'.$product_id);
-            } else {
-                $data['error'] = 'Something went wrong, Please try again';
-            }	
-		
-		}
         $this->template->write_view('content', 'products/add_product_part', $data);
         $this->template->render();
     }
@@ -711,6 +720,19 @@ class Products extends Admin_Controller {
             
             if(!trim($row['B']))
                 continue;
+			
+			
+			if(!trim($row['D']))
+                continue;
+            
+			if(!empty($row['D']))
+			{
+				$part_num_record = $this->Product_model->get_product_part_by_code_num($product_id, trim($row['D']));
+				if(!empty($part_num_record)) {
+					continue;
+				}
+			}
+			
             
             $temp = array();
             $temp['product_id']     = $product_id;
