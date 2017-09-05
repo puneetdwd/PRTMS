@@ -114,6 +114,7 @@ class Plans extends Admin_Controller {
         header("Cache-Control: ");
         echo $str;     
 	}
+	
     public function display() {
         $data = array();
         
@@ -142,6 +143,7 @@ class Plans extends Admin_Controller {
             
             $filters = array('product_id' => $this->input->get('product_id'));
             $data['plan'] = $this->Plan_model->get_month_plan($this->input->get('plan_month'), $filters);
+			
         }
         
         if(!empty($filters['product_id'])) {

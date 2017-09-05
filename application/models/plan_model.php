@@ -98,6 +98,7 @@ class Plan_model extends CI_Model {
             WHEN MAX(tr.completed) = 0 THEN 'In Progress'
             WHEN MAX(tr.completed) = 1 THEN 'Completed'
         END as status
+		
         FROM monthly_plan mp
         INNER JOIN suppliers s
         ON s.id = mp.supplier_id
@@ -167,7 +168,15 @@ class Plan_model extends CI_Model {
 			$sql .=' group by planned_part_no';
 			$pass_array = array($part_no,$start_date,$end_date);
             $res = $this->db->query($sql, $pass_array)->row_array();
-			//echo $this->db->last_query();
 			return $res ;
     }
+	
+	function get_part_plan($planned_part_no,$schedule_date){
+		//echo $planned_part_no.'kkk'.$schedule_date;
+		$a = array($planned_part_no, $schedule_date);
+		$sql = "SELECT * FROM monthly_plan WHERE planned_part_no like ? AND schedule_date like ?";
+		return $res = $this->db->query($sql,$a)->row_array();
+		
+			
+	}
 }
