@@ -1,3 +1,9 @@
+<?php 
+$CI =& get_instance();
+$CI->load->model('plan_model');
+?>
+
+
 <style>
     .table.table-light > thead > tr > th {
         font-size: 14px;
@@ -48,11 +54,18 @@
                                         <td><?php echo $pl['supplier']; ?></td>
                                         <td><?php echo $pl['test']; ?></td>
                                         <td><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
-                                        <td><?php 
-												if($pl['no_inspection'] == 'NO')
-												{ echo 'No Lot'; }
+                                        <td> 
+												<?php 
+												$res = $CI->plan_model->get_part_plan($pl['planned_part_no'],$pl['schedule_date']);
+												//print_r($res['no_inspection']);
+												
+												if($res['no_inspection'] == 'NO')
+												{ echo 'No Lot'; 
+											
+												}											
 												else {	echo $pl['status']; }
 											?>
+											
 										</td>
                                         
                                         
