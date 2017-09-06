@@ -76,9 +76,9 @@
 											<!--a href="<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>" target='_blank'>View Image</a-->
 											
 											
-											<button type="button" class="button small" style='text-transform:capitalize;color:#000 !important;border: none;border-shadow:none;background-color:#fff' data-toggle="modal" data-target="#myModal_img">Reference Image</button>
+											<button type="button" class="button small" style='text-transform:capitalize;color:#000 !important;border: none;border-shadow:none;background-color:#fff' data-toggle="modal" data-target="#myModal_img_<?php echo $part['part_no']; ?>">Reference Image</button>
 
-											<div id="myModal_img" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<div id="myModal_img_<?php echo $part['part_no']; ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 											
 											  <div class="modal-dialog">
 											   

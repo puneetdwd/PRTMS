@@ -46,6 +46,14 @@ class Product_model extends CI_Model {
         ORDER BY pp.name ";        
         return $this->db->query($sql, array($product_id))->result_array();
     }
+	function get_all_product_parts_new($product_id) {
+        $sql = "SELECT pp.*
+        FROM product_parts pp
+        WHERE pp.is_deleted = 0
+        AND pp.product_id = ? group BY pp.part_no
+        ORDER BY pp.name ";        
+        return $this->db->query($sql, array($product_id))->result_array();
+    }
     
 	function get_part_num_by_part($part_name,$product_id) {
 		$sql = "SELECT pp.*

@@ -145,7 +145,7 @@ class Products extends Admin_Controller {
             redirect(base_url().'products');
 
         $data['product'] = $product;
-        $data['parts'] = $this->Product_model->get_all_product_parts($product_id);
+        $data['parts'] = $this->Product_model->get_all_product_parts_new($product_id);
 
         $this->template->write_view('content', 'products/parts', $data);
         $this->template->render();
