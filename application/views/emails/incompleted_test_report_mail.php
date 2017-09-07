@@ -25,7 +25,7 @@ Date: <?php echo $yesterday; ?>
                                     <th style='border: 1px solid black;'>Chamber Name</th>
                                     <!--th style='border: 1px solid black;'>Is Approved</th-->
                                     <th style='border: 1px solid black;'>Supplier</th>
-                                    <th style='border: 1px solid black;'>Inspector</th>
+                                    <th style='border: 1px solid black;'>Assistant</th>
                                     <th style='border: 1px solid black;'>ASN No.</th>
                                     <!--th style='border: 1px solid black;'>Result</th-->
                                 </tr>

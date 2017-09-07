@@ -321,6 +321,8 @@ class reports extends Admin_Controller {
             $data['reports_common'] = $this->report_model->get_common_details_part_based_test_report($filters);
 			$data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
 			$data['reports'] = $this->report_model->get_part_based_test_report($filters);
+			/* echo $this->db->last_query();
+			exit; */
             $samples = 0;
             $judgement = 'OK';
             foreach($data['reports'] as $rep){
@@ -545,4 +547,18 @@ class reports extends Admin_Controller {
         $this->template->render();
     }
     
+	function print_page($report){
+            
+		if(($this->input->post('report') == 'completed_test_report') || $report == 'completed_test_report'){
+            $filters = @$_SESSION['ctr_filters'] ;
+            //unset($_SESSION['ctr_filters']);
+            
+            $this->load->model('report_model');
+            //$filters = $this->input->post() ? $this->input->post() : array() ;
+            $data['reports'] = $this->report_model->get_completed_test_report($filters);
+            $data['str'] = $this->load->view('excel_pages/completed_test_report', $data, true);
+			echo json_encode($data);
+			
+		}
+	}
 }
