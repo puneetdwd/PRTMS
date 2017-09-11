@@ -258,7 +258,7 @@
                                 </a>
                             </li>
                         <?php } ?>
-						<?php if($this->session->userdata('user_type') == 'Testing'){ ?>
+						<?php if($this->session->userdata('user_type') == 'Testing'|| $this->session->userdata('user_type') == 'Chamber'){ ?>
                             <li class="dropdown more-dropdown <?php if($page == 'plans') { ?>active selected<?php } ?>">
                                 <a href="javascript:;" class="text-uppercase">
                                     <i class="icon-layers"></i> Plan 

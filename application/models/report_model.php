@@ -155,15 +155,19 @@ class report_model extends CI_Model {
                 LEFT JOIN stages st ON st.id = t.stage_id
                 WHERE t.completed = 0";
 				
+		if(!empty($filters['start_date'])) {
+            $sql .= ' AND t.end_date >= ?';			
+            $start_date = $filters['start_date'];
+        }
 		if(!empty($filters['end_date'])) {
             $sql .= ' AND t.end_date <= ?';			
             $end_date = $filters['end_date'];
         }
-        
+        $date = array($start_date,$end_date);
         $sql .= "  GROUP BY t.id,pp.id";
         //echo $sql; exit;
         
-        return $this->db->query($sql, $end_date)->result_array();
+        return $this->db->query($sql, $date)->result_array();
     }
     
     function get_approved_test_report($filters = array()){
@@ -553,7 +557,7 @@ class report_model extends CI_Model {
         }
         
         if(!empty($filters['month']) && !empty($filters['year']) ) {
-            $sql .= ' AND t.start_date >= ? AND t.start_date <= ?';
+            $sql .= ' AND t.start_date >= ? AND t.end_date <= ?';
             $pass_array[] = $filters['year']."-".$filters['month']."-01";
             $pass_array[] = $filters['year']."-".$filters['month']."-".date('t', strtotime($filters['year']."-".$filters['month']."-15"));
         }

@@ -76,7 +76,7 @@
                                             data-placeholder="Select Part" data-error-container="#sp-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>
-                                                <option value="<?php echo $part['name']; ?>" <?php if($part['id'] == $this->input->post('part_id')) { ?> selected="selected" <?php } ?>>
+                                                <option value="<?php echo $part['name']; ?>" <?php if($part['name'] == $this->input->post('part_id1')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $part['name']; ?>
                                                 </option>
                                             <?php } ?>        

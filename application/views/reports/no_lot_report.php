@@ -1,3 +1,8 @@
+<?php 
+$CI =& get_instance();
+$CI->load->model('plan_model');
+?>
+
 <div class="page-content">
     <!-- BEGIN PAGE HEADER-->
     <div class="breadcrumbs">
@@ -198,7 +203,7 @@
                                     <th>Part Name</th>
                                     <th>Part Number</th>
                                     <th>Supplier</th>
-                                    <th>Test Item</th>
+                                    <!--th>Test Item</th-->
                                     <th>Schedule Date</th>
                                     <th>Status</th>
                                     <th class="no_sort" style="width:100px;"></th>
@@ -212,11 +217,16 @@
                                         <td><?php echo $pl['part']; ?></td>
                                         <td><?php echo $pl['planned_part_no']; ?></td>
                                         <td><?php echo $pl['supplier']; ?></td>
-                                        <td><?php echo $pl['test']; ?></td>
+                                        <!--td><?php echo $pl['test']; ?></td-->
                                         <td><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
                                         <td><?php 
-												if($pl['no_inspection'] == 'NO')
-													{ echo 'No Lot'; }
+												$res = $CI->plan_model->get_part_plan($pl['planned_part_no'],$pl['schedule_date']);
+												//print_r($res['no_inspection']);
+												
+												if($res['no_inspection'] == 'NO')
+												{ echo 'No Lot'; 
+											
+												}											
 												else {	echo $pl['status']; }
 											?></td>
                                         

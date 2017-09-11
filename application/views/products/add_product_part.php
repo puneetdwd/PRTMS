@@ -113,9 +113,12 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label" for="img_file">
-											Image/File:<span class="required">*</span>
+											Image/File:
+											<?php if(!isset($part['id'])) { ?>
+												<span class="required">*</span>
+											<?php } ?>
 										</label>
-                                        <input type="file" class="required form-control" name="img_file" id="img_file"
+                                        <input type="file" class="<?php if(!isset($part['id'])) { ?> required <?php } ?>  form-control" name="img_file" id="img_file"
                                         value='<?php if(!empty($part['img_file'])) { echo $part['img_file'];} ?>'>
                                         <span class="help-block">Only jpg|jpeg|png files are allowed</span>
 										<?php

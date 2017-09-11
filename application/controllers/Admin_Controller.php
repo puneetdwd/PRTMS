@@ -221,8 +221,8 @@ class Admin_Controller extends CI_Controller {
         $this->load->library('email');
         $this->email->clear(TRUE);
         
-       //$this->email->from('noreply@lge.com', 'LG PRTMS');
-       $this->email->from('komal@crgroup.co.in', 'Test');
+        $this->email->from('noreply@lge.com', 'LG PRTMS');
+        //$this->email->from('komal@crgroup.co.in', 'Test');
         $this->email->to($to);
         $this->email->subject($subject);
         

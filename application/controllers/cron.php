@@ -27,18 +27,18 @@ class cron extends Admin_Controller {
     public function completed_test_report_mail(){
         $data = array();
         $filters = array();
-		$admins = $this->user_model->get_all_users();
+		$admins = $this->user_model->get_users_admins_chambers();
 		//$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);//24
 		$filters['end_date'] = '%'.date('Y-m-d',time() - 60 * 60 * 24).'%';
 		$data['reports'] = $this->report_model->get_completed_test_report_mail($filters);
-		//print_r($data['reports']);exit;
+		//print_r($data['reports']);exit;2017-02-14
 		$data['yesterday'] = date('jS M, Y', strtotime(date('Y-m-d',time() - 60 * 60 * 24)));
 		$mail_content = $this->load->view('emails/completed_test_report_mail', $data,true);
 		$this->load->library('email');
 		foreach($admins as $admin) {
 			
 			$toemail = $admin['email_id'];
-			$subject = "Completed Test Report";
+			$subject = "Completed Test Report of ".$data['yesterday'];
 			$this->sendMail($toemail,$subject,$mail_content);
 			//echo $mail_content;exit;
 		}
@@ -49,7 +49,8 @@ class cron extends Admin_Controller {
     public function approved_test_report_mail(){
         $data = array();
         $filters = array();
-		$admins = $this->user_model->get_all_users();
+		$admins = $this->user_model->get_users_admins_approver();
+		
 		//$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);
 		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
 		$data['reports'] = $this->report_model->get_approved_test_report_mail($filters);
@@ -65,24 +66,28 @@ class cron extends Admin_Controller {
 		}
 		//echo $this->email->print_debugger();exit;
     }
+	
 	public function incomplete_test_report_mail(){
         $data = array();
         $filters = array();
-		$admins = $this->user_model->get_all_users();
-		//$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);
+		$admins = $this->user_model->get_users_admins_chambers();
+		//echo '<pre>';print_r($admins);exit;
+		$filters['start_date'] = date('Y-m-01');
 		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
+		
 		$data['reports'] = $this->report_model->get_incompleted_test_report_mail($filters);
 		//echo $this->db->last_query();exit;
 		$data['yesterday'] = date('jS M, Y', strtotime($filters['end_date']));
+		$st = date('jS M, Y', strtotime($filters['start_date']));
+		$end = date('jS M, Y', strtotime($filters['end_date']));
 		$mail_content = $this->load->view('emails/incompleted_test_report_mail', $data,true);
 		$this->load->library('email');
 		foreach($admins as $admin) {
 			
-			$toemail = 'komal@crgroup.co.in';//$admin['email_id'];
-			$subject = "Incomplete Test Report";
-			//$this->sendMail($toemail,$subject,$mail_content);
-	
-		echo $mail_content;exit;
+			$toemail = $admin['email_id'];
+			$subject = "Incomplete Test Report from ".$st." to ".$end;
+			$this->sendMail($toemail,$subject,$mail_content);	
+			//echo $mail_content;exit;
 		}
 		//echo $this->email->print_debugger();exit;
 

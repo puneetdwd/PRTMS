@@ -199,6 +199,15 @@ class User_model extends CI_Model {
         $sql = "SELECT u.* FROM users as u where (FIND_IN_SET(".$product_id.", u.product_id) AND u.user_type like 'Product') OR u.user_type like 'Admin'  OR u.username like '".$username."'";		
 		return $this->db->query($sql)->result_array();
     }
+	function get_users_admins_chambers() {
+        $sql = "SELECT u.* FROM users as u where u.is_active = 1 AND (u.user_type like 'Chamber'  OR u.user_type like 'Admin')";		
+		return $this->db->query($sql)->result_array();
+    }
+	
+	function get_users_admins_approver() {
+        $sql = "SELECT u.* FROM users as u where u.is_active = 1 AND (u.user_type like 'Approver'  OR u.user_type like 'Admin')";		
+		return $this->db->query($sql)->result_array();
+    }
 	
 	function add_uploads_detail($data, $username, $user_type,$master_type) {
 		
