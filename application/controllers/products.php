@@ -506,7 +506,7 @@ class Products extends Admin_Controller {
 			$chamber_category = trim($row['J']);	
 			
             $chamber_cat_id = $this->Product_model->get_part_catagory_id_by_name($chamber_category);
-			//print_r($chamber_cat_id);exit;
+			print_r($chamber_cat_id);exit;
             $chambers = $this->Chamber_model->get_chambers_by_category($chamber_category);
             if(empty($chambers)) {
                 continue;

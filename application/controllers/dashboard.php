@@ -4,7 +4,7 @@ class Dashboard extends Admin_Controller {
 
     public function __construct() {
         parent::__construct(true);
-        
+        //echo $this->chamber_ids;
         //render template
         $this->template->write('title', 'PRTMS | '.$this->user_type.' Dashboard');
         $this->template->write_view('header', 'templates/header');
@@ -42,6 +42,13 @@ class Dashboard extends Admin_Controller {
 		else if($this->user_type == 'Testing') {
 			redirect(base_url().'plans/display'); // logged in redirect to index page.
         }
+		else if($this->user_type == 'SQA') {
+			//echo 'Hi Approver';
+            // $data = $this->sqa_dashboard();
+            $data = array();
+            $this->template->write_view('content', 'sqa_dashboard', $data);
+            $this->template->render(); 
+        }
     }
     
     public function dashboard_screen($page = 1) {
@@ -50,12 +57,12 @@ class Dashboard extends Admin_Controller {
         
         $per_page = 10;
         $limit = ' LIMIT '.($page-1)*$per_page.', '.$per_page;
-        //echo "<pre>";print_r($count);exit;
         $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), '', $limit);
-        
+        echo "<pre>";print_r($data['on_going_tests']);exit;
+        //echo $this->db->last_query();exit;
         if (!$this->input->is_ajax_request()) {
             $count = $this->Apps_model->on_going_test_count($this->chamber_ids);
-            
+            ///echo $this->db->last_query();exit;
             $data['total'] = ceil($count/$per_page);
             $this->template->write_view('content', 'dashboard_screen', $data);
             $this->template->render();

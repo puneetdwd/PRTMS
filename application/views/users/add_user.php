@@ -135,6 +135,9 @@
 											<option value="Product" <?php if($user_type == 'Product') { echo "selected='selected'"; } ?>>
                                                 Product User
                                             </option>
+											<option value="SQA" <?php if($user_type == 'SQA') { echo "selected='selected'"; } ?>>
+                                                SQA User
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

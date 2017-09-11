@@ -82,10 +82,12 @@ class Tests extends Admin_Controller {
         $data['categories'] = $this->Chamber_model->get_chamber_categories();
         
        
-        
-        $data['ptc_mappings'] = $this->Test_model->get_ptc_mappings_new($filters);
+		if(!empty($filters)){
+			$data['ptc_mappings'] = $this->Test_model->get_ptc_mappings_new($filters);
+			//echo $this->db->last_query();exit;			
+		}
 		//echo '<pre>';print_r($data['ptc_mappings']);exit;
-         //echo $this->db->last_query();exit;
+        //echo $this->db->last_query();exit;
         $this->template->write_view('content', 'tests/ptc_mappings', $data);
         $this->template->render();
     }

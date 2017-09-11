@@ -57,7 +57,7 @@ class Admin_Controller extends CI_Controller {
      */
     function is_admin_user() {
 
-        if($this->session->userdata('user_type') != 'Admin' && $this->session->userdata('user_type') != 'Testing' && $this->session->userdata('user_type') != 'Product' && $this->session->userdata('user_type') != 'Approver') {
+        if($this->session->userdata('user_type') != 'Admin' && $this->session->userdata('user_type') != 'Testing' && $this->session->userdata('user_type') != 'Product' && $this->session->userdata('user_type') != 'Approver' && $this->session->userdata('user_type') != 'SQA') {
 			
 			            
 			// && $this->session->userdata('user_type') != 'Chamber'

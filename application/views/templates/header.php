@@ -45,7 +45,7 @@
                 <div class="topbar-actions">
                     <div style="text-align: right; margin-right: 10px;">
                         <span id="user-info">Welcome, <?php echo $this->session->userdata('name'); ?>
-							<?php if($this->chamber_id || $this->session->userdata('user_type') == 'Product') { ?>
+							<?php if($this->chamber_id || $this->session->userdata('user_type') == 'Product' || $this->session->userdata('user_type') == 'SQA') { ?>
 								<small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> User ]</small>
 							<?php } else { ?>
 								<small> &nbsp; [ <?php echo $this->session->userdata('user_type'); ?> ]</small>
@@ -285,7 +285,7 @@
                         </li>
 						<?php } ?>
                         
-                          <?php if($this->session->userdata('user_type') != 'Approver') { ?>
+                          <?php if($this->session->userdata('user_type') != 'Approver'  && $this->session->userdata('user_type') != 'SQA') { ?>
                           
                         <li class="dropdown more-dropdown">
                             <a href="javascript:;" class="text-uppercase">
@@ -338,6 +338,24 @@
 								<li>
                                     <a href="<?php echo base_url(); ?>reports/approved_test_report">
                                         <i class="icon-briefcase"></i> Approved Test Report 
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        <?php } ?>
+                        
+						<?php if($this->session->userdata('user_type') == 'SQA') { ?>
+                         
+                        <li class="dropdown more-dropdown">
+                            <a href="javascript:;" class="text-uppercase">
+                                <i class="icon-layers"></i> Reports
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+								 <li>
+                                    <a href="<?php echo base_url(); ?>reports/part_assurance_report">
+                                        <i class="icon-briefcase"></i> Part Assurance Report
                                     </a>
                                 </li>
                                 
