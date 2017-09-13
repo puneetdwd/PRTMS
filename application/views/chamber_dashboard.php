@@ -1,4 +1,4 @@
-<style>
+<!--style>
     .easy-pie-chart .number canvas {
         height:60px !important;
         line-height:60px !important;
@@ -18,7 +18,83 @@
         margin-top: 5px;
         text-transform: uppercase;
     }
+	
+	
+    .smile-stats-icon {
+        width:45px;
+        padding:5px;
+        display:inline-block;
+    }
+    .smile-stats-icon > i {
+        font-size: 40px;
+        font-weight: bold;
+        line-height:40px !important;
+    }
+    .smile-stats-text {
+        font-size:28px;
+    }
+    .smile-stats {
+        display:inline-block;
+    }
+    .smile-stats + .smile-stats {
+        margin-left:30px;
+    }
+    .table.table-light > thead > tr > th {
+        font-size: 14px;
+        font-weight: 700;
+    }
+</style-->
+<style>
+    .easy-pie-chart .number canvas {
+        height:60px !important;
+        line-height:60px !important;
+    }
+    .progress-info .progress {
+        display: block;
+        height: 6px;
+        margin-bottom: 0;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+    }
+    .progress-info .status {
+        color: #aab5bc;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 5px;
+        text-transform: uppercase;
+    }
+    .smile-stats-icon {
+        width:45px;
+        padding:5px;
+        display:inline-block;
+    }
+    .smile-stats-icon > i {
+        font-size: 40px;
+        font-weight: bold;
+        line-height:40px !important;
+    }
+    .smile-stats-text {
+        font-size:28px;
+    }
+    .smile-stats {
+        display:inline-block;
+    }
+    .smile-stats + .smile-stats {
+        margin-left:30px;
+    }
+    .table.table-light > thead > tr > th {
+        font-size: 14px;
+        font-weight: 700;
+    }
 </style>
+<script type="text/javascript">
+    $(document).ready(function() {
+        setInterval(function() {
+           window.location.reload();
+        }, 600000);
+    });
+</script>
 <div class="page-content">
     <div class="breadcrumbs">
         <h1>
@@ -47,14 +123,43 @@
     <?php } ?>
 
     
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row">	
+        <div class="col-md-12">		 		
             <div class="mt-element-ribbon bg-grey-steel">
+				<div class="ribbon-header">
+                    <div class="col-md-5 col-md-offset-7" style="margin-top: -10px;">
+                        <div class="smile-stats">
+                            <div class="smile-stats-icon">
+                                <i class="fa fa-smile-o text-success"></i>
+                            </div>
+                            
+                            <span class="smile-stats-text" id="smile-count"> = 2</span></br>
+                            <span class="smile-text">Result Updated</span>
+                        </div>
+                        <div class="smile-stats">
+                            <div class="smile-stats-icon dashboard-noti-warning">
+                                <i class="fa fa-meh-o text-warning"></i>
+                            </div>
+                            
+                            <span class="smile-stats-text" id="warning-count"> = 2</span></br>
+                            <span class="smile-text">Result Need to Update</span>
+                        </div>
+                        <div class="smile-stats">
+                            <div class="smile-stats-icon dashboard-noti-danger">
+                                <i class="fa fa-frown-o text-danger"></i>
+                            </div>
+                            
+                            <span class="smile-stats-text" id="danger-count"> = 2</span></br>
+                            <span class="smile-text">Result Update Delayed</span>
+                        </div>
+                    </div>
+                </div>
+				
                 <div class="ribbon ribbon-clip ribbon-color-danger uppercase" style="font-size: 20px;">
                     <div class="ribbon-sub ribbon-clip"></div> On Going Tests
-                </div>
-                
-                <div class="ribbon-content" style="padding-top: 40px;">
+                </div>  
+				
+                <div id="dashboard-test-stats" class="ribbon-content" style="padding-top: 40px;">
                     <?php if(empty($on_going_tests)) { ?>
                         <div style="font-size: 20px;text-align:center;">No on going test</div>
                     <?php } else { ?>
@@ -129,7 +234,7 @@
                                             </a>
 											
                                         </td>
-                                        <td class="text-center">
+                                        <!--td class="text-center">
                                             <?php 
                                                 
 												if($on_going_test['no_of_observations'] == $on_going_test['observation_done']) {
@@ -170,6 +275,51 @@
                                             <div class="<?php echo $div_class; ?>" style="padding:5px;">
                                                 <i class="<?php echo $class; ?>" style="font-size: 40px; font-weight: bold; line-height:40px;"></i>
                                             </div>
+                                        </td-->
+										<td class="text-center">
+                                            <?php 
+                                                if($on_going_test['no_of_observations'] == $on_going_test['observation_done'])
+												{
+                                                    //echo 1;
+                                                    $class = 'fa fa-smile-o text-success';
+                                                    $div_class = '';
+                                                } else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
+                                                    //echo 2;
+                                                    $class = 'fa fa-frown-o text-danger';
+                                                    $div_class = 'dashboard-noti-danger';
+                                                } else if($on_going_test['max_index'] === '0' && empty($on_going_test['max_observation_at'])) {
+                                                    //echo 3;
+                                                    $class = 'fa fa-frown-o text-danger';
+                                                    $div_class = 'dashboard-noti-danger';
+                                                } else {
+                                                    //echo 4;
+                                                    $color = '';
+                                                    $key = $on_going_test['max_index'];
+                                                    
+                                                    $dur = ($on_going_test['observation_frequency']*($key+1)); 
+                                                    $ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime($on_going_test['start_date'])));
+                                                    
+                                                    $diff = strtotime($ob_time)- strtotime(date('Y-m-d H:i:s'));
+                                                    //echo $ob_time.' '.($diff/3600).' ';
+                                                    if($diff < 0) {
+                                                        $class = 'fa fa-frown-o text-danger';
+                                                        $div_class = 'dashboard-noti-danger';
+                                                    } else {
+                                                        $diff = $diff/3600;
+                                                        if($diff < 2) {
+                                                            $class = 'fa fa-meh-o text-warning';
+                                                            $div_class = 'dashboard-noti-warning';
+                                                        } else {
+															
+                                                            $class = 'fa fa-smile-o text-success';
+                                                            $div_class = '';
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                            <div class="<?php echo $div_class; ?>" style="padding:5px;">
+                                                <i class="<?php echo $class; ?>" style="font-size: 40px; font-weight: bold; line-height:40px;"></i>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -180,5 +330,15 @@
             </div>
         </div>
     </div>
+</div>
 
+<div class="modal fade" id="change-date-modal" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="<?php echo base_url(); ?>assets/global/img/loading-spinner-grey.gif" alt="" class="loading">
+                <span> &nbsp;&nbsp;Loading... </span>
+            </div>
+        </div>
+    </div>
 </div>

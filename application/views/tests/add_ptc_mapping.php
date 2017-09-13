@@ -128,7 +128,7 @@
                                             <?php foreach($tests as $test) { ?>
                                                 <option value="<?php echo $test['id']; ?>" 
                                                 <?php if($sel_test == $test['id']) { ?> selected="selected" <?php } ?>>
-                                                    <?php echo $test['name']; ?>
+                                                    <?php echo $test['code']. " - " . $test['name']." - ".$test['duration']."hrs." ; ?>
                                                 </option>
                                             <?php } ?>
                                             

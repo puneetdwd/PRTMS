@@ -64,7 +64,7 @@ class reports extends Admin_Controller {
 			
             $this->load->model('report_model');
             $data['reports'] = $this->report_model->get_completed_test_report($filters);
-			
+			//echo $this->db->last_query();exit;
 			
 
 			if(!empty($filters['product_id'])){
@@ -322,7 +322,7 @@ class reports extends Admin_Controller {
 			$data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
 			$data['reports'] = $this->report_model->get_part_based_test_report($filters);
 			/* echo $this->db->last_query();
-			exit; */
+			exit;  */
             $samples = 0;
             $judgement = 'OK';
             foreach($data['reports'] as $rep){

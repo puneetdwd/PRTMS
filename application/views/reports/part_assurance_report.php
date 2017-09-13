@@ -316,6 +316,9 @@
                                     <th>Result</th>
                                     <th style='width: 100px;'>Image</th>
                                     <th>Remark</th>
+                                    <th>Skip Remark</th>
+                                    <th>Retest Remark</th>
+                                    
                                     <!--<th class="no_sort" style="width:100px;">Action</th>-->
                                 </tr>
                             </thead>
@@ -340,13 +343,15 @@
                                         <td>
 										<?php if(!empty($report['test_img'])){	?>	
 											
-											<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test images/".$report['test_img']; ?>' class="img-responsive">					
+											<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive">					
 											
 										<?php }else{
 											echo 'No Img';
 										} ?>
 										</td>
                                        <td><?php echo " "; ?></td>
+                                       <td><?php echo $report['skip_remark']; ?></td>
+                                       <td><?php echo $report['retest_remark']; ?></td>
                                         <!--<td nowrap>
                                             <button type="button" class="button small view-test-modal-btn" data-index="<?php echo $report['code']; ?>">
                                                 View

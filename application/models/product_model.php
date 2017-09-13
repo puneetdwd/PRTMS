@@ -42,7 +42,7 @@ class Product_model extends CI_Model {
         $sql = "SELECT pp.*
         FROM product_parts pp
         WHERE pp.is_deleted = 0
-        AND pp.product_id = ? group BY pp.name
+        AND pp.product_id = ? group BY pp.name, pp.product_id 
         ORDER BY pp.name ";        
         return $this->db->query($sql, array($product_id))->result_array();
     }
@@ -50,7 +50,7 @@ class Product_model extends CI_Model {
         $sql = "SELECT pp.*
         FROM product_parts pp
         WHERE pp.is_deleted = 0
-        AND pp.product_id = ? group BY pp.part_no
+        AND pp.product_id = ? group BY pp.part_no, pp.product_id 
         ORDER BY pp.name ";        
         return $this->db->query($sql, array($product_id))->result_array();
     }
@@ -59,8 +59,9 @@ class Product_model extends CI_Model {
 		$sql = "SELECT pp.*
         FROM product_parts pp
         WHERE pp.is_deleted = 0
-        AND pp.name like ? AND pp.product_id = ?
-        ORDER BY pp.name";   		
+        AND pp.name like ? AND pp.product_id = ?         
+		group by pp.part_no, pp.product_id 
+		ORDER BY pp.name";   		
         return $this->db->query($sql, array($part_name,$product_id))->result_array();
     }
     
@@ -69,7 +70,9 @@ class Product_model extends CI_Model {
        p.code as product_code
        FROM product_parts as pp
        INNER JOIN products as p
-       ON pp.product_id = p.id";
+       ON pp.product_id = p.id 
+	    WHERE pp.is_deleted = 0        
+	   group by pp.name,p.id ";
        
        return $this->db->query($sql)->result_array();
     }
@@ -86,7 +89,7 @@ class Product_model extends CI_Model {
             $sql .= " WHERE pp.product_id = ?";
 			//$pass_array[] = $filters['product_id'];
        }
-	   $sql .=" GROUP BY pp.name";
+	   $sql .=" GROUP BY pp.name,p.id ";
        return $this->db->query($sql,$product_id)->result_array();
     }
     
@@ -103,7 +106,9 @@ class Product_model extends CI_Model {
     function get_product_parts_by_category($product_id, $category) {
         $this->db->where('product_id', $product_id);
         $this->db->where('category', $category);
-        
+        $this->db->where('is_deleted', 0);
+        $this->db->group_by('name'); 
+
         return $this->db->get('product_parts')->result_array();
     }
     
@@ -140,6 +145,8 @@ class Product_model extends CI_Model {
 			$this->db->where('product_id', $product_id);
         }
         $this->db->where('is_deleted', 0);
+        $this->db->group_by('part_no');
+        $this->db->group_by('product_id');
         
         return $this->db->get('product_parts')->result_array();
     }

@@ -3,20 +3,24 @@ class Apps_model extends CI_Model {
 
     function update_test($data, $id = ''){
 		//echo 'app_mod1=>';
-		$num = $data['part_num'];
+		if(!empty($data['part_num']))
+			$num = $data['part_num'];
         $needed_array = array('chamber_id', 'product_id',  'part_no','part_id', 'supplier_id', 
         'test_id', 'samples', 'duration', 'observation_frequency', 'no_of_observations', 'start_date', 'end_date',
-        'aborted', 'completed','is_approved','appr_test_remark','approved_by','retest_remark','retest_id', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img', 'skip_test','skip_remark');
+        'aborted', 'completed','is_approved','appr_test_remark','approved_by','retest_remark','retest_id','retest_started', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img', 'skip_test','skip_remark');
         $data = array_intersect_key($data, array_flip($needed_array));
-		$data['part_no'] = $num;
+		if(!empty($data['part_num']))
+			$data['part_no'] = $num;
         if(empty($id)) {
             $data['created'] = date("Y-m-d H:i:s");
             $data['code'] = time();
 		//echo 'app_mod2=>';echo $id.'<pre>';print_r($data);exit;
+		//print_r($data);exit;
             return (($this->db->insert('test_records', $data)) ? $this->db->insert_id() : False);
         } else {
             $this->db->where('id', $id);
             $data['modified'] = date("Y-m-d H:i:s");            
+		//print_r($data);exit;
             return (($this->db->update('test_records', $data)) ? $id : False);
         }        
     }
@@ -64,7 +68,7 @@ class Apps_model extends CI_Model {
         WHERE FIND_IN_SET(tr.chamber_id, ?)
         AND aborted = 0
         AND completed = 0
-        AND skip_test != 1";
+        AND skip_test != 1 AND retest_started != 1";
         
         $pass_array = array($chamber_ids);
         if($code) {
@@ -112,7 +116,7 @@ class Apps_model extends CI_Model {
             $pass_array[] = $code;
         }
         
-        $sql .= " GROUP BY tr.id order by id desc".$limit;
+        $sql .= " GROUP BY tr.id order by id desc ".$limit;
         $result = $this->db->query($sql, $pass_array);
         
         return $result->row_array();
@@ -296,10 +300,24 @@ class Apps_model extends CI_Model {
             $sql .= " WHERE code = ?";
             $pass_array[] = $code;
         }
-        
+        $sql .=" ORDER by id DESC ";
         $result = $this->db->query($sql, $pass_array);
         //echo $this->db->last_query();exit;
         return $result->result_array();
+    }  
+	function get_test_by_code_asc($code) {
+		//echo $code;exit;
+        $sql = "SELECT * from test_records";
+        
+        $pass_array = array();
+        if($code) {
+            $sql .= " WHERE code = ?";
+            $pass_array[] = $code;
+        }
+        $sql .=" ORDER by id ASC limit 0,1 ";
+        $result = $this->db->query($sql, $pass_array);
+        //echo $this->db->last_query();exit;
+        return $result->row_array();
     }  
 	function get_test_by_id($id) {
 		//echo $code;exit;

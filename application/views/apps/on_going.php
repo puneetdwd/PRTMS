@@ -323,7 +323,7 @@
 												</div>
 												
 													<div class="modal-body">
-														<img src='<?php echo base_url()."assets/part reference files/".$test["img_file"]; ?>' class="img-responsive">
+														<img src='<?php echo base_url()."assets/part_reference_files/".$test["img_file"]; ?>' class="img-responsive">
 													</div>
 												</div>
 											  </div>

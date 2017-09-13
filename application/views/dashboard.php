@@ -87,21 +87,24 @@
                                 <i class="fa fa-smile-o text-success"></i>
                             </div>
                             
-                            <span class="smile-stats-text" id="smile-count"> = 2</span>
+                            <span class="smile-stats-text" id="smile-count"> = 2</span></br>
+                            <span class="smile-text">Result Updated</span>
                         </div>
                         <div class="smile-stats">
                             <div class="smile-stats-icon dashboard-noti-warning">
                                 <i class="fa fa-meh-o text-warning"></i>
                             </div>
                             
-                            <span class="smile-stats-text" id="warning-count"> = 2</span>
+                            <span class="smile-stats-text" id="warning-count"> = 2</span></br>
+                            <span class="smile-text">Result Need to Update</span>
                         </div>
                         <div class="smile-stats">
                             <div class="smile-stats-icon dashboard-noti-danger">
                                 <i class="fa fa-frown-o text-danger"></i>
                             </div>
                             
-                            <span class="smile-stats-text" id="danger-count"> = 2</span>
+                            <span class="smile-stats-text" id="danger-count"> = 2</span></br>
+                            <span class="smile-text">Result Update Delayed</span>
                         </div>
                     </div>
                 </div>
@@ -183,7 +186,8 @@
                                         </td>
                                         <td class="text-center">
                                             <?php 
-                                                if($on_going_test['no_of_observations'] == $on_going_test['observation_done']) {
+                                                if($on_going_test['no_of_observations'] == $on_going_test['observation_done'])
+												{
                                                     //echo 1;
                                                     $class = 'fa fa-smile-o text-success';
                                                     $div_class = '';
@@ -214,6 +218,7 @@
                                                             $class = 'fa fa-meh-o text-warning';
                                                             $div_class = 'dashboard-noti-warning';
                                                         } else {
+															
                                                             $class = 'fa fa-smile-o text-success';
                                                             $div_class = '';
                                                         }

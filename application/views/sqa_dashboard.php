@@ -147,7 +147,7 @@
 													<h3>Test Image</h3>
 												</div>
 													<div class="modal-body">
-														<img src='<?php echo base_url()."assets/test images/".$completed_test["test_img"]; ?>' class="img-responsive">
+														<img src='<?php echo base_url()."assets/test_images/".$completed_test["test_img"]; ?>' class="img-responsive">
 													</div>
 												</div>
 											  </div>

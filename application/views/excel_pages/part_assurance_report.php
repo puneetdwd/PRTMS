@@ -93,6 +93,8 @@
                                     <th width="15%">Tests Image</th>
                                     <th width="10%">Result</th>
                                     <th width="10%">Remark</th>
+                                    <th width="10%">Skip Remark</th>
+                                    <th width="10%">Retest Remark</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -108,13 +110,15 @@
                                         <td width="10%" height='10%' align="center" style="vertical-align:middle;">
 										<?php if(!empty($report['test_img'])){	?>	
 											
-											<img width='8%' height='10%'  src='<?php echo base_url()."assets/test images/".$report['test_img']; ?>'>					
+											<img width='8%' height='10%'  src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>'>					
 											
 										<?php }else{
 											echo 'No Img';
 										} ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo strtoupper($report['observation_result']); ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo " "; ?></td>
+                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo $report['skip_remark']; ?></td>
+                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo $report['retest_remark']; ?></td>
                                     </tr>
                                 <?php } ?>
                                     <tr>

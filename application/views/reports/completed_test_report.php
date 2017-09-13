@@ -232,13 +232,13 @@ echo array_search(2,$_SESSION['product_ids']); */
 			</a>
 		</div>
 		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" onclick="printPage('comp_report_table');" href="javascript:void(0);">
+			<a class="button normals btn-circle" onclick="printPage('completed_test_report');" href="javascript:void(0);">
 				<i class="fa fa-print"></i> Print
 			</a>
 		</div>
 		<?php } ?>
 	</div>
-        <div class="col-md-12" id='comp_report_table'>
+        <div class="col-md-12" id='completed_test_report'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">

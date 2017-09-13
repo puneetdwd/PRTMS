@@ -223,7 +223,7 @@
 												  </div>
 												  <div class="modal-body">
 													<form id='test_remark_form' action="<?php echo base_url().'apps/sent_to_retest/'.$completed_test['code'];?>" method='post'>
-													Remark : 
+													Remark : <?php echo $completed_test['code']; ?>
 													<textarea required class="required form-control" rows="5" name='retest_remark' id="retest_remark"></textarea>
 													</br>
 												  <div class="modal-footer">

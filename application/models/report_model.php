@@ -104,7 +104,7 @@ class report_model extends CI_Model {
         }
         
         if(!empty($filters['end_date'])) {
-            $sql .= ' AND t.start_date <= ?';
+            $sql .= ' AND t.end_date <= ?';
             $pass_array[] = $filters['end_date'];
         }
         
@@ -513,7 +513,7 @@ class report_model extends CI_Model {
     
     function get_part_based_test_report($filters = array()){
         
-		$sql = "SELECT t.id as test_record_id, t.code, t.samples, ts.name as test_name, ts.method, ts.judgement, c.name as chamber_name, t.test_img,
+		$sql = "SELECT t.id as test_record_id, t.code, t.samples, ts.name as test_name, ts.method, ts.judgement, c.name as chamber_name, t.test_img,t.skip_remark,t.retest_remark,
                 t.start_date, t.end_date, tt.observation_result, c.category as chamber_category, st.name as stage_name
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 

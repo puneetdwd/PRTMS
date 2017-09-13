@@ -79,7 +79,7 @@ class Supplier_model extends CI_Model {
         if(!empty($wheres)) {
             $sql .= " WHERE ".implode(' AND ', $wheres);
         }
-        
+        $sql .= " group by pp.id,s.id";
         return $this->db->query($sql, $pass_array)->result_array();
     }
 

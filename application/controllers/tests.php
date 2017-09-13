@@ -114,7 +114,7 @@ class Tests extends Admin_Controller {
 
             $data['ptc_mapping'] = $ptc_mapping;
         }
-        //print_r($_POST);exit;
+        //echo '<pre>';print_r($data['tests']);exit;
         if($this->input->post()) {
             $this->load->library('form_validation');
 

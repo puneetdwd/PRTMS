@@ -73,7 +73,7 @@
                                         <td><?php echo $part['part_no']; ?></td>
                                         <td>
 										<?php if(!empty($part['img_file'])){ ?>
-											<!--a href="<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>" target='_blank'>View Image</a-->
+											<!--a href="<?php echo base_url()."assets/part_reference_files/".$part['img_file']; ?>" target='_blank'>View Image</a-->
 											
 											
 											<button type="button" class="button small" style='text-transform:capitalize;color:#000 !important;border: none;border-shadow:none;background-color:#fff' data-toggle="modal" data-target="#myModal_img_<?php echo $part['part_no']; ?>">Reference Image</button>
@@ -89,7 +89,7 @@
 													<h3>Part Reference Image</h3>
 												</div>
 													<div class="modal-body">
-														<img src='<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>' class="img-responsive">
+														<img src='<?php echo base_url()."assets/part_reference_files/".$part['img_file']; ?>' class="img-responsive">
 													</div>
 												</div>
 											  </div>

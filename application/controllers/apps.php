@@ -190,14 +190,22 @@ class Apps extends Admin_Controller {
 		exit; */
 		
 		//Uncomment following line
-		//
+		//`retest_started` 
 		
 		$test_code = $this->Apps_model->get_test_by_code($code);
+		
+		$test_code1 = $this->Apps_model->get_test_by_code_asc($code);		
+		//print_r($test_code1['id']);exit;
+		$d['retest_started'] = '1';
+        $this->Apps_model->update_test($d,$test_code1['id']);   
+		
 		if(count($test_code)  < 2){
+			
 			$res = $this->Apps_model->copy_test_by_code($code);
 			$result_test = $this->Apps_model->get_test_by_id($res);
 			$update_data['start_date'] = date('Y-m-d H:i:s');
             $update_data['end_date'] = date('Y-m-d H:i:s', strtotime('+'.($result_test['duration']).' hours'));
+			// $update_data['end_date']
             $this->Apps_model->update_test($update_data,$res);   
 		 
 		}
@@ -630,7 +638,7 @@ class Apps extends Admin_Controller {
 			
 				//test Image Upload
 				$test_img = $_FILES['test_img']['name'];      
-				$fullpath = 'assets/test images/';				
+				$fullpath = 'assets/test_images/';				
 				if($_FILES['test_img']['name'] != '') {			
 					$config['upload_path'] = $fullpath;
 					$config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -785,7 +793,7 @@ class Apps extends Admin_Controller {
 			
 				//test Image Upload
 				$test_img = $_FILES['test_img']['name'];      
-				$fullpath = 'assets/test images/';				
+				$fullpath = 'assets/test_images/';				
 				if($_FILES['test_img']['name'] != '') {			
 					$config['upload_path'] = $fullpath;
 					$config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -1189,5 +1197,11 @@ class Apps extends Admin_Controller {
         
         return $uploadOk;
     }
+	function test()
+	{
+		$this->load->model('product_model');
+		$this->product_model->get_part_numbers_by_name(2,'Motor AC');
+		echo $this->db->last_query();exit;
+	}
     
 }

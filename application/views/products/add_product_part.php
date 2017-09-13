@@ -124,7 +124,7 @@
 										<?php
 										if(!empty($part['img_file']))
 										{	?>
-											<a href="<?php echo base_url()."assets/part reference files/".$part['img_file']; ?>" target='_blank'>View Uploaded Image</a>
+											<a href="<?php echo base_url()."assets/part_reference_files/".$part['img_file']; ?>" target='_blank'>View Uploaded Image</a>
 											<?php
 										}
 										?>
