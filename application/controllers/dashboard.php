@@ -58,7 +58,7 @@ class Dashboard extends Admin_Controller {
         $per_page = 10;
         $limit = ' LIMIT '.($page-1)*$per_page.', '.$per_page;
         $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), '', $limit);
-        echo "<pre>";print_r($data['on_going_tests']);exit;
+        //echo "<pre>";print_r($data['on_going_tests']);exit;
         //echo $this->db->last_query();exit;
         if (!$this->input->is_ajax_request()) {
             $count = $this->Apps_model->on_going_test_count($this->chamber_ids);
