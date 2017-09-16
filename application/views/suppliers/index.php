@@ -66,6 +66,16 @@
                                                 href="<?php echo base_url()."suppliers/add_supplier/".$supplier['id'];?>">
                                                 <i class="fa fa-edit"></i> Edit
                                             </a>
+											<a class="btn btn-xs btn-outline sbold red-thunderbird" data-confirm="Are you sure you want to mark this supplier as <?php echo $supplier['is_deleted'] ? 'active' : 'inactive';?>?"
+                                                href="<?php echo base_url()."suppliers/status/".$supplier['id'].'/'.($supplier['is_deleted'] ? 'active' : 'inactive' );?>">
+                                                <i class="fa fa-trash-o"></i> 
+												
+												<?php 
+													if($supplier['is_deleted'] == 0)
+														echo 'Mark Inactive';
+													else echo 'Mark Active';												
+												?>
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php } ?>

@@ -351,4 +351,42 @@ class Admin_Controller extends CI_Controller {
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    function create_excel($headers, $data, $name) {
+        $this->load->library('excel');
+        $this->config->load('excel');
+        $row = 1;
+        $last_letter =  PHPExcel_Cell::stringFromColumnIndex(count($headers)-1);
+        //activate worksheet number 1
+        
+        $this->excel->setActiveSheetIndex(0);
+        $this->excel->getActiveSheet()->getDefaultStyle()->applyFromArray($this->config->item('defaultStyle'));
+        $this->excel->getActiveSheet()->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        
+        $this->excel->getActiveSheet()->fromArray($headers, NULL, 'A'.$row);
+        $this->excel->getActiveSheet()->getStyle('A'.$row.':'.$last_letter.$row)
+                            ->applyFromArray($this->config->item('headerStyle'));
+        $row++;
+        
+        foreach($data as $dt) {
+            $row_data = array_values($dt);
+
+            $this->excel->getActiveSheet()->fromArray($row_data, NULL, 'A'.$row, true);
+            $row++;
+        }
+        
+        $row++;
+        
+        $filename = $name.".xls" ;
+        
+        header('Content-Type: application/force-download');
+        header('Content-disposition: attachment; filename='.$filename);
+        //header('Content-Type: application/vnd.ms-excel'); //mime type
+        //header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+        //header('Cache-Control: max-age=0'); //no cache
+        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+        ob_end_clean();
+        //force user to download the Excel file without writing it to server's HD
+        $objWriter->save('php://output');
+		return;
+    }
 }

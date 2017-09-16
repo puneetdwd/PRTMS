@@ -87,8 +87,8 @@ $CI->load->model('plan_model');
 												//print_r($res['no_inspection']);
 												
 												if($res['no_inspection'] == 'NO')
-												{ echo 'No Lot'; 
-											
+												{ 
+													echo 'No Lot'; 
 												}											
 												else {	echo $pl['status']; }
 											?>

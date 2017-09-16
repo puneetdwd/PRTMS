@@ -143,7 +143,7 @@ class Plans extends Admin_Controller {
             
             $filters = array('product_id' => $this->input->get('product_id'));
             $data['plan'] = $this->Plan_model->get_month_plan($this->input->get('plan_month'), $filters);
-			
+			//echo $this->db->last_query();exit;
         }
         
         if(!empty($filters['product_id'])) {
@@ -251,7 +251,7 @@ class Plans extends Admin_Controller {
     
     public function parse_monthly_plan($product_id, $month_year, $file_name) {
         //$file_name = 'assets/uploads/'.$file_name;
-        
+        //echo $month_year;exit;
         $this->load->library('excel');
         //read file from path
         $objPHPExcel = PHPExcel_IOFactory::load($file_name);
@@ -277,34 +277,94 @@ class Plans extends Admin_Controller {
         $supplier_id = '';
         $date = '';
         
+		
+		
         $mappings = array();
         $plans = array();
         $tests = array();
+        $full_data = array();
+		 
+		 
         foreach($arr as $no => $row) {
-            
-			/* echo $no;
-			*/
-			if($no <= 2)
+		$i = 0;
+					
+					
+		//Error
+		//Prepare Header for error excel
+		if($no == 1){
+				$headers = array();
+				$headers = $row;
+				$headers['H'] = 'Error';
+				//print_r($headers);exit;
+				continue;
+		}
+		//End Prepare Header  for error excel
+		if($no <= 2)
                 continue;
-            
-            $row['B'] = str_replace("\n", ' ', $row['B']);
+          
+		
+		//prepare error lines
+		$content_error = array();
+		if(!empty(trim($row['D']))) 
+		{ 
+			$part_exist = $this->Product_model->get_product_part_by_code_num($product_id,trim($row['D']));
+			
+			$part_id = !empty($part_exist) ? $part_exist['id'] : '';      
+				
+			//Get Plan for this Part_id for current month_year
+			
+			if($part_id == ''){
+				$content_error[] = 'Planned Part Number not found. PTC Mapping not found'; 
+			}
+			else{
+					$plan_part = $this->Plan_model->get_plan_by_part($part_id,$month_year);
+					if(!empty($plan_part))
+						$content_error[] = "Part plan found for this month."; 
+					$tests = $this->Test_model->get_tests_by_part($part_id);
+					if(empty($tests))
+						$content_error[] = "PTC Mapping not found."; 
+					
+				}
+		}
+				
+		//prepare error lines
+		$temp = array();
+		if(!empty($content_error)){
+			
+			$temp['Sr_no'] = trim($row['A']);
+			$temp['Part_Code'] = trim($row['B']);
+			$temp['Component_Name'] = trim($row['C']);
+			$temp['Planed_Part_no'] = trim($row['D']);
+			$temp['Supplier_Code'] = trim($row['E']);
+			$temp['Supplier_Name'] = trim($row['F']);
+			$temp['Schedule_date'] = trim($row['G']);
+			$temp['error']    	   = implode(",",$content_error);
+			$full_data[]       	   = $temp;
+		}	
+		//Error
+		
+		    $row['B'] = str_replace("\n", ' ', $row['B']);
             $row['D'] = str_replace("\n", ' ', $row['D']);
-            
             if($p !== trim($row['D']) && !empty($row['D'])) {
                 $p = $row['D'];
-                
                 // $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
                 $exists = $this->Product_model->get_product_part_by_code_num($product_id, $p);
                 $part_id = !empty($exists) ? $exists['id'] : '';
                 if(!empty($part_id)) {
                     $tests = $this->Test_model->get_tests_by_part($part_id);
-                    //echo "<pre>";print_r();exit;
+                    //echo "<pre>";print_r();exit;					
+					$plan_part = $this->Plan_model->get_plan_by_part($part_id,$month_year);
+					if(!empty($plan_part)) {
+						continue;
+					}
+					
                 }
             }
             //echo "<pre>";print_r($tests);
             if(empty($part_id)) {
                 continue;
             }
+			
             
             if($s !== trim($row['E'])) {
                 if(empty($row['E'])) {
@@ -349,13 +409,10 @@ class Plans extends Admin_Controller {
                     $plan['test_id'] = $test['id'];
                     
                     $plans[] = $plan;
-                }
-
-                
+                }                
             }
         
-
-        if(!empty($mappings)) {
+       if(!empty($mappings)) {
             $this->Supplier_model->insert_sp_mappings($mappings);
             $this->Supplier_model->remove_dups();
         }
@@ -364,7 +421,11 @@ class Plans extends Admin_Controller {
         if(!empty($plans)) {
             $this->Plan_model->insert_monthly_plan($plans, $month_year);
         }
+			
 	}
-        return TRUE;
+	if(!empty($full_data)){			 
+			$this->create_excel($headers, $full_data, 'plan_error_file');			
+	}
+	return TRUE;
     }
 }

@@ -57,11 +57,11 @@
                             <?php } ?>
                             
                             <div class="row">
-                                
+                                <input name = 'part_assurance' id = 'part_assurance' value = 'part_assurance' type = 'hidden' />
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Month<span class="required">*</span></label>
-                                        <select name="month" class="required form-control select2me" data-placeholder="Month">
+                                        <select name="month" id="month" class="required form-control select2me" data-placeholder="Month">
                                             <option></option>
                                             
                                             <option value="1" <?php if($this->input->post('month') == 1) { ?> selected="selected" <?php } ?>>
@@ -109,7 +109,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Year<span class="required">*</span></label>
-                                        <select name="year" class="required form-control select2me" data-placeholder="Year">
+                                        <select name="year" id="year" class="required form-control select2me" data-placeholder="Year">
                                             <option></option>
                                             <?php for($y=2016; $y <= date('Y'); $y++) { ?>
                                                 <option value="<?php echo $y; ?>" <?php if($this->input->post('year') == $y) { ?> selected="selected" <?php } ?>>
@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-3">
+                                <!--div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-product-search-error">
                                         <label class="control-label">Select Product:<span class="required">*</span></label>                                                
                                         <select name="product_id" class="required form-control select2me" id="product-part-selector"
@@ -149,6 +149,24 @@
                                             <?php } ?>        
                                         </select>
                                     </div>
+                                </div-->
+								
+								<div class="col-md-3">
+                                    <div class="form-group" id="ptc-mappings-product-search-error">
+                                        <label class="control-label">Select Product:<span class="required">*</span></label>
+                                                
+                                        <select name="product_id" class="required form-control select2me" id="product-part-selector"
+                                            data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
+                                            <option></option>
+                                            <?php foreach($products as $product) { ?>
+                                                <option 
+												
+												value="<?php echo $product['id']; ?>" <?php if($product['id'] == $this->input->post('product_id')) { ?> selected="selected" <?php } ?>>
+                                                    <?php echo $product['name']; ?>
+                                                </option>
+                                            <?php }  ?>        
+                                        </select>
+                                    </div>
                                 </div>
                                 
                             </div>
@@ -158,7 +176,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
                                         <label class="requried control-label">Select Part Name:<span class="required">*</span></label>                                                
-                                        <select name="part_id" class="required form-control select2me" id="part-selector"
+                                        <select name="part_id" class="required form-control select2me " id="part-selector"
                                             data-placeholder="Select Part Name" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($parts as $part) { ?>

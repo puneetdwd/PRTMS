@@ -187,7 +187,7 @@
                                         <td><?php echo $report['chamber_name']; ?></td>
                                         <td><?php echo $report['test_record_count']; ?></td>
                                         <td nowrap>
-                                            <a class="btn btn-success btn-xs"
+                                            <a class="btn btn-success btn-xs" style='color:#fff'
                                                 href="<?php echo base_url()."reports/check_tests/".$report['chamber_id'];?>">
                                                 <i class="fa fa-eye" aria-hidden="true"></i> Check Tests
                                             </a>

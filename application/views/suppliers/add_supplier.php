@@ -48,13 +48,13 @@
                             <?php } ?>
                             
                             
-                            <div class="row">
-                                
+                            <div class="row">                                
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label" for="name">Supplier Code:
                                         <span class="required">*</span></label>
                                         <input type="text" class="required form-control" name="supplier_no"
+										<?php echo (isset($supplier) ? 'readonly': ''); ?> 
                                         value="<?php echo isset($supplier['supplier_no']) ? $supplier['supplier_no'] : ''; ?>">
                                         <span class="help-block">
                                         </span>

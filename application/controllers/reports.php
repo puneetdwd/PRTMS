@@ -295,6 +295,7 @@ class reports extends Admin_Controller {
         $this->load->model('Stage_model');
         $data['stages'] = $this->Stage_model->get_all_stages();
         
+        $this->load->model('Test_model');
         $this->load->model('Supplier_model');
         $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
         
@@ -310,7 +311,9 @@ class reports extends Admin_Controller {
 				//$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
 				//$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
 				$data['suppliers'] = $this->Supplier_model->get_suppliers_by_part($filters['part_id1']);
-				//$data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);
+				$testss = $data['tests'] = $this->Test_model->get_tests_by_part($filters['part_id1']);				
+				
+				//print_r($tids);
         
 			}
 			if(!empty($filters['part_id'])){
@@ -320,9 +323,17 @@ class reports extends Admin_Controller {
             $this->load->model('report_model');
             $data['reports_common'] = $this->report_model->get_common_details_part_based_test_report($filters);
 			$data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
-			$data['reports'] = $this->report_model->get_part_based_test_report($filters);
-			/* echo $this->db->last_query();
-			exit;  */
+			$data['reports'] = $this->report_model->get_part_based_test_report_new($filters,$testss);
+			
+			$tids = array_column($testss, 'id');
+			$trec_tids = array_column($data['reports'], 'test_iid');
+			
+			$diff = array_diff($tids, $trec_tids);
+			
+			if(!empty($diff)){
+				$data['reports'] = '';
+			}
+			
             $samples = 0;
             $judgement = 'OK';
             foreach($data['reports'] as $rep){

@@ -129,6 +129,10 @@ class report_model extends CI_Model {
                 LEFT JOIN stages st ON st.id = t.stage_id
                 WHERE t.completed = 1";
 				
+		/* if(!empty($filters['start_date'])) {
+            $sql .= ' AND t.end_date >= ?';
+            $end_date = $filters['start_date'];
+        } */
 		if(!empty($filters['end_date'])) {
             $sql .= ' AND t.end_date like ?';
             $end_date = $filters['end_date'];
@@ -560,6 +564,59 @@ class report_model extends CI_Model {
             $sql .= ' AND t.start_date >= ? AND t.end_date <= ?';
             $pass_array[] = $filters['year']."-".$filters['month']."-01";
             $pass_array[] = $filters['year']."-".$filters['month']."-".date('t', strtotime($filters['year']."-".$filters['month']."-15"));
+        }
+        $sql .= ' GROUP BY t.id';
+        return $this->db->query($sql, $pass_array)->result_array();
+	}
+	function get_part_based_test_report_new($filters = array(),$testss = array()){
+        //print_r($testss);exit;
+		$sql = "SELECT t.id as test_record_id,ts.id as test_iid, t.code, t.samples, ts.name as test_name, ts.method, ts.judgement, c.name as chamber_name, t.test_img,t.skip_remark,t.retest_remark,
+                t.start_date, t.end_date, tt.observation_result, c.category as chamber_category, st.name as stage_name
+                FROM `test_records` t 
+                LEFT JOIN chambers c ON c.id = t.chamber_id 
+                LEFT JOIN products p ON p.id = t.product_id 
+                LEFT JOIN product_parts pp ON pp.id = t.part_id 
+                LEFT JOIN suppliers s ON s.id = t.supplier_id 
+                LEFT JOIN tests ts ON ts.id = t.test_id 
+                LEFT JOIN test_observations tt ON tt.test_id = t.id 
+                LEFT JOIN stages st ON st.id = t.stage_id
+                WHERE t.completed = 1 ";
+        
+        $pass_array = array();
+        
+        if(!empty($filters['product_id'])) {
+            $sql .= ' AND t.product_id = ?';
+            $pass_array[] = $filters['product_id'];
+        }
+        
+        if(!empty($filters['part_id1'])) {
+            $sql .= ' AND t.part_id = ?';
+            $pass_array[] = $filters['part_id1'];
+        } 
+        if(!empty($filters['chamber_id'])) {
+            $sql .= ' AND t.chamber_id = ?';
+            $pass_array[] = $filters['chamber_id'];
+        }
+        
+        if(!empty($filters['chamber_category'])) {
+            $sql .= ' AND c.category = ?';
+            $pass_array[] = $filters['chamber_category'];
+        }
+        
+        if(!empty($filters['stage_id'])) {
+            $sql .= ' AND t.stage_id = ?';
+            $pass_array[] = $filters['stage_id'];
+        }
+        
+        if(!empty($filters['supplier_id'])) {
+            $sql .= ' AND t.supplier_id = ?';
+            $pass_array[] = $filters['supplier_id'];
+        }
+        
+        if(!empty($filters['month']) && !empty($filters['year']) ) {
+            $sql .= ' AND t.start_date BETWEEN  ? AND  ?';
+            $pass_array[] = $filters['year']."-".$filters['month']."-01"." 00:00:00";
+            $pass_array[] = $filters['year']."-".$filters['month']."-".date('t', strtotime($filters['year']."-".$filters['month']."-15"))." 23:59:59";
         }
         $sql .= ' GROUP BY t.id';
         return $this->db->query($sql, $pass_array)->result_array();

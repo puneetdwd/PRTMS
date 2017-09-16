@@ -288,12 +288,30 @@ class Products extends Admin_Controller {
         }       
         echo json_encode($data);
     }
+	public function get_parts_by_product_new1() {
+        $data = array('parts' => array());        
+        if($this->input->post('product')) {
+            $this->load->model('Product_model');
+            $data['parts'] = $this->Product_model->get_all_product_parts_new1($this->input->post('product'),$this->input->post('month'),$this->input->post('year'));
+        }       
+		// echo $this->db->last_query();
+        echo json_encode($data);
+    }
 	public function get_part_number_by_part() {
         $data = array('parts' => array());
         if($this->input->post('part')) {
             $this->load->model('Product_model');
             $data['parts'] = $this->Product_model->get_part_num_by_part($this->input->post('part'),$this->input->post('product'));
 		}
+		echo json_encode($data);
+    }
+	public function get_part_number_by_part_new() {
+        $data = array('parts' => array());
+        if($this->input->post('part')) {
+            $this->load->model('Product_model');
+            $data['parts'] = $this->Product_model->get_part_num_by_part_new($this->input->post('part'),$this->input->post('product'),$this->input->post('month'),$this->input->post('year'));
+		}
+		//echo $this->db->last_query();
 		echo json_encode($data);
     }
 	

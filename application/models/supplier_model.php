@@ -2,7 +2,7 @@
 class Supplier_model extends CI_Model {
 
     function add_supplier($data, $supplier_id){
-        $needed_array = array('name', 'supplier_no');
+        $needed_array = array('name', 'supplier_no','is_deleted');
         $data = array_intersect_key($data, array_flip($needed_array));
 		//print_r($data);exit;
         if(!empty($data['name'])) {
@@ -22,7 +22,12 @@ class Supplier_model extends CI_Model {
     }
         
     function get_all_suppliers(){
-        $sql = 'SELECT id, name, supplier_no FROM suppliers';
+        $sql = 'SELECT id, name, supplier_no FROM suppliers where is_deleted = 0 group by id';
+        
+        return $this->db->query($sql)->result_array();
+    }
+    function get_all_suppliers_all_col(){
+        $sql = 'SELECT * FROM suppliers';
         
         return $this->db->query($sql)->result_array();
     }
@@ -79,7 +84,7 @@ class Supplier_model extends CI_Model {
         if(!empty($wheres)) {
             $sql .= " WHERE ".implode(' AND ', $wheres);
         }
-        $sql .= " group by pp.id,s.id";
+        $sql .= " group by p.id,pp.id,s.id";
         return $this->db->query($sql, $pass_array)->result_array();
     }
 
@@ -101,7 +106,7 @@ class Supplier_model extends CI_Model {
         FROM sp_mappings sp
         INNER JOIN suppliers s
         ON sp.supplier_id = s.id
-        WHERE sp.part_id = ?";
+        WHERE sp.part_id = ? AND s.is_deleted = 0 group by sp.supplier_id,sp.part_id";
         
         return $this->db->query($sql, array($part_id))->result_array();
     }
@@ -140,7 +145,7 @@ class Supplier_model extends CI_Model {
     function insert_suppliers($suppliers) {
         $this->db->insert_batch('suppliers', $suppliers);
         
-        $this->remove_dups_suppliers();
+        //$this->remove_dups_suppliers();
     }
     
     function remove_dups_suppliers() {
@@ -154,5 +159,21 @@ class Supplier_model extends CI_Model {
         )";
         
         return $this->db->query($sql, array($product_id, $product_id));
+    }
+	
+	 function change_status($id, $status) {
+        if(!empty($id) && !empty($status)) {
+            $user_active = ($status == 'active') ? 0 : 1;
+            
+            $this->db->where('id', $id);
+            $this->db->set('is_deleted', $user_active);
+            $this->db->update('suppliers');
+
+            if($this->db->affected_rows() > 0) {
+                return TRUE;
+            }
+        }
+
+        return FALSE;
     }
 }

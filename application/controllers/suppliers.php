@@ -15,7 +15,7 @@ class Suppliers extends Admin_Controller {
     public function index() {
         $data = array();
         $this->load->model('Supplier_model');
-        $data['suppliers'] = $this->Supplier_model->get_all_suppliers();
+        $data['suppliers'] = $this->Supplier_model->get_all_suppliers_all_col();
 
         $this->template->write_view('content', 'suppliers/index', $data);
         $this->template->render();
@@ -24,7 +24,6 @@ class Suppliers extends Admin_Controller {
     public function add_supplier($supplier_id = '') {
         $data = array();
         $this->load->model('Supplier_model');
-        
         if(!empty($supplier_id)) {
             $supplier = $this->Supplier_model->get_supplier($supplier_id);
             if(empty($supplier))
@@ -32,10 +31,22 @@ class Suppliers extends Admin_Controller {
 
             $data['supplier'] = $supplier;
         }
+		if($supplier_id == '') {
         
+			if($this->input->post('supplier_no')){
+				$exists = $this->Supplier_model->get_supplier_by_code($this->input->post('supplier_no'));
+				if(!empty($exists)){
+					$this->session->set_flashdata('error', 'Supplier Already exist.');
+					redirect(base_url().'suppliers');
+				}
+			}
+        }
+		
         if($this->input->post()) {
             $post_data = $this->input->post();
             
+			//print_r($post_data);exit;
+			
             $response = $this->Supplier_model->add_supplier($post_data, $supplier_id); 
             if($response) {
                 $this->session->set_flashdata('success', 'Supplier successfully '.(($supplier_id) ? 'updated' : 'added').'.');
@@ -159,6 +170,7 @@ class Suppliers extends Admin_Controller {
             $temp = array();
             $temp['supplier_no']    = trim($row['A']);
             $temp['name']           = trim($row['B']);
+            $temp['is_deleted']     = trim($row['C']);
             $temp['created']        = date("Y-m-d H:i:s");
 
             $exists = $this->Supplier_model->get_supplier_by_code(trim($row['A']));
@@ -175,5 +187,17 @@ class Suppliers extends Admin_Controller {
         $this->Supplier_model->insert_suppliers($suppliers);
         
         return TRUE;
+    }
+	
+	public function status($id, $status) {
+        
+        $this->load->model('Supplier_model');
+        if($this->Supplier_model->change_status($id, $status)) {
+            $this->session->set_flashdata('success', 'Supplier marked as '.$status);
+        } else {
+            $this->session->set_flashdata('error', 'Something went wrong, Please try again.');
+        }
+
+        redirect(base_url().'suppliers');
     }
 }

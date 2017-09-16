@@ -964,7 +964,8 @@ class Apps extends Admin_Controller {
         if($this->input->post('part')) {
             $this->load->model('Test_model');
             // $data['tests'] = $this->Test_model->get_tests_by_part_chamber($part['id'], $this->input->post('chamber'));
-            $data['tests'] = $this->Test_model->get_tests_by_part($this->input->post('part'),$this->input->post('product'));
+            // $data['tests'] = $this->Test_model->get_tests_by_part($this->input->post('part'),$this->input->post('product'));
+            $data['tests'] = $this->Test_model->get_tests_by_part($this->input->post('part'));
         }
         
         echo json_encode($data);

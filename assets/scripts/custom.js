@@ -45,29 +45,63 @@ $(document).ready(function() {
         });
         
         var product = $('#product-part-selector :selected').val();
-		// alert(product);
-        $.ajax({
-            type: 'POST',
-            url: base_url+'products/get_parts_by_product',
-            data: { product: product},
-            dataType: 'json',
-            success: function(resp) {
-                if($('#part-selector :selected').val() != '') {
-                    $('#part-selector').select2('val', null);
-                }
-                
-                $('#part-selector').html('');
-                
-                $('#part-selector').append('<option value=""></option>');
-                $.each(resp.parts, function (i, item) {
-                    $('#part-selector').append($('<option>', { 
-                        value: item.name,
-                        text : item.name, 
-                    }));
-                });
-                App.unblockUI('#'+portlet_id);
-            }
-        });
+		//alert(product);
+		var part_assurance = $('#part_assurance').val();
+		//alert(part_assurance); 
+		if(part_assurance == 'part_assurance')
+		{ 
+			//alert(123);
+			var month = $('#month').val();
+			var year = $('#year').val();
+			
+				$.ajax({
+				type: 'POST',
+				data: { product: product,month:month,year:year},
+				url: base_url+'products/get_parts_by_product_new1',
+				dataType: 'json',
+				success: function(resp) {
+					if($('#part-selector :selected').val() != '') {
+						$('#part-selector').select2('val', null);
+					}
+					
+					$('#part-selector').html('');
+					
+					$('#part-selector').append('<option value=""></option>');
+					$.each(resp.parts, function (i, item) {
+						$('#part-selector').append($('<option>', { 
+							value: item.name,
+							text : item.name, 
+						}));
+					});
+					App.unblockUI('#'+portlet_id);
+				}
+			});
+		}
+		else{
+			//alert(0123);
+				$.ajax({
+				type: 'POST',
+				url: base_url+'products/get_parts_by_product',
+				data: { product: product},
+				dataType: 'json',
+				success: function(resp) {
+					if($('#part-selector :selected').val() != '') {
+						$('#part-selector').select2('val', null);
+					}
+					
+					$('#part-selector').html('');
+					
+					$('#part-selector').append('<option value=""></option>');
+					$.each(resp.parts, function (i, item) {
+						$('#part-selector').append($('<option>', { 
+							value: item.name,
+							text : item.name, 
+						}));
+					});
+					App.unblockUI('#'+portlet_id);
+				}
+			});
+		}
     });
 	
     $('#product-part-selector1').change(function() {
@@ -113,31 +147,67 @@ $(document).ready(function() {
         
         var part = $('#part-selector :selected').val();
         var product = $('#product-part-selector :selected').val();
-		/* alert(part);
-		alert(product);  */
-        $.ajax({
-            type: 'POST',
-            url: base_url+'products/get_part_number_by_part',
-            data: { part: part, product: product},
-            dataType: 'json',
-            success: function(resp) {
-                if($('#part-selector_number :selected').val() != '') {
-                    $('#part-selector_number').select2('val', null);
-                }
-				
-				//alert(resp.parts);
-                
-                $('#part-selector_number').html('');
-                $('#part-selector_number').append('<option value=""></option>');
-				$.each(resp.parts, function (i, item) {
-                    $('#part-selector_number').append($('<option>', { 
-                        value: item.id,
-                        text : item.part_no, 
-                    }));
-                });
-                App.unblockUI('#'+portlet_id);
-            }
-        });
+        /* var month = $('#par_month_selector :selected').val();
+        var year = $('#par_month_selector :selected').val();
+		 */
+		
+        var part_assurance = $('#part_assurance').val();
+		//alert(part_assurance);
+		if(part_assurance == 'part_assurance'){
+			
+			var month = $('#month').val();
+			var year = $('#year').val();
+			
+			 $.ajax({
+				type: 'POST',
+				url: base_url+'products/get_part_number_by_part_new',
+				data: { part: part, product: product,month:month,year:year},
+				dataType: 'json',
+				success: function(resp) {
+					if($('#part-selector_number :selected').val() != '') {
+						$('#part-selector_number').select2('val', null);
+					}
+					
+					//alert(resp.parts);
+					
+					$('#part-selector_number').html('');
+					$('#part-selector_number').append('<option value=""></option>');
+					$.each(resp.parts, function (i, item) {
+						$('#part-selector_number').append($('<option>', { 
+							value: item.id,
+							text : item.part_no, 
+						}));
+					});
+					App.unblockUI('#'+portlet_id);
+				}
+			}); 
+		}
+		else{
+			
+			$.ajax({
+				type: 'POST',
+				url: base_url+'products/get_part_number_by_part',
+				data: { part: part, product: product},
+				dataType: 'json',
+				success: function(resp) {
+					if($('#part-selector_number :selected').val() != '') {
+						$('#part-selector_number').select2('val', null);
+					}
+					
+					//alert(resp.parts);
+					
+					$('#part-selector_number').html('');
+					$('#part-selector_number').append('<option value=""></option>');
+					$.each(resp.parts, function (i, item) {
+						$('#part-selector_number').append($('<option>', { 
+							value: item.id,
+							text : item.part_no, 
+						}));
+					});
+					App.unblockUI('#'+portlet_id);
+				}
+			});
+		}
     });
 	//end part number from its name
     
@@ -459,7 +529,7 @@ $(document).ready(function() {
         var part = $('#part-selector_number :selected').val();
        // var product = $('#product-part-selector :selected').val();
        /// var chamber = $('#start-monitoring-chamber-sel :selected').val();
-        //alert(part);
+       // alert(part);
         
         $.ajax({
             type: 'POST',
@@ -652,8 +722,10 @@ function printPage(id) {
 	//alert(id);
     var html="<html>";
     html+= document.getElementById(id).innerHTML;
-    html+="</html>";
-    var printWin = window.open('','','left=0,top=0,width=500,height=500,toolbar=0,scrollbars=0,status =0');
+	html+="</html>";
+    
+	
+	var printWin = window.open('','','left=0,top=0,width=500,height=500,toolbar=0,scrollbars=0,status =0');
     printWin.document.write(html);
     printWin.document.close();
     printWin.focus();
