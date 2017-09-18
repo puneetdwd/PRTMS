@@ -328,11 +328,7 @@ class reports extends Admin_Controller {
 			$tids = array_column($testss, 'id');
 			$trec_tids = array_column($data['reports'], 'test_iid');
 			
-			$diff = array_diff($tids, $trec_tids);
-			
-			if(!empty($diff)){
-				$data['reports'] = '';
-			}
+			$diff = array_diff($tids, $trec_tids);			
 			
             $samples = 0;
             $judgement = 'OK';
@@ -344,6 +340,10 @@ class reports extends Admin_Controller {
             }
             $data['samples'] = $samples;
             $data['judgement'] = $judgement;
+			
+			if(!empty($diff)){
+				$data['reports'] = array();
+			}
         }
         //echo '<pre>';print_r($data['reports']);exit;
         $this->template->write_view('content', 'reports/part_assurance_report', $data);

@@ -251,7 +251,7 @@ class Plans extends Admin_Controller {
     
     public function parse_monthly_plan($product_id, $month_year, $file_name) {
         //$file_name = 'assets/uploads/'.$file_name;
-        //echo $month_year;exit;
+        //echo $month_year;//2017-11-01
         $this->load->library('excel');
         //read file from path
         $objPHPExcel = PHPExcel_IOFactory::load($file_name);
@@ -264,7 +264,6 @@ class Plans extends Admin_Controller {
             return FALSE;
         }
         
-        //echo "<pre>";print_r($arr);
         
         $this->load->model('Product_model');
         $this->load->model('Supplier_model');
@@ -279,16 +278,14 @@ class Plans extends Admin_Controller {
         
 		
 		
-        $mappings = array();
-        $plans = array();
+        //$mappings = array();
+       
         $tests = array();
         $full_data = array();
+        $plans = array();
 		 
 		 
         foreach($arr as $no => $row) {
-		$i = 0;
-					
-					
 		//Error
 		//Prepare Header for error excel
 		if($no == 1){
@@ -302,8 +299,10 @@ class Plans extends Admin_Controller {
 		if($no <= 2)
                 continue;
           
+		//echo trim($row['G']);exit;	
 		
-		//prepare error lines
+		//Start prepare error lines
+		
 		$content_error = array();
 		if(!empty(trim($row['D']))) 
 		{ 
@@ -314,20 +313,55 @@ class Plans extends Admin_Controller {
 			//Get Plan for this Part_id for current month_year
 			
 			if($part_id == ''){
-				$content_error[] = 'Planned Part Number not found. PTC Mapping not found'; 
+				$content_error[] = 'Planned Part Number not found.'; 
 			}
 			else{
-					$plan_part = $this->Plan_model->get_plan_by_part($part_id,$month_year);
-					if(!empty($plan_part))
-						$content_error[] = "Part plan found for this month."; 
-					$tests = $this->Test_model->get_tests_by_part($part_id);
-					if(empty($tests))
-						$content_error[] = "PTC Mapping not found."; 
+				/* $plan_part = $this->Plan_model->get_plan_by_part($part_id,$month_year);
+				if(!empty($plan_part))
+					$content_error[] = "Part plan found for this month."; 					
+				 */		
+				$tests = $this->Test_model->get_tests_by_part($part_id);
+				if(empty($tests))
+					$content_error[] = "PTC Mapping not found."; 
 					
-				}
+			}
+		}
+		if(!empty(trim($row['E']))) 
+		{ 
+			 $exist_supplier = $this->Supplier_model->get_supplier_by_code(trim($row['E']));
+			
+			if(empty($exist_supplier)) 
+			{
+				$content_error[] = 'Supplier Code not found.'; 
+				
+			}
+			else if($exist_supplier['id'] != '' && $part_id != ''){
+				$exist_sp = $this->Supplier_model->get_sp($product_id,$exist_supplier['id'],$part_id);
+				if(empty($exist_sp)) 
+				{
+					$content_error[] = 'Part Supplier mapping not found.'; 					
+				}			
+			}			
+		}
+		
+		if(!empty(trim($row['G']))) 
+		{ 
+			$month_year_array = explode('-',$month_year);
+			$schedule_date_array = explode('-',trim($row['G']));
+			/* print_r($month_year_array);
+			print_r($schedule_date_array);
+			exit;
+			 */
+			if($month_year_array[1] != $schedule_date_array[0])
+			{
+				$content_error[] = 'Date does not lie in selected month.';
+				
+			}
 		}
 				
 		//prepare error lines
+		
+		
 		$temp = array();
 		if(!empty($content_error)){
 			
@@ -341,22 +375,27 @@ class Plans extends Admin_Controller {
 			$temp['error']    	   = implode(",",$content_error);
 			$full_data[]       	   = $temp;
 		}	
-		//Error
+		//End Error
+		
+		
 		
 		    $row['B'] = str_replace("\n", ' ', $row['B']);
             $row['D'] = str_replace("\n", ' ', $row['D']);
             if($p !== trim($row['D']) && !empty($row['D'])) {
-                $p = $row['D'];
+                //echo trim($row['D']);exit;
+				$p = $row['D'];
                 // $exists = $this->Product_model->get_product_part_by_code($product_id, $p);
                 $exists = $this->Product_model->get_product_part_by_code_num($product_id, $p);
                 $part_id = !empty($exists) ? $exists['id'] : '';
                 if(!empty($part_id)) {
                     $tests = $this->Test_model->get_tests_by_part($part_id);
-                    //echo "<pre>";print_r();exit;					
+					//echo "<pre>";print_r($tests);exit;					
+					/* 
+					
 					$plan_part = $this->Plan_model->get_plan_by_part($part_id,$month_year);
 					if(!empty($plan_part)) {
 						continue;
-					}
+					} */
 					
                 }
             }
@@ -376,27 +415,44 @@ class Plans extends Admin_Controller {
                 $supplier['name'] = trim($row['F']);
                 
                 $exists = $this->Supplier_model->get_supplier_by_code($supplier['supplier_no']);
-                if(empty($exists)) {
-                    $supplier_id = $this->Supplier_model->add_supplier($supplier, '');
-                } else {
+                if(empty($exists)) {                    
+						//$supplier_id = $this->Supplier_model->add_supplier($supplier, '');
+						continue;
+					
+                } else 
                     $supplier_id = $exists['id'];
                 }
-                $mapping = array();
+				if($supplier_id != '' && $part_id != ''){
+					$exist_sp = $this->Supplier_model->get_sp($product_id,$supplier_id,$part_id);
+					//print_r($exist_sp);exit;
+					if(empty($exist_sp)) 
+					{
+						continue;			
+					}			
+				}	
+                /* $mapping = array();
                 $mapping['supplier_id'] = $supplier_id;
                 $mapping['product_id'] = $product_id;
                 $mapping['part_id'] = $part_id;
                 $mapping['created'] = date("Y-m-d H:i:s");
                 
-                $mappings[] = $mapping;
-            }
+                $mappings[] = $mapping; */
             
+            if(!empty(trim($row['G']))) 
+			{ 
+				
+				if($month_year_array[1] != $schedule_date_array[0])
+				{
+					//echo 'not as selected';exit;
+					continue;
+					
+				}
+			}
             if($date !== trim($row['G']) && !empty($row['G'])) {
-                $date = trim($row['G']);
-                
+                $date = trim($row['G']);                
                 $date = date_create_from_format('m-d-y', $date)->format('Y-m-d');
             }
-
-            if(!empty($tests)) {
+			if(!empty($tests)) {
                 $plan = array();
                 $plan['month_year'] = $month_year;
                 $plan['supplier_id'] = $supplier_id;
@@ -406,26 +462,27 @@ class Plans extends Admin_Controller {
                 $plan['schedule_date'] = $date;
                 $plan['created'] = date("Y-m-d H:i:s");
                 foreach($tests as $test) {
-                    $plan['test_id'] = $test['id'];
-                    
+                    $plan['test_id'] = $test['id'];                    
                     $plans[] = $plan;
                 }                
             }
-        
-       if(!empty($mappings)) {
-            $this->Supplier_model->insert_sp_mappings($mappings);
-            $this->Supplier_model->remove_dups();
-        }
-
-        $this->Plan_model->delete_plan($product_id, $month_year);
-        if(!empty($plans)) {
-            $this->Plan_model->insert_monthly_plan($plans, $month_year);
-        }
 			
-	}
-	if(!empty($full_data)){			 
-			$this->create_excel($headers, $full_data, 'plan_error_file');			
-	}
-	return TRUE;
+		} 
+			
+			/*if(!empty($mappings)) {
+				$this->Supplier_model->insert_sp_mappings($mappings);
+				$this->Supplier_model->remove_dups();
+			}*/
+			$this->Plan_model->delete_plan($product_id, $month_year);			
+			if(!empty($plans)) {
+				$this->Plan_model->insert_monthly_plan($plans, $month_year);
+			}
+			
+		
+		
+		if(!empty($full_data)){			 
+				$this->create_excel($headers, $full_data, 'plan_error_file');			
+		}
+		return TRUE;
+		} 
     }
-}

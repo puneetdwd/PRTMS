@@ -87,6 +87,36 @@ class Supplier_model extends CI_Model {
         $sql .= " group by p.id,pp.id,s.id";
         return $this->db->query($sql, $pass_array)->result_array();
     }
+	function get_sp($product_id,$exist_supplier,$part_id) {
+        $sql = "SELECT sp.*, s.name as supplier_name, s.supplier_no,
+        pp.name as part_name,pp.part_no as part_no, p.name as product_name
+        FROM sp_mappings sp
+        INNER JOIN suppliers s
+        ON sp.supplier_id = s.id
+        INNER JOIN product_parts pp
+        ON sp.part_id = pp.id
+        INNER JOIN products p
+        ON pp.product_id = p.id";
+        
+        $wheres = array();
+        $pass_array = array();
+        
+		$wheres[] = 'sp.product_id = ?';
+		$pass_array[] = $product_id;
+	
+		$wheres[] = 'sp.supplier_id = ?';
+		$pass_array[] = $exist_supplier;
+
+		$wheres[] = 'sp.part_id = ?';
+		$pass_array[] = $part_id;
+
+
+			if(!empty($wheres)) {
+            $sql .= " WHERE ".implode(' AND ', $wheres);
+        }
+        $sql .= " group by p.id,pp.id,s.id";
+        return $this->db->query($sql, $pass_array)->result_array();
+    }
 
     function get_sp_mapping($sp_mapping) {
         $sql = "SELECT sp.*, s.name as supplier_name, s.supplier_no,
