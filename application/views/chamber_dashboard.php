@@ -300,8 +300,8 @@
                                                     $color = '';
                                                     $key = $on_going_test['max_index'];
                                                     
-                                                    // $dur = ($on_going_test['observation_frequency']*($key+1)); 
-                                                    $dur = ($on_going_test['observation_frequency']*($key)); 
+                                                    $dur = ($on_going_test['observation_frequency']*($key+1)); 
+                                                    //$dur = ($on_going_test['observation_frequency']*($key)); 
                                                     $ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime($on_going_test['start_date'])));
                                                     
                                                     $diff = strtotime($ob_time)- strtotime(date('Y-m-d H:i:s'));
