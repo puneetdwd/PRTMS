@@ -89,7 +89,6 @@ class Apps extends Admin_Controller {
         
         $total_duration = strtotime($test['end_date'])-strtotime($test['start_date']);
         $total_duration = $total_duration/3600;
-        
         $duration_completed = strtotime(date('Y-m-d H:i:s'))-strtotime($test['start_date']);
         $duration_completed = $duration_completed/3600;
 
@@ -102,6 +101,7 @@ class Apps extends Admin_Controller {
         $f_observations = array();
         
         $total_obs = $test['no_of_observations']*$test['samples'];
+        //exit;
         foreach($observations as $ob_key => $ob) {
             foreach($ob as $col => $val) {
                 if(!isset($f_observations[$col])) {
@@ -452,7 +452,7 @@ class Apps extends Admin_Controller {
         $allowed_chambers = explode(',', $this->session->userdata('chamber_ids'));
         $switch_chambers = $this->Test_model->get_chambers_by_part_test($test['part_id'], $test['test_id'], $allowed_chambers);
         $data['switch_chambers'] = $switch_chambers;
-        
+        // echo '<pre>';print_r($data);exit;
         // $this->load->view('reports/view_test',$data);
         $this->load->view('apps/completed_test',$data);
         //$this->template->write_view('content', 'apps/on_going', $data);
@@ -632,7 +632,7 @@ class Apps extends Admin_Controller {
     }
     
     public function add_observation($code) {
-		//print_r($this->input->post());exit;
+		//echo $code.'<pre>';print_r($this->input->post());exit;
         if($this->input->post()) {
             $post_data = $this->input->post();
 			
@@ -653,9 +653,7 @@ class Apps extends Admin_Controller {
 						$test_img = $uploadData['file_name'];
 					}
 				}
-				if($test_img){
-					$post_data['test_img'] = $test_img;
-				}				
+							
 				//End Image Upload
 				
 			
@@ -665,21 +663,28 @@ class Apps extends Admin_Controller {
             if(empty($on_going)) {
                 redirect($_SERVER['HTTP_REFERER']);
             }
+			if($test_img){
+				$post_data['test_img'] = $test_img;
+				$test_image['test_img'] = $test_img;
+				$this->Apps_model->update_test($test_image, $on_going['id']);
+			}	
             
-
             $post_data['test_id'] = $on_going['id'];
             $post_data['observation_at'] = date('Y-m-d H:i:s');
             
             $observation_index = $post_data['observation_index'];
             $exists = $this->Apps_model->observation_index_exists($on_going['id'], $observation_index);
-            
+			/* print_r($exists);//exit;
+			print_r($post_data);exit;
+             */
             $id = !empty($exists) ? $exists['id'] : '';		
 			
 			
 			$response = $this->Apps_model->add_observation($post_data, $id);
             if($response) {
 				//Start Code for SMS in case of NG
-				if($post_data['observation_result'] == 'NG'){
+				$r = strtoupper($post_data['observation_result']);
+				if($r == 'NG'){
 					//SMS needs to send to part Supplier in case of NG
 					//print_r($on_going);exit;..will get part, supplier,test detail
 					
@@ -777,7 +782,7 @@ class Apps extends Admin_Controller {
                     
 				}
 				//End Code for SMS in case of NG
-				$this->session->set_flashdata('success', 'Test successfully marked aborted.');
+				$this->session->set_flashdata('success', 'Test Observation successfully Recorded.');
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong. Please try again');
             }
@@ -808,9 +813,7 @@ class Apps extends Admin_Controller {
 						$test_img = $uploadData['file_name'];
 					}
 				}
-				if($test_img){
-					$post_data['test_img'] = $test_img;
-				}				
+							
 				//End Image Upload
 				
 			
@@ -820,7 +823,12 @@ class Apps extends Admin_Controller {
             if(empty($on_going)) {
                 redirect($_SERVER['HTTP_REFERER']);
             }
-            
+            if($test_img){
+				$post_data['test_img'] = $test_img;
+				$test_image['test_img'] = $test_img;
+				$this->Apps_model->update_test($test_image, $on_going['id']);
+		
+			}	
 
             $post_data['test_id'] = $on_going['id'];
             $post_data['observation_at'] = date('Y-m-d H:i:s');
@@ -932,7 +940,7 @@ class Apps extends Admin_Controller {
                     
 				}
 				//End Code for SMS in case of NG
-				$this->session->set_flashdata('success', 'Test successfully marked aborted.');
+				$this->session->set_flashdata('success', 'Test Observation successfully Recorded.');
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong. Please try again');
             }

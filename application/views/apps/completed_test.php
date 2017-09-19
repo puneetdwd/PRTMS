@@ -283,6 +283,42 @@
                                 </div>
                                 
                             </div>
+							
+    						<?php if(!empty($test['retest_remark'])){ ?>
+								<hr />
+								<div class="row">
+																  
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="control-label col-md-5"><b>Retest Remark:</b></label>
+											<div class="col-md-7">
+												<p class="form-control-static">
+													<?php echo $test['retest_remark']; ?>
+												</p>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+										
+							<?php } ?>
+									
+							<?php if(!empty($test['skip_remark'])){ ?>
+								<hr />
+								<div class="row">
+																  
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="control-label col-md-5"><b>Skip Test Remark:</b></label>
+											<div class="col-md-7">
+												<p class="form-control-static">
+													 <?php echo $test['skip_remark']; ?>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							<?php } ?>
                             
                             <div class="portlet light">
                                 <div class="portlet-title">
@@ -305,7 +341,7 @@
 											
 										 <?php } ?>
                                     </div>
-                                    <div class="tools">
+									<div class="tools">
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -618,9 +654,9 @@
                                 </a>
 								<button type="button" class="button white" data-dismiss="modal">Close</button-->
                     
-								<button type="button" class="button gray"  data-toggle="modal" data-target="#myModal_appr">Approve</button>
+								<button type="button" class="button gray"  data-toggle="modal" data-target="#myModal_appr_<?php echo $test['code']; ?>">Approve</button>
 											
-								<button type="button" class="button"  data-toggle="modal" data-target="#myModal">Re-test</button>
+								<button type="button" class="button"  data-toggle="modal" data-target="#myModal_<?php echo $test['code']; ?>">Re-test</button>
 								
                             </div>
                         </div>

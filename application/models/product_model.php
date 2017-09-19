@@ -114,6 +114,39 @@ class Product_model extends CI_Model {
 	   $sql .=" GROUP BY pp.name,p.id ";
        return $this->db->query($sql,$product_id)->result_array();
     }
+	function get_all_parts_by_product_new($product_id = '',$m = '',$y= '') {
+		if($m != '' && $y != '')
+			$month_year = $y."-".$m."-01";
+		
+		/* $sql = "SELECT pp.*
+        FROM product_parts pp
+		inner join monthly_plan mp on pp.id = mp.part_id
+        WHERE pp.is_deleted = 0
+        AND pp.name like ? AND pp.product_id = ?  AND mp.month_year = ?
+		group by pp.part_no, pp.product_id 
+		ORDER BY pp.name";   
+		 */
+		
+       $sql = "SELECT pp.*, p.name as product_name, 
+       p.code as product_code
+       FROM product_parts as pp
+       INNER JOIN products as p
+       ON pp.product_id = p.id
+	   inner join monthly_plan mp on pp.id = mp.part_id";
+	   
+	   //$pass_array = array();
+        
+       if(!empty($product_id)) {
+            $sql .= " WHERE pp.is_deleted = 0 AND pp.product_id = ?";
+			//$pass_array[] = $filters['product_id'];
+       }
+	   if(!empty($month_year)) {
+            $sql .= " AND mp.month_year = ?";
+			//$pass_array[] = $filters['product_id'];
+       }
+	   $sql .=" GROUP BY pp.name,p.id ";
+       return $this->db->query($sql,array($product_id,$month_year))->result_array();
+    }
     
     function get_product_part($product_id, $id) {
         $sql = "SELECT pp.*

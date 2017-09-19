@@ -193,6 +193,7 @@ $CI->load->model('plan_model');
                         <table class="table table-hover table-light" id="make-data-table">
                             <thead>
                                 <tr>
+                                    <th>Product</th>
                                     <th>Part Name</th>
                                     <th>Part Number</th>
                                     <th>Supplier</th>
@@ -207,6 +208,7 @@ $CI->load->model('plan_model');
 								// echo '<pre>';print_r($plan);exit;
 								foreach($plan as $pl) { ?>
                                     <tr>
+                                        <td><?php echo $pl['product']; ?></td>
                                         <td><?php echo $pl['part']; ?></td>
                                         <td><?php echo $pl['planned_part_no']; ?></td>
                                         <td><?php echo $pl['supplier']; ?></td>

@@ -224,20 +224,20 @@ echo array_search(2,$_SESSION['product_ids']); */
                 </div>
             </div>
         </div>
-     <div class="portlet-title">
-		<?php if(!empty($reports)) { ?>
-		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/completed_test_report"; ?>">
-				<i class="fa fa-download"></i> Export Report
-			</a>
+		<div class="portlet-title">
+			<?php if(!empty($reports)) { ?>
+			<div class="actions" style='float: left;margin: 5px;'>
+				<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/completed_test_report"; ?>">
+					<i class="fa fa-download"></i> Export Report
+				</a>
+			</div>
+			<!--div class="actions" style='float: left;margin: 5px;'>
+				<a class="button normals btn-circle" onclick="printPage('completed_test_report');" href="javascript:void(0);">
+					<i class="fa fa-print"></i> Print
+				</a>
+			</div-->
+			<?php } ?>
 		</div>
-		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" onclick="printPage('completed_test_report');" href="javascript:void(0);">
-				<i class="fa fa-print"></i> Print
-			</a>
-		</div>
-		<?php } ?>
-	</div>
         <div class="col-md-12" id='completed_test_report'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
@@ -262,6 +262,7 @@ echo array_search(2,$_SESSION['product_ids']); */
                                     <th>End Date</th>
                                     <th>Chamber Category</th>
                                     <th>Chamber Name</th>
+                                    <th>Test Image</th>
                                     <th>Is Approved</th>
                                     <th>Supplier</th>
                                     <th>Inspector</th>
@@ -285,7 +286,13 @@ echo array_search(2,$_SESSION['product_ids']); */
                                         <td><?php echo date('d M Y H:i:s', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
-                                        <td><?php 
+                                        <td>
+											<a href="<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>" target="_blank" >
+												<img src='<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>' class="img-responsive">
+											</a>
+										</td>
+										<td>
+										<?php 
 										if($report['is_approved'] == 1)
 										{ ?>
 												<p title='Approved by <?php $report['approved_by']; ?>'>

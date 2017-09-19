@@ -36,7 +36,9 @@ $(document).ready(function() {
         App.unblockUI('#'+portlet_id);
     });
     
-    $('#product-part-selector').change(function() {
+     $('#product-part-selector').change(function() {
+    // $(document).on('change', '#part-selector', function() {
+    
         var portlet_id = $('#product-part-selector').closest('.portlet').attr('id');
               //  alert(portlet_id);
         App.blockUI({
@@ -139,6 +141,7 @@ $(document).ready(function() {
     });
 	//part number from its name
     $('#part-selector').change(function() {
+    //$(document).on('change', '#part-selector', function() {
         var portlet_id = $('#part-selector').closest('.portlet').attr('id');
         App.blockUI({
             target: '#'+portlet_id,
@@ -147,10 +150,6 @@ $(document).ready(function() {
         
         var part = $('#part-selector :selected').val();
         var product = $('#product-part-selector :selected').val();
-        /* var month = $('#par_month_selector :selected').val();
-        var year = $('#par_month_selector :selected').val();
-		 */
-		
         var part_assurance = $('#part_assurance').val();
 		//alert(part_assurance);
 		if(part_assurance == 'part_assurance'){

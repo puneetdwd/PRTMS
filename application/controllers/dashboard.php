@@ -1,5 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 class Dashboard extends Admin_Controller {
 
     public function __construct() {
@@ -103,6 +102,7 @@ class Dashboard extends Admin_Controller {
         $data = array();
         $this->load->model('Apps_model');
         $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'));
+		//echo "<pre>";print_r($data['on_going_tests']);exit;
         // echo $this->db->last_query();exit;
         return $data;
     }

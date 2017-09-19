@@ -27,6 +27,7 @@
                                     <th>End Date</th>
                                     <th>Chamber Category</th>
                                     <th>Chamber Name</th>
+                                    <th>Test Image</th>
                                     <th>Is Approved</th>
                                     <th>Supplier</th>
                                     <th>Inspector</th>
@@ -52,6 +53,9 @@
                                         <td><?php echo date('d M Y H:i:s', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
+										<td height="70">
+											<img height="70" width="100" src='<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>' />											
+										</td>
                                         <td><?php 
 										if($report['is_approved'] == 1)
 										{ ?>
@@ -62,15 +66,13 @@
 										} else
 											echo 'Not Approved'
 										?></td>
-										
 										<td><?php echo $report['supplier_name']; ?></td>
                                         <td><?php echo $report['assistant_name']; ?></td>
                                         <td><?php echo $report['lot_no']; ?></td>
                                         <td><?php echo $report['observation_result']; ?></td>
 										<td><?php echo $report['appr_test_remark']; ?></td>
                                         <td><?php echo $report['retest_remark']; ?></td>
-                                        <td><?php echo $report['skip_remark']; ?></td>
-                                      
+                                        <td><?php echo $report['skip_remark']; ?></td>                                      
                                     </tr>
                                 <?php } ?>
                             </tbody>

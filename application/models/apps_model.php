@@ -9,6 +9,7 @@ class Apps_model extends CI_Model {
         'test_id', 'samples', 'duration', 'observation_frequency', 'no_of_observations', 'start_date', 'end_date',
         'aborted', 'completed','is_approved','appr_test_remark','approved_by','retest_remark','retest_id','retest_started', 'extended_on', 'extended_hrs', 'switched_on', 'switched_from', 'stage_id', 'lot_no', 'test_img', 'skip_test','skip_remark');
         $data = array_intersect_key($data, array_flip($needed_array));
+		//print_r($data);exit;
 		if(!empty($data['part_num']))
 			$data['part_no'] = $num;
         if(empty($id)) {
@@ -179,7 +180,7 @@ class Apps_model extends CI_Model {
         
         $sql .= " GROUP BY tr.id";
         $result = $this->db->query($sql, $pass_array);
-        echo $this->db->last_query();exit;
+        //echo $this->db->last_query();exit;
         return ($code) ? $result->row_array() : $result->result_array();
     }
 

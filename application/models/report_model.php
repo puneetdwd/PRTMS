@@ -37,7 +37,7 @@ class report_model extends CI_Model {
     function get_completed_test_report($filters = array()){
         //print_r($filters);exit;
         $sql = "SELECT t.id as test_record_id,
-		t.appr_test_remark,t.retest_remark,t.skip_remark,t.skip_remark,
+		t.appr_test_remark,t.retest_remark,t.skip_remark,t.skip_remark,t.test_img,
 		t.code,ts.test_set, c.name as chamber_name, t.start_date, t.end_date, t.lot_no, 	o.assistant_name,o.observation_result,t.is_approved,t.approved_by, c.category as chamber_category, 
                 pp.part_no, p.name as product_name,p.code as product_code, pp.name as part_name, s.name as supplier_name, ts.name as test_name, st.name as stage_name
                 FROM `test_records` t 
@@ -177,7 +177,7 @@ class report_model extends CI_Model {
     function get_approved_test_report($filters = array()){
         //print_r($filters);exit;
         $sql = "SELECT t.id as test_record_id,
-		t.appr_test_remark,t.retest_remark,t.skip_remark,
+		t.appr_test_remark,t.retest_remark,t.skip_remark,t.test_img,
 		t.code,ts.test_set, c.name as chamber_name, t.start_date, t.end_date, t.lot_no, 	o.assistant_name,o.observation_result,t.is_approved,t.approved_by, c.category as chamber_category, 
                 pp.part_no, p.name as product_name,p.code as product_code, pp.name as part_name, s.name as supplier_name, ts.name as test_name, st.name as stage_name
                 FROM `test_records` t 
@@ -580,7 +580,7 @@ class report_model extends CI_Model {
                 LEFT JOIN tests ts ON ts.id = t.test_id 
                 LEFT JOIN test_observations tt ON tt.test_id = t.id 
                 LEFT JOIN stages st ON st.id = t.stage_id
-                WHERE t.completed = 1 ";
+                WHERE t.is_approved = 1 ";
         
         $pass_array = array();
         

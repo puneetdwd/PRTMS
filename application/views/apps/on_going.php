@@ -288,6 +288,7 @@
                             </div>
 							
 							<?php if($test['retest_remark']){ ?>
+							<hr />
 							<div class='row'>
 								<div class="col-md-12">
                                     <div class="form-group">
@@ -300,6 +301,23 @@
                                     </div>
                                 </div>
 							</div>
+							<hr />
+							<?php } ?>
+							<?php if($test['skip_remark']){ ?>
+							<hr />
+								<div class='row'>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="control-label col-md-5"><b>Skip Test Remark:</b></label>
+											<div class="col-md-7">
+												<p class="form-control-static">
+													<?php echo $test['skip_remark']; ?>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							<hr />
 							<?php } ?>
                             
                             <div class="portlet light">
@@ -418,7 +436,7 @@
                                             <?php if($category == 'Environmental' || $category == 'Heat & Humid') { ?>
                                                 <tr>
                                                     <td rowspan="2" class="merged-col">Display Temperature (&#8451;)</td>
-                                                    <td>Set</td>
+                                                    <!--td>Set</td-->
                                                     
                                                     <?php foreach($observations['display_temp_set'] as $ob) { ?>
                                                         <td><?php echo $test['display_temp_set']; ?></td>
@@ -433,7 +451,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td rowspan="2" class="merged-col">Humidity (%RH)</td>
-                                                    <td>Set</td>
+                                                    <!--td>Set</td-->
                                                     
                                                     <?php foreach($observations['humidity_set'] as $ob) { ?>
                                                         <td><?php echo $test['humidity_set']; ?></td>

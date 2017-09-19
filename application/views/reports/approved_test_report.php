@@ -233,11 +233,11 @@ echo array_search(2,$_SESSION['product_ids']); */
 				<i class="fa fa-download"></i> Export Report
 			</a>
 		</div>
-		<div class="actions" style='float: left;margin: 5px;'>
+		<!--div class="actions" style='float: left;margin: 5px;'>
 			<a class="button normals btn-circle" onclick="printPage('appr_report_table');" href="javascript:void(0);">
 				<i class="fa fa-print"></i> Print
 			</a>
-		</div>
+		</div-->
 		<?php } ?>
 	</div>
         <div class="col-md-12" id='appr_report_table'>
@@ -264,6 +264,7 @@ echo array_search(2,$_SESSION['product_ids']); */
                                     <th>End Date</th>
                                     <th>Chamber Category</th>
                                     <th>Chamber Name</th>
+                                    <th>Test Image</th>
                                     <th>Is Approved</th>
                                     <th>Supplier</th>
                                     <th>Inspector</th>
@@ -288,7 +289,13 @@ echo array_search(2,$_SESSION['product_ids']); */
                                         <td><?php echo date('jS M, Y H:s:i', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
-                                        <td><?php 
+										<td>
+											<a href="<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>" target="_blank" >
+												<img src='<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>' class="img-responsive">
+											</a>
+										</td>
+                                        <td>
+										<?php 
 										if($report['is_approved'] == 1)
 										{ ?>
 												<p title='Approved by <?php $report['approved_by']; ?>'>

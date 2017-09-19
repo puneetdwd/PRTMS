@@ -303,9 +303,9 @@ class reports extends Admin_Controller {
         $_SESSION['par_filters'] = $filters;
         
         if(!empty($filters)){
-			
 			if(!empty($filters['product_id'])){
-				$data['parts'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
+				$data['parts'] = $this->Product_model->get_all_parts_by_product_new($filters['product_id'],$filters['month'],$filters['year']);
+				//echo $this->db->last_query();exit;
 			}
 			if(!empty($filters['part_id1'])){
 				//$data['parts_num'] = $this->Product_model->get_all_parts_by_product($filters['product_id']);
@@ -363,7 +363,8 @@ class reports extends Admin_Controller {
             //echo "<pre>"; print_r($filters); exit;
             $this->load->model('report_model');
             $data['reports_common'] = $this->report_model->get_common_details_part_based_test_report($filters);
-            $data['reports'] = $this->report_model->get_part_based_test_report($filters);
+            // $data['reports'] = $this->report_model->get_part_based_test_report($filters);
+            $data['reports'] = $this->report_model->get_part_based_test_report_new($filters);
             $samples = 0;
             $judgement = 'OK';
             

@@ -214,7 +214,42 @@
                     </div>
 
                 </div>
-                
+                <?php if(!empty($test['retest_remark'])){ ?>
+								<hr />
+								<div class="row">
+																  
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="control-label col-md-5"><b>Retest Remark:</b></label>
+											<div class="col-md-7">
+												<p class="form-control-static">
+													<?php echo $test['retest_remark']; ?>
+												</p>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+										
+							<?php } ?>
+									
+							<?php if(!empty($test['skip_remark'])){ ?>
+								<hr />
+								<div class="row">
+																  
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="control-label col-md-5"><b>Skip Test Remark:</b></label>
+											<div class="col-md-7">
+												<p class="form-control-static">
+													 <?php echo $test['skip_remark']; ?>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							<?php } ?>
+                  <hr />          
                 <div class="table-responsive">
                 <table class="table table-bordered table-condensed">
                     <tr>
