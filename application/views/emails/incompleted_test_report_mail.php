@@ -9,7 +9,7 @@ Date: <?php echo $yesterday; ?>
 
 
                     <?php if(empty($reports)) { ?>
-                        <p class="text-center">No Test has been done yesterday.</p>
+                        <p class="text-center">No Incomplete test has found within this month.</p>
                     <?php } else { ?>
                         <table class="table table-hover table-light" border="1" style='border-collapse:collapse'>
                             <thead style='background-color:#D3D3D3'>

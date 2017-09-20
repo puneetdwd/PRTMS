@@ -54,7 +54,9 @@
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
 										<td height="70">
-											<img height="70" width="100" src='<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>' />											
+											<?php if(!empty($report["test_img"])){ ?>
+												<img height="70" width="100" src='<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>' />											
+											<?php } ?>
 										</td>
                                         <td><?php 
 										if($report['is_approved'] == 1)
