@@ -264,6 +264,7 @@ class Admin_Controller extends CI_Controller {
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
     }
+	
 	public function send_sms($to, $sms) {
         $user = 'Lgelectronic';
         $password = 'Sid2014!';

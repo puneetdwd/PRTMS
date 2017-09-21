@@ -299,13 +299,15 @@
                                                     //echo 4;
                                                     $color = '';
                                                     $key = $on_going_test['max_index'];
-                                                    
+													//echo $key;
+													$key = floor($key/$on_going_test['samples']);
+                                                    //echo " and ".$key;
                                                     $dur = ($on_going_test['observation_frequency']*($key+1)); 
                                                     //$dur = ($on_going_test['observation_frequency']*($key)); 
                                                     $ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime($on_going_test['start_date'])));
                                                     
                                                     $diff = strtotime($ob_time)- strtotime(date('Y-m-d H:i:s'));
-                                                    // $ob_time.' '.($diff/3600).' ';
+                                                    //echo $ob_time.' '.($diff/3600).' ';
                                                     if($diff < 0) {
                                                         $class = 'fa fa-frown-o text-danger';
                                                         $div_class = 'dashboard-noti-danger';

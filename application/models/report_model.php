@@ -143,7 +143,7 @@ class report_model extends CI_Model {
         
         return $this->db->query($sql, $end_date)->result_array();
     }
-    function get_incompleted_test_report_mail($filters = array()){
+    function get_inprogress_test_report_mail($filters = array()){
         //print_r($filters);exit;
         $sql = "SELECT t.id as test_record_id,
 		t.appr_test_remark,t.retest_remark,t.skip_remark,t.skip_remark,
@@ -157,17 +157,17 @@ class report_model extends CI_Model {
                 LEFT JOIN suppliers s ON s.id = t.supplier_id 
                 LEFT JOIN tests ts ON ts.id = t.test_id 
                 LEFT JOIN stages st ON st.id = t.stage_id
-                WHERE t.completed = 0";
+                WHERE t.completed = 0 and t.aborted = 0";
 				
-		if(!empty($filters['start_date'])) {
+		/*if(!empty($filters['start_date'])) {
             $sql .= ' AND t.end_date >= ?';			
             $start_date = $filters['start_date'];
-        }
+        }*/
 		if(!empty($filters['end_date'])) {
-            $sql .= ' AND t.end_date <= ?';			
+            $sql .= ' AND t.end_date >= ?';			
             $end_date = $filters['end_date'];
         }
-        $date = array($start_date,$end_date);
+        $date = array($end_date);
         $sql .= "  GROUP BY t.id,pp.id";
         //echo $sql; exit;
         
@@ -271,8 +271,9 @@ class report_model extends CI_Model {
                 WHERE t.is_approved = 1";
 			
         if(!empty($filters['end_date'])) {
-            $sql .= ' AND t.end_date <= ?';
-            $pass_array[] = $filters['end_date'];
+            $sql .= ' AND t.end_date >= ? and t.end_date <= ? ';
+            $pass_array[] = $filters['end_date']." 00:00:00";
+			$pass_array[] = $filters['end_date']." 23:59:59";
         }
         
         //echo $sql; exit;

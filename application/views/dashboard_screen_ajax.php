@@ -1,4 +1,8 @@
-<?php foreach($on_going_tests as $on_going_test) { ?>
+<?php 
+	$i=0;
+	foreach($on_going_tests as $on_going_test) { 
+		$i++;
+	?>
     <?php 
         $total_duration = strtotime($on_going_test['end_date'])-strtotime($on_going_test['start_date']);
         $total_duration = $total_duration/3600;
@@ -12,6 +16,7 @@
         }
     ?>
     <tr class="<?php if($progress == 100) { ?>dashboard-noti-success<?php } ?>">
+		<td><?php echo $i; ?></td>
         <td><?php echo $on_going_test['stage_code']; ?></td>
         <td><?php echo $on_going_test['product_name']; ?></td>
         <td><?php echo $on_going_test['part_name']; ?></td>
@@ -47,7 +52,7 @@
                     $div_class = 'dashboard-noti-danger';
                 } else {
                     $color = '';
-                    $key = $on_going_test['max_index'];
+                    $key = floor($on_going_test['max_index']/$on_going_test['samples']);
                     
                     $dur = ($on_going_test['observation_frequency']*($key+1)); 
                     $ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours', 

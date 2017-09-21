@@ -110,7 +110,7 @@ class Test_model extends CI_Model {
         INNER JOIN chambers c
         ON ptc.chamber_id = c.id
 		
-        INNER JOIN part_categories pc
+        LEFT JOIN part_categories pc
         ON ptc.part_category_id = pc.id 
 		";
         

@@ -202,13 +202,22 @@
                                                 } else {
                                                     //echo 4;
                                                     $color = '';
-                                                    $key = $on_going_test['max_index'];
-                                                    
+                                                    /*$key = $on_going_test['observation_done'] - $on_going_test['max_index'];
+													
+													if($key < 0){
+														$key = 0;
+													}*/
+													
+													$key = $on_going_test['max_index'];
+													
+                                                    $key = floor($key/$on_going_test['samples']);
+													
                                                     $dur = ($on_going_test['observation_frequency']*($key+1)); 
                                                     $ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime($on_going_test['start_date'])));
                                                     
                                                     $diff = strtotime($ob_time)- strtotime(date('Y-m-d H:i:s'));
                                                     //echo $ob_time.' '.($diff/3600).' ';
+													//echo $on_going_test['observation_frequency'].' '.$key;
                                                     if($diff < 0) {
                                                         $class = 'fa fa-frown-o text-danger';
                                                         $div_class = 'dashboard-noti-danger';
