@@ -136,9 +136,9 @@
 										<td class="text-center" style="vertical-align:middle">
 											 <?php if(!empty($completed_test["test_img"])){ ?>
 										
-											<button type="button" class="button small gray" data-toggle="modal" data-target="#myModal_img">Test Image</button>
+											<button type="button" class="button small gray" data-toggle="modal" data-target="#myModal_img_<?php echo $completed_test['code'];?>">Test Image</button>
 
-											<div id="myModal_img" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<div id="myModal_img_<?php echo $completed_test['code'];?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 											
 											  <div class="modal-dialog">
 											   

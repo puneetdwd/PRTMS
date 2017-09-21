@@ -226,17 +226,15 @@ class Apps extends Admin_Controller {
 		if($test['id'] && count($test_code)  < 2) 
 		{
 			//Uncomment this ->
-			$this->Apps_model->add_retest_observation(array('observation_index' => 0, 'test_id' => $test['id']));
-			
-		} 
-		
+			$this->Apps_model->add_retest_observation(array('observation_index' => 0, 'test_id' => $test['id']));		
+		} 		
 		//exit;
         $total_duration = strtotime($test['end_date'])-strtotime($test['start_date']);
         $total_duration = $total_duration/3600;
         
         $duration_completed = strtotime(date('Y-m-d H:i:s'))-strtotime($test['start_date']);
         $duration_completed = $duration_completed/3600;
-
+		
         $data['progress'] = round(($duration_completed/$total_duration)*100, 1);
         if($data['progress'] > 100) {
             $data['progress'] = 100;
@@ -684,6 +682,8 @@ class Apps extends Admin_Controller {
             if($response) {
 				//Start Code for SMS in case of NG
 				$r = strtoupper($post_data['observation_result']);
+				//echo $on_going['supplier_id'];
+				//exit;
 				if($r == 'NG'){
 					//SMS needs to send to part Supplier in case of NG
 					//print_r($on_going);exit;..will get part, supplier,test detail
@@ -691,9 +691,9 @@ class Apps extends Admin_Controller {
 					    $this->load->model('Product_model');
 					    $this->load->model('user_model');
                         $phone_numbers = $this->Product_model->get_all_phone_numbers($on_going['supplier_id']);
-						
-						$sms = $on_going['supplier_name']." PRTMS - Inspn Rslt NG<br>Part No. -".$on_going['part_no']."(".$on_going['test_name'];
-                        $sms .= ")<br>Defect-".$on_going['test_judgement'];
+						print_r($phone_numbers);
+						$sms = $on_going['supplier_name']."\nPRTMS - Inspn Rslt NG. Part No. -".$on_going['part_no']."(".$on_going['test_name'];
+                        $sms .= ").\nDefect-".$on_going['test_judgement'];
                             
                         if(!empty($phone_numbers)) {
                             $to = array();
@@ -842,7 +842,8 @@ class Apps extends Admin_Controller {
 			$response = $this->Apps_model->add_observation($post_data, $id);
             if($response) {
 				//Start Code for SMS in case of NG
-				if($post_data['observation_result'] == 'NG'){
+				$r = strtoupper($post_data['observation_result']);
+				if($r == 'NG'){
 					//SMS needs to send to part Supplier in case of NG
 					//print_r($on_going);exit;..will get part, supplier,test detail
 					

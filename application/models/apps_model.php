@@ -49,9 +49,11 @@ class Apps_model extends CI_Model {
 		t.set_volt as set_volt,
         c.name as chamber_name, c.category as chamber_category, c.detail as chamber_spec,
         st.name as stage_name, st.code as stage_code,
-        MAX(o.observation_index) as max_index, MAX(o.observation_at) as max_observation_at,
+        
+		MAX(o.observation_index) as max_index, MAX(o.observation_at) as max_observation_at,
         count(o.observation_at) as observation_done
-        FROM test_records tr
+        
+		FROM test_records tr
         INNER JOIN products p
         ON tr.product_id = p.id
         INNER JOIN product_parts pp

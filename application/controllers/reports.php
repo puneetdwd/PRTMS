@@ -360,7 +360,6 @@ class reports extends Admin_Controller {
             $filters = @$_SESSION['par_filters'] ;
             //unset($_SESSION['par_filters']);
             
-            //echo "<pre>"; print_r($filters); exit;
             $this->load->model('report_model');
             $data['reports_common'] = $this->report_model->get_common_details_part_based_test_report($filters);
             // $data['reports'] = $this->report_model->get_part_based_test_report($filters);
@@ -374,6 +373,24 @@ class reports extends Admin_Controller {
                     $judgement = 'NG';
                 }
             }
+			$test_ids = array_column($data['reports'],'test_record_id');
+			
+			$approver = $this->report_model->get_approver($test_ids);
+			$checker = array();
+			foreach($test_ids as $t)
+			{	
+				$checker[] = $this->report_model->get_checker($t);
+			}
+			for($i = 0; $i <=count($checker) - 1; $i++){
+				$ass[] =  strtolower($checker[$i]['assistant_name']);
+			}
+			$ass_cnt = array_count_values($ass);
+			$flip_arr = array_flip($ass_cnt);
+			ksort($flip_arr);
+			$checker = end($flip_arr);
+			
+			$data['approver'] = $approver['approved_by'];
+			$data['checker'] = $checker;
 			$data['reports_event'] = $this->report_model->get_event($filters['stage_id']);
             $data['samples'] = $samples;
             $data['judgement'] = $judgement;
@@ -444,16 +461,16 @@ class reports extends Admin_Controller {
 			$this->load->model('Plan_model');
         
             $filters = @$_SESSION['pts_filters'] ;
+          // print_r($filters);exit;
             $this->load->model('report_model');
 			/* if()
 			$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
 			 */
 			if($this->user_type == 'Product')
-				$data['reports'] = $this->report_model->get_part_based_test_report_count_by_user($filters,$this->username);
+				$data['reports'] = $this->report_model->get_part_based_test_report_count_new_by_user($filters,$this->username);
 			else
-				$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
-		
-           // print_r($filters);exit;
+				$data['reports'] = $this->report_model->get_part_based_test_report_count_new($filters);
+		//echo $this->db->last_query();exit;
             //print_r($data['reports']);
 			 //exit;
 			 /* $insp_status = array();
@@ -504,18 +521,18 @@ class reports extends Admin_Controller {
         $this->load->model('Product_model');
         $data['products'] = $this->Product_model->get_all_products();
 		if($this->user_type == 'Product'){
-			
-        $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
-		//print_r($data['products']);exit;
+		    $data['products'] = $this->Product_model->get_all_products_by_user($this->username);
 		}
         $data['parts'] = $this->Product_model->get_all_parts();
         $data['parts_num'] = $this->Product_model->get_all_parts();
        
+	    $this->load->model('Stage_model');
+        $data['stages'] = $this->Stage_model->get_all_stages();
+        
+	   
         $this->load->model('Plan_model');
         $this->load->model('report_model');
         $filters = $this->input->post() ? $this->input->post() : array() ;
-		//echo "fdbf";exit;
-        //print_r($filters);exit;
 		if($this->input->post())
 		{
 			
@@ -536,24 +553,11 @@ class reports extends Admin_Controller {
 			
 			
 			if($this->user_type == 'Product')
-				$data['reports'] = $this->report_model->get_part_based_test_report_count_by_user($filters,$this->username);
+				$data['reports'] = $this->report_model->get_part_based_test_report_count_new_by_user($filters,$this->username);
 			else
-				$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
+				$data['reports'] = $this->report_model->get_part_based_test_report_count_new($filters);
 		}
-		//	echo $this->db->last_query();exit;
-		//echo '<pre>'; print_r($data['reports']);exit;
-        $_SESSION['pts_filters'] = $filters;
-		//print_r($_SESSION['pts_filters']);exit;
-        /* $reports1 =  $data['reports'];
-		foreach($reports1 as $report1){
-			
-				$data['res'] = $this->Plan_model->get_no_inspection_by_part($report1['part_no'],$filters['start_date'],$filters['end_date']);
-				if(!empty($data['res']))
-					echo $data['res']['insp_cnt'];
-				else
-					echo '0';
-		} */
-			
+		$_SESSION['pts_filters'] = $filters;
 			
         $this->template->write_view('content', 'reports/part_test_summary_report', $data);
         $this->template->render();

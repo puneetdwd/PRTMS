@@ -116,7 +116,24 @@
                                     </div>
                                 </div>
                             </div>
-                            
+							
+							<div class="row">
+								<div class="col-md-12">
+									<div class="required form-group" id="ptc-mappings-chamber-search-error">
+										<label class="control-label">Select Event:</label>                                                
+										<select name="stage_id" class="form-control select2me"
+											data-placeholder="Select Event" data-error-container="#ptc-mappings-chamber-search-error">
+											<option></option>
+											<?php foreach($stages as $stage) { ?>
+												<option value="<?php echo $stage['id']; ?>" <?php if($stage['id'] == $this->input->post('stage_id')) { ?> selected="selected" <?php } ?>>
+													<?php echo $stage['name']; ?>
+												</option>
+											<?php } ?>        
+										</select>
+									</div>
+								</div>
+							</div>
+								
                         <div class="form-actions">
                             <button class="button" type="submit">Search</button>
                         </div>
@@ -153,8 +170,10 @@
                         <table class="table table-hover table-light" id='make-data-table'>
                             <thead>
                                 <tr>
+                                    <th>Product</th>
                                     <th>Part Name</th>
                                     <th>Part No.</th>
+                                    <th>Event</th>
                                     <th>Test Count</th>
                                     <th>No Lot Count</th>
                                 </tr>
@@ -162,29 +181,24 @@
                             <tbody>
                                 <?php 
 								$CI =& get_instance();
-								/* if(empty($this->input->post('start_date')))
-									
-									
-								if($this->input->post('end_date'))
-								 */	
+								$CI->load->model('Plan_model');	
 								foreach($reports as $report) { ?>
                                     <tr>
+                                        <td><?php echo $report['product']; ?></td>
                                         <td><?php echo $report['part_name']; ?></td>
                                         <td><?php echo $report['part_no']; ?></td>
+                                        <td><?php echo $report['st_name']; ?></td>
                                         <td><?php echo $report['test_cnt']; ?></td>
-                                        <td><?php //echo $report['no_inspection'];
-											
-											$CI->load->model('Plan_model');
+                                        <td>
+										<?php 
 											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],$this->input->post('start_date'),$this->input->post('end_date'));
 											if(!empty($res))
 												echo $res['insp_cnt'];
 											else
 												echo '0';
-											//echo $this->db->last_query();exit;
-											//echo $report['part_no'].$this->input->post('start_date').$this->input->post('end_date');exit;
 										?>
 										</td>
-                                    </tr>
+								    </tr>
                                 <?php } ?>
                             </tbody>
                         </table>

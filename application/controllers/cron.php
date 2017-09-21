@@ -13,10 +13,10 @@ class cron extends Admin_Controller {
 		$this->load->model('plan_model');   
        
         //render template
-        $this->template->write('title', 'PRTMS | '.$this->user_type.' Dashboard');
+        /* $this->template->write('title', 'PRTMS | '.$this->user_type.' Dashboard');
         $this->template->write_view('header', 'templates/header', array('page' => 'masters'));
         $this->template->write_view('footer', 'templates/footer');
-
+ */
     }
         
     public function completed_test_report_mail(){
@@ -92,7 +92,7 @@ class cron extends Admin_Controller {
 		foreach($admins as $admin) {
 			
 			$toemail = $admin['email_id'];
-			$subject = "Incomplete Test Report";
+			$subject = "Pending Test Report";
 			$this->sendMail($toemail,$subject,$mail_content);
 	
 		}

@@ -24,8 +24,21 @@
                     <?php } else { ?>
                         <table class="table table-hover table-light" border="1">
                             <tr>
-                                <td colspan="5" style="vertical-align:middle;"><h3>Mass Production Part Assurance Report</h3></td>
-                                <td colspan="5" align="right" style="vertical-align:middle;"><b>Product Name : </b>
+                                <td colspan="6" style="vertical-align:middle;">
+									<h3>
+										<?php 
+										if($reports_event['name'] == 'MP Assurance')
+											echo 'Mass Production Part Assurance Report';
+										if($reports_event['name'] == 'FPA')
+											echo 'First Part Approval Reliablity Test Report';
+										if($reports_event['name'] == 'Daily Lots')
+											echo 'Daily Lots Reliablity Test Report';
+										if($reports_event['name'] == 'Line/Field issues')
+											echo 'Line/Field issues Test Report';
+										?>
+									</h3>
+								</td>
+                                <td colspan="6" align="right" style="vertical-align:middle;"><b>Product Name : </b>
                                     <?php echo $reports_common['product_name']; ?>
                                 </td>
                             </tr>
@@ -36,10 +49,10 @@
                                 <td colspan="4"><b>Part Name &nbsp;&nbsp;&nbsp;&nbsp;: </b>
                                     <?php echo $reports_common['part_name']; ?>
                                 </td>
-                                <td colspan="3"><b>Part Number &nbsp;&nbsp;&nbsp;&nbsp;: </b>
+                                <td colspan="4"><b>Part Number &nbsp;&nbsp;&nbsp;&nbsp;: </b>
                                     <?php echo $reports_common['part_no']; ?>
                                 </td>
-                                <td colspan="3"><b>Month &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>
+                                <td colspan="4"><b>Month &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>
                                     <?php $date = strtotime($year."-".$month."-15");
                                           echo date("M'Y", $date);
                                     ?>
@@ -47,10 +60,10 @@
                             </tr>
 
                             <tr>
-                                <td colspan="3"><b>Lot/ASN No. : </b>
+                                <td colspan="4"><b>Lot/ASN No. : </b>
                                     <?php echo $reports_common['lot_no']; ?>
                                 </td>
-                                <td colspan="4"><b>Supplier Name : </b>
+                                <td colspan="8"><b>Supplier Name : </b>
                                     <?php echo $reports_common['supplier_name']; ?>
                                 </td>
                                 <!--td colspan="3"><b>Sample Qty : </b>
@@ -58,12 +71,12 @@
                                 </td-->
                             </tr>
                         </table>
-                        <table class="table table-hover table-light" border="2">
+                        <table class="table table-hover table-light" border="1">
                             <tr>
-                                <td colspan="6"><b>Judgement &nbsp;&nbsp;: </b>
+                                <td colspan="7"><b>Judgement &nbsp;&nbsp;: </b>
                                     <?php echo $judgement; ?>
                                 </td>
-								<td colspan="4"><b>Event &nbsp;&nbsp;: </b>
+								<td colspan="5"><b>Event &nbsp;&nbsp;: </b>
                                     <?php echo $reports_event['name'];  ?>
                                 </td>
                             </tr>
@@ -92,9 +105,9 @@
                                     <th width="10%">End Date</th>
                                     <th width="15%">Tests Image</th>
                                     <th width="10%">Result</th>
-                                    <th width="10%">Remark</th>
                                     <th width="10%">Skip Remark</th>
                                     <th width="10%">Retest Remark</th>
+                                    <th width="10%">Approver Remark</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,18 +120,18 @@
                                         <td width="5%" align="center" style="vertical-align:middle;"><?php echo $report['samples']; ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('d M y', strtotime($report['start_date'])); ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('d M y', strtotime($report['end_date'])); ?></td>
-                                        <td width="10%" height='10%' align="center" style="vertical-align:middle;">
+                                        <td width="10%" height='100' align="center" style="vertical-align:middle;">
 										<?php if(!empty($report['test_img'])){	?>	
 											
-											<img width='8%' height='10%'  src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>'>					
+											<img width='8%' height='100'  src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>'>					
 											
 										<?php }else{
 											echo 'No Img';
 										} ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo strtoupper($report['observation_result']); ?></td>
-                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo " "; ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo $report['skip_remark']; ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo $report['retest_remark']; ?></td>
+                                        <td width="10%" align="center" style="vertical-align:middle;"><?php echo $report['appr_test_remark']; ?></td>
                                     </tr>
                                 <?php } ?>
                                     <tr>
@@ -135,7 +148,10 @@
                                 <td colspan="2"><b>Approved By</b></td>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td colspan="3">&nbsp;</td>
+                                <td colspan="2"><b><?php echo ucwords($checker); ?></b></td>
+                                <td colspan="2"><b><?php echo ucwords($approver); ?></b></td>
+                                <td colspan="2"><b><?php echo ucwords($approver); ?></b></td>
                             </tr>
                             <tr>
                                 <td></td>

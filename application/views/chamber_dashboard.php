@@ -282,27 +282,37 @@
                                         </td-->
 										<td class="text-center">
                                             <?php 
+											//echo $on_going_test['observation_done']." ".$on_going_test['max_index'];
                                                 if($on_going_test['no_of_observations'] == $on_going_test['observation_done'])
 												{
-                                                    //echo 1;
+                                                    //when all observation has been filled
                                                     $class = 'fa fa-smile-o text-success';
                                                     $div_class = '';
-                                                } else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
-                                                    //echo 2;
+                                                } 
+												else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
+                                                    //If more than one observation filled but not all
                                                     $class = 'fa fa-frown-o text-danger';
                                                     $div_class = 'dashboard-noti-danger';
                                                 } else if($on_going_test['max_index'] === '0' && empty($on_going_test['max_observation_at'])) {
-                                                    //echo 3;
+                                                    //If no observation filled
                                                     $class = 'fa fa-frown-o text-danger';
                                                     $div_class = 'dashboard-noti-danger';
                                                 } else {
-                                                    //echo 4;
+													
+                                                    //Otherwise;
                                                     $color = '';
+													//completed observation_done(sample column count)
                                                     $key = $on_going_test['max_index'];
-                                                    
-                                                    $dur = ($on_going_test['observation_frequency']*($key+1)); 
-                                                    //$dur = ($on_going_test['observation_frequency']*($key)); 
-                                                    $ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime($on_going_test['start_date'])));
+													
+                                                    //observation frequency(days column count) which is going on
+													$key = floor($key / $on_going_test['samples']);
+													
+													//To get duration when next observation should recorded
+                                                    $dur = ($on_going_test['observation_frequency']*($key+1)); 			
+                                                    //Date-Time when comming observation(day col) should get filled
+													$ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime(
+													
+													$on_going_test['start_date'])));
                                                     
                                                     $diff = strtotime($ob_time)- strtotime(date('Y-m-d H:i:s'));
                                                     // $ob_time.' '.($diff/3600).' ';
@@ -314,8 +324,7 @@
                                                         if($diff < 2) {
                                                             $class = 'fa fa-meh-o text-warning';
                                                             $div_class = 'dashboard-noti-warning';
-                                                        } else {
-															
+                                                        } else {															
                                                             $class = 'fa fa-smile-o text-success';
                                                             $div_class = '';
                                                         }
