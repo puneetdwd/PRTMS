@@ -8,7 +8,7 @@ $CI->load->model('plan_model');
 <body>
 <p style="font-size: 16px;"><b>
 <h3>Pending Test Report</h3></br>
-Date: <?php echo $yesterday; ?>
+Date: <?php echo $today; ?>
 </b></p>
 <p style="font-size: 20px;"><b>
 </b></p>

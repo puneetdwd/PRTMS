@@ -143,7 +143,7 @@ class report_model extends CI_Model {
         
         return $this->db->query($sql, $end_date)->result_array();
     }
-    function get_incompleted_test_report_mail($filters = array()){
+    function get_inprogress_test_report_mail($filters = array()){
         //print_r($filters);exit;
         $sql = "SELECT t.id as test_record_id,
 		t.appr_test_remark,t.retest_remark,t.skip_remark,t.skip_remark,
@@ -157,17 +157,17 @@ class report_model extends CI_Model {
                 LEFT JOIN suppliers s ON s.id = t.supplier_id 
                 LEFT JOIN tests ts ON ts.id = t.test_id 
                 LEFT JOIN stages st ON st.id = t.stage_id
-                WHERE t.completed = 0 ";
+                WHERE t.completed = 0 and t.aborted = 0";
 				
-		if(!empty($filters['start_date'])) {
+		/*if(!empty($filters['start_date'])) {
             $sql .= ' AND t.end_date >= ?';			
             $start_date = $filters['start_date'];
-        }
+        }*/
 		if(!empty($filters['end_date'])) {
-            $sql .= ' AND t.end_date <= ?';			
+            $sql .= ' AND t.end_date >= ?';			
             $end_date = $filters['end_date'];
         }
-        $date = array($start_date,$end_date);
+        $date = array($end_date);
         $sql .= "  GROUP BY t.id,pp.id";
         //echo $sql; exit;
         
@@ -271,8 +271,9 @@ class report_model extends CI_Model {
                 WHERE t.is_approved = 1";
 			
         if(!empty($filters['end_date'])) {
-            $sql .= ' AND t.end_date <= ?';
-            $pass_array[] = $filters['end_date'];
+            $sql .= ' AND t.end_date >= ? and t.end_date <= ? ';
+            $pass_array[] = $filters['end_date']." 00:00:00";
+			$pass_array[] = $filters['end_date']." 23:59:59";
         }
         
         //echo $sql; exit;
@@ -570,7 +571,7 @@ class report_model extends CI_Model {
 	}
 	function get_part_based_test_report_new($filters = array(),$testss = array()){
         //print_r($testss);exit;
-		$sql = "SELECT t.id as test_record_id,ts.id as test_iid, t.code, t.samples, ts.name as test_name, ts.method, ts.judgement, c.name as chamber_name, t.test_img,t.skip_remark,t.retest_remark,t.appr_test_remark,
+		$sql = "SELECT t.id as test_record_id,ts.id as test_iid, t.code, t.samples, ts.name as test_name, ts.method, ts.judgement, c.name as chamber_name, t.test_img,t.skip_remark,t.retest_remark,
                 t.start_date, t.end_date, tt.observation_result, c.category as chamber_category, st.name as stage_name
                 FROM `test_records` t 
                 LEFT JOIN chambers c ON c.id = t.chamber_id 
@@ -621,21 +622,6 @@ class report_model extends CI_Model {
         $sql .= ' GROUP BY t.id';
         return $this->db->query($sql, $pass_array)->result_array();
 	}
-	function get_approver($test_record_id ){		
-		
-		$sql = "SELECT * FROM `test_records` t 
-                WHERE id =  ? ";        
-        $sql .= ' GROUP BY t.id';
-        return $this->db->query($sql, $test_record_id)->row_array();
-		
-	}
-	function get_checker($t ){
-		$sql = "SELECT max(assistant_name) as assistant_name FROM `test_observations` tt 
-                WHERE test_id = ? ";        
-        $sql .= ' GROUP BY tt.test_id';
-        return $this->db->query($sql, $t)->row_array();
-		
-	}
 	
 	function get_part_based_test_report_count($filters = array()){
         
@@ -667,91 +653,6 @@ class report_model extends CI_Model {
         
         if(!empty($filters['end_date'])) {
             $sql .= ' AND t.start_date <= ?';
-            $pass_array[] = $filters['end_date'];
-        }
-        
-        $sql .= '  group by pp.id';
-		//echo $sql;
-        return $this->db->query($sql, $pass_array)->result_array();
-	}
-	
-	function get_part_based_test_report_count_new($filters = array()){
-        
-		//$sql = "SELECT t.*,count(t.part_id) as Part_test, mp.* FROM `test_records` as t INNER JOIN monthly_plan mp on t.part_id = mp.part_id";
-        $sql = "SELECT p.name as product,st.name as st_name,pp.name as part_name,pp.part_no,tr.id,COUNT(*) as test_cnt,tr.start_date,tr.end_date FROM `test_records` tr
-		INNER JOIN products p ON tr.product_id = p.id
-		INNER JOIN product_parts pp ON pp.id = tr.part_id
-		INNER JOIN stages st ON st.id = tr.stage_id 
-		WHERE tr.is_approved = 1 ";
-        
-		$pass_array = array();
-        //print_r($filters);
-        if(!empty($filters['product_id'])) {
-			$sql .= ' AND p.id = ?';
-            $pass_array[] = $filters['product_id'];
-        }
-        
-        if(!empty($filters['part_id'])) {
-            $sql .= ' AND pp.name = ?';
-            $pass_array[] = $filters['part_id'];
-        }
-        
-        if(!empty($filters['part_id1'])) {
-            $sql .= ' AND pp.id = ?';
-            $pass_array[] = $filters['part_id1'];
-        }
-		if(!empty($filters['start_date'])) {
-            $sql .= ' AND tr.end_date >= ?';
-            $pass_array[] = $filters['start_date'];
-        }
-        
-        if(!empty($filters['end_date'])) {
-            $sql .= ' AND tr.end_date <= ?';
-            $pass_array[] = $filters['end_date'];
-        }
-        
-        $sql .= '  group by pp.id';
-		//echo $sql;
-        return $this->db->query($sql, $pass_array)->result_array();
-	}
-	function get_part_based_test_report_count_new_by_user($filters = array(),$user){
-        
-		//$sql = "SELECT t.*,count(t.part_id) as Part_test, mp.* FROM `test_records` as t INNER JOIN monthly_plan mp on t.part_id = mp.part_id";
-        $sql = "SELECT p.name as product,st.name as st_name,pp.name as part_name,pp.part_no,tr.id,COUNT(*) as test_cnt,tr.start_date,tr.end_date FROM `test_records` tr
-		INNER JOIN products p ON tr.product_id = p.id
-		INNER JOIN product_parts pp ON pp.id = tr.part_id
-		INNER JOIN stages st ON st.id = tr.stage_id 
-		LEFT JOIN users u
-        ON FIND_IN_SET(tr.product_id, u.product_id) 
-		WHERE tr.is_approved = 1 
-        
-		
-        
-		AND u.username = '".$user."'";
-		
-		$pass_array = array();
-        
-        if(!empty($filters['product_id'])) {
-			$sql .= ' AND p.id = ?';
-            $pass_array[] = $filters['product_id'];
-        }
-        
-        if(!empty($filters['part_id'])) {
-            $sql .= ' AND pp.name = ?';
-            $pass_array[] = $filters['part_id'];
-        }
-        
-        if(!empty($filters['part_id1'])) {
-            $sql .= ' AND pp.id = ?';
-            $pass_array[] = $filters['part_id1'];
-        }
-		if(!empty($filters['start_date'])) {
-            $sql .= ' AND tr.end_date >= ?';
-            $pass_array[] = $filters['start_date'];
-        }
-        
-        if(!empty($filters['end_date'])) {
-            $sql .= ' AND tr.end_date <= ?';
             $pass_array[] = $filters['end_date'];
         }
         

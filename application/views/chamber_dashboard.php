@@ -303,19 +303,11 @@
                                                     $color = '';
 													//completed observation_done(sample column count)
                                                     $key = $on_going_test['max_index'];
-													
-                                                    //observation frequency(days column count) which is going on
-													$key = floor($key / $on_going_test['samples']);
-													
-													//To get duration when next observation should recorded
-                                                    $dur = ($on_going_test['observation_frequency']*($key+1)); 			
-                                                    //Date-Time when comming observation(day col) should get filled
-													$ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime(
-													
-													$on_going_test['start_date'])));
-                                                    
+													//echo $key;
+													$key = floor($key/$on_going_test['samples']);
+                                                    //echo " and ".$key;
                                                     $diff = strtotime($ob_time)- strtotime(date('Y-m-d H:i:s'));
-                                                    // $ob_time.' '.($diff/3600).' ';
+                                                    //echo $ob_time.' '.($diff/3600).' ';
                                                     if($diff < 0) {
                                                         $class = 'fa fa-frown-o text-danger';
                                                         $div_class = 'dashboard-noti-danger';
