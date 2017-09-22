@@ -461,7 +461,7 @@ class reports extends Admin_Controller {
 			$this->load->model('Plan_model');
         
             $filters = @$_SESSION['pts_filters'] ;
-          // print_r($filters);exit;
+            //print_r($filters);exit;
             $this->load->model('report_model');
 			/* if()
 			$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);
@@ -470,20 +470,7 @@ class reports extends Admin_Controller {
 				$data['reports'] = $this->report_model->get_part_based_test_report_count_new_by_user($filters,$this->username);
 			else
 				$data['reports'] = $this->report_model->get_part_based_test_report_count_new($filters);
-		//echo $this->db->last_query();exit;
-            //print_r($data['reports']);
-			 //exit;
-			 /* $insp_status = array();
-			$reports1 =  $data['reports'];
-			foreach($reports1 as $report1){
-				
-					$insp_status = $this->Plan_model->get_no_inspection_by_part($report1['part_no'],$filters['start_date'],$filters['end_date']);
-					if(!empty($insp_status))
-						echo $insp_status['insp_cnt'];
-					else
-						echo '0';
-			} */
-			
+		
 			$str = $this->load->view('excel_pages/part_test_summary_report', $data, true);
             
             header('Content-Type: application/force-download');
@@ -533,6 +520,8 @@ class reports extends Admin_Controller {
         $this->load->model('Plan_model');
         $this->load->model('report_model');
         $filters = $this->input->post() ? $this->input->post() : array() ;
+		/* print_r($filters);
+		exit; */
 		if($this->input->post())
 		{
 			
@@ -557,6 +546,7 @@ class reports extends Admin_Controller {
 			else
 				$data['reports'] = $this->report_model->get_part_based_test_report_count_new($filters);
 		}
+		// echo $this->db->last_query();exit;
 		$_SESSION['pts_filters'] = $filters;
 			
         $this->template->write_view('content', 'reports/part_test_summary_report', $data);

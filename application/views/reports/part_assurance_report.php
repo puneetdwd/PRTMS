@@ -231,21 +231,7 @@
                 </div>
             </div>
         </div>
-		<div class="portlet-title">
-			<?php if(!empty($reports)) { ?>
-			<div class="actions" style='float: left;margin: 5px;'>
-				<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_assurance_report"; ?>">
-					<i class="fa fa-download"></i> Export Report
-				</a>
-			</div>
-			<div class="actions" style='float: left;margin: 5px;'>
-				<a class="button normals btn-circle" onclick="printPage('part_assu_report_table');" href="javascript:void(0);">
-					<i class="fa fa-print"></i> Print
-				</a>
-			</div>
-			<?php } ?>
-			
-		</div>
+		
         <div class="col-md-12" id='part_assu_report_table'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
@@ -259,6 +245,18 @@
                         </a>
                     </div-->
                     <?php } ?>
+					<?php if(!empty($reports)) { ?>
+			<div class="actions" style='margin: 5px;'>
+				<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_assurance_report"; ?>">
+					<i class="fa fa-download"></i> Export Report
+				</a>
+			</div>
+			<!--div class="actions" style='float: left;margin: 5px;'>
+				<a class="button normals btn-circle" onclick="printPage('part_assu_report_table');" href="javascript:void(0);">
+					<i class="fa fa-print"></i> Print
+				</a>
+			</div-->
+			<?php } ?>
                     
                 </div>
                 <div class="portlet-body">
@@ -333,9 +331,9 @@
                                     <th>End Date</th>
                                     <th>Result</th>
                                     <th style='width: 100px;'>Image</th>
-                                    <th>Remark</th>
                                     <th>Skip Remark</th>
                                     <th>Retest Remark</th>
+                                    <th>Approve Remark</th>
                                     
                                     <!--<th class="no_sort" style="width:100px;">Action</th>-->
                                 </tr>
@@ -367,9 +365,10 @@
 											echo 'No Img';
 										} ?>
 										</td>
-                                       <td><?php echo " "; ?></td>
+                                       
                                        <td><?php echo $report['skip_remark']; ?></td>
                                        <td><?php echo $report['retest_remark']; ?></td>
+                                       <td><?php echo $report['appr_test_remark']; ?></td>
                                         <!--<td nowrap>
                                             <button type="button" class="button small view-test-modal-btn" data-index="<?php echo $report['code']; ?>">
                                                 View

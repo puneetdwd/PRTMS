@@ -142,26 +142,23 @@
             </div>
         </div>
     </div>
-				<div class="portlet-title">
-                   <?php if(!empty($reports)) { ?>
-                    <div class="actions" style='float: left;margin: 5px;'>
-                        <a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_test_summary_report/"; ?>">
-                            <i class="fa fa-download"></i> Export Report
-                        </a>
-                    </div>
-					<div class="actions" style='float: left;margin: 5px;'>
-						<a class="button normals btn-circle" onclick="printPage('part_test_report_table');" href="javascript:void(0);">
-							<i class="fa fa-print"></i> Print
-						</a>
-					</div>
-                    <?php } ?>
-                </div>
+				
         <div class="col-md-9" id='part_test_report_table'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
 					<div class="caption">
                         <i class="fa fa-reorder"></i><b>Part Test Count Report</b>
+						
                     </div>
+					
+							<?php if(!empty($reports)) { ?>
+								<div class="actions" style='margin: 5px;'>
+									<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_test_summary_report/"; ?>">
+										<i class="fa fa-download"></i> Export Report
+									</a>
+								</div>
+							<?php } ?>
+				
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($reports)) { ?>

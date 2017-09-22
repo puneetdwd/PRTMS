@@ -692,6 +692,11 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['product_id'];
         }
         
+		if(!empty($filters['stage_id'])) {
+			$sql .= ' AND st.id = ?';
+            $pass_array[] = $filters['stage_id'];
+        }
+		
         if(!empty($filters['part_id'])) {
             $sql .= ' AND pp.name = ?';
             $pass_array[] = $filters['part_id'];
@@ -725,9 +730,6 @@ class report_model extends CI_Model {
 		LEFT JOIN users u
         ON FIND_IN_SET(tr.product_id, u.product_id) 
 		WHERE tr.is_approved = 1 
-        
-		
-        
 		AND u.username = '".$user."'";
 		
 		$pass_array = array();
@@ -735,6 +737,11 @@ class report_model extends CI_Model {
         if(!empty($filters['product_id'])) {
 			$sql .= ' AND p.id = ?';
             $pass_array[] = $filters['product_id'];
+        }
+
+		if(!empty($filters['stage_id'])) {
+			$sql .= ' AND st.stage_id = ?';
+            $pass_array[] = $filters['stage_id'];
         }
         
         if(!empty($filters['part_id'])) {

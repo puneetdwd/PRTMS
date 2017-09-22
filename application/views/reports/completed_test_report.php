@@ -224,9 +224,15 @@ echo array_search(2,$_SESSION['product_ids']); */
                 </div>
             </div>
         </div>
-		<div class="portlet-title">
-			<?php if(!empty($reports)) { ?>
-			<div class="actions" style='float: left;margin: 5px;'>
+		
+        <div class="col-md-12" id='completed_test_report'>
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-reorder"></i><b>Completed Test Report</b>
+                    </div>
+                    <?php if(!empty($reports)) { ?>
+			<div class="actions" style='margin: 5px;'>
 				<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/completed_test_report"; ?>">
 					<i class="fa fa-download"></i> Export Report
 				</a>
@@ -237,14 +243,6 @@ echo array_search(2,$_SESSION['product_ids']); */
 				</a>
 			</div-->
 			<?php } ?>
-		</div>
-        <div class="col-md-12" id='completed_test_report'>
-            <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-reorder"></i><b>Completed Test Report</b>
-                    </div>
-                    
                 </div>
                 <div class="portlet-body" style='overflow-x: AUTO;'>
                     <?php if(empty($reports)) { ?>
