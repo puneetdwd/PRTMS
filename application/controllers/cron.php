@@ -131,7 +131,7 @@ class cron extends CI_Controller{
 			//$toemail = 'puneet.dwivedi@crgroup.co.in,anil.gore@lge.com,komal@crgroup.co.in';
 			$subject = "Inprogress Test Report from ".$st." to ".$end;
 			$this->sendMail($toemail,$subject,$mail_content);	
-			//exit;
+			//echo $mail_content;exit;
 		}
 	}
 	

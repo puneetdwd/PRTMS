@@ -317,7 +317,7 @@ class reports extends Admin_Controller {
         
 			}
 			if(!empty($filters['part_id'])){
-				$data['parts_num'] = $this->Product_model->get_part_num_by_part($filters['part_id'],$filters['product_id']);
+				$data['parts_num'] = $this->Product_model->get_part_num_by_part_new($filters['part_id'],$filters['product_id'],$filters['month'],$filters['year']);
 			}
 			
             $this->load->model('report_model');

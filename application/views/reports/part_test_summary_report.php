@@ -147,7 +147,7 @@
             <div class="portlet light bordered">
                 <div class="portlet-title">
 					<div class="caption">
-                        <i class="fa fa-reorder"></i><b>Part Test Count Report</b>
+                        <i class="fa fa-reorder"></i><b>Part Test Count Report (Approved)</b>
 						
                     </div>
 					

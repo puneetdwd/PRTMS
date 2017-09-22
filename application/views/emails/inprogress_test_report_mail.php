@@ -6,8 +6,6 @@ Date: <?php echo $yesterday; ?>
 </b></p>
 <p style="font-size: 20px;"><b>
 </b></p>
-
-
                     <?php if(empty($reports)) { ?>
                         <p class="text-center">No inprogress test has been found within this month.</p>
                     <?php } else { ?>
@@ -43,11 +41,10 @@ Date: <?php echo $yesterday; ?>
                                         <td style='border: 1px solid black;'><?php echo date('jS M, Y', strtotime($report['start_date'])); ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['chamber_category']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['chamber_name']; ?></td>
-                                        
-										<td style='border: 1px solid black;'><?php echo $report['supplier_name']; ?></td>
+                                        <td style='border: 1px solid black;'><?php echo $report['supplier_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['assistant_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['lot_no']; ?></td>
-                                        </tr>
+                                    </tr>
                                 <?php } ?>
                             </tbody>
                         </table>

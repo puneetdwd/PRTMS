@@ -156,39 +156,11 @@ $(document).ready(function() {
 			
 			var month = $('#month').val();
 			var year = $('#year').val();
-			var event = $('#stage_id').val();
-			//alert(event);
-			if(event == 3){
-				 $.ajax({
-					type: 'POST',
-					url: base_url+'products/get_part_number_by_part_new',
-					data: { part: part, product: product,month:month,year:year},
-					dataType: 'json',
-					success: function(resp) {
-						if($('#part-selector_number :selected').val() != '') {
-							$('#part-selector_number').select2('val', null);
-						}
-						
-						//alert(resp.parts);
-						
-						$('#part-selector_number').html('');
-						$('#part-selector_number').append('<option value=""></option>');
-						$.each(resp.parts, function (i, item) {
-							$('#part-selector_number').append($('<option>', { 
-								value: item.id,
-								text : item.part_no, 
-							}));
-						});
-						App.unblockUI('#'+portlet_id);
-					}
-				});
-			}
-			else{
 			
-			$.ajax({
+			 $.ajax({
 				type: 'POST',
-				url: base_url+'products/get_part_number_by_part',
-				data: { part: part, product: product},
+				url: base_url+'products/get_part_number_by_part_new',
+				data: { part: part, product: product,month:month,year:year},
 				dataType: 'json',
 				success: function(resp) {
 					if($('#part-selector_number :selected').val() != '') {
@@ -207,8 +179,7 @@ $(document).ready(function() {
 					});
 					App.unblockUI('#'+portlet_id);
 				}
-			});
-		}
+			}); 
 		}
 		else{
 			

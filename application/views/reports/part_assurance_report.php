@@ -21,8 +21,7 @@
     </div>
     <!-- END PAGE HEADER-->
     <!-- BEGIN PAGE CONTENT-->
-    <div class="row">
-        <?php if($this->session->flashdata('error')) {?>
+           <?php if($this->session->flashdata('error')) {?>
             <div class="alert alert-danger">
                <i class="fa fa-times"></i>
                <?php echo $this->session->flashdata('error');?>
@@ -100,9 +99,7 @@
                                             <option value="12" <?php if($this->input->post('month') == 12) { ?> selected="selected" <?php } ?>>
                                                 Dec
                                             </option>
-                                                    
                                         </select>
-                                         
                                     </div>
                                 </div>
                                 
@@ -111,7 +108,7 @@
                                         <label class="control-label">Year<span class="required">*</span></label>
                                         <select name="year" id="year" class="required form-control select2me" data-placeholder="Year">
                                             <option></option>
-                                            <?php for($y=2016; $y <= date('Y'); $y++) { ?>
+                                            <?php for($y = 2016; $y <= date('Y'); $y++) { ?>
                                                 <option value="<?php echo $y; ?>" <?php if($this->input->post('year') == $y) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $y; ?>
                                                 </option>
@@ -124,7 +121,7 @@
                                 <div class="col-md-3">
                                     <div class="required form-group" id="ptc-mappings-chamber-search-error">
                                         <label class="control-label">Select Event:<span class="required">*</span></label>                                                
-                                        <select name="stage_id" class="required form-control select2me"
+                                        <select name="stage_id" id="stage_id" class="required form-control select2me"
                                             data-placeholder="Select Event" data-error-container="#ptc-mappings-chamber-search-error">
                                             <option></option>
                                             <?php foreach($stages as $stage) { ?>
@@ -136,32 +133,14 @@
                                     </div>
                                 </div>
                                 
-                                <!--div class="col-md-3">
+                                <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-product-search-error">
-                                        <label class="control-label">Select Product:<span class="required">*</span></label>                                                
+                                        <label class="control-label">Select Product:<span class="required">*</span></label>
                                         <select name="product_id" class="required form-control select2me" id="product-part-selector"
                                             data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
                                             <option></option>
                                             <?php foreach($products as $product) { ?>
                                                 <option value="<?php echo $product['id']; ?>" <?php if($product['id'] == $this->input->post('product_id')) { ?> selected="selected" <?php } ?>>
-                                                    <?php echo $product['name']; ?>
-                                                </option>
-                                            <?php } ?>        
-                                        </select>
-                                    </div>
-                                </div-->
-								
-								<div class="col-md-3">
-                                    <div class="form-group" id="ptc-mappings-product-search-error">
-                                        <label class="control-label">Select Product:<span class="required">*</span></label>
-                                                
-                                        <select name="product_id" class="required form-control select2me" id="product-part-selector"
-                                            data-placeholder="Select Product" data-error-container="#ptc-mappings-product-search-error">
-                                            <option></option>
-                                            <?php foreach($products as $product) { ?>
-                                                <option 
-												
-												value="<?php echo $product['id']; ?>" <?php if($product['id'] == $this->input->post('product_id')) { ?> selected="selected" <?php } ?>>
                                                     <?php echo $product['name']; ?>
                                                 </option>
                                             <?php }  ?>        
@@ -172,7 +151,6 @@
                             </div>
                             
                             <div class="row">
-                                
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
                                         <label class="requried control-label">Select Part Name:<span class="required">*</span></label>                                                
@@ -206,7 +184,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group" id="ptc-mappings-part-search-error">
                                         <label class="required control-label">Select Supplier:<span class="required">*</span></label>                                                
-                                        <select name="supplier_id" class="required form-control select2me" id="part-selector_supplier"
+                                        <select name="supplier_id" class="required form-control select2me" id="part-selector_supplier" 
                                             data-placeholder="Select Supplier" data-error-container="#ptc-mappings-part-search-error">
                                             <option></option>
                                             <?php foreach($suppliers as $supplier) { ?>
@@ -217,11 +195,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
-                                
-                                
                             </div>
-                            
                         </div>
                         
                         <div class="form-actions">
@@ -238,33 +212,22 @@
                     <div class="caption">
                         <i class="fa fa-reorder"></i>Part Assurance Report
                     </div>
-                    <?php if(!empty($reports)) { ?>
-                    <!--div class="actions">
-                        <a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_assurance_report"; ?>">
-                            <i class="fa fa-download"></i> Export Report
-                        </a>
-                    </div-->
-                    <?php } ?>
-					<?php if(!empty($reports)) { ?>
-			<div class="actions" style='margin: 5px;'>
-				<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_assurance_report"; ?>">
-					<i class="fa fa-download"></i> Export Report
-				</a>
-			</div>
-			<!--div class="actions" style='float: left;margin: 5px;'>
-				<a class="button normals btn-circle" onclick="printPage('part_assu_report_table');" href="javascript:void(0);">
-					<i class="fa fa-print"></i> Print
-				</a>
-			</div-->
-			<?php } ?>
                     
+					<?php if(!empty($reports)) { ?>
+						<div class="actions" style='margin: 5px;'>
+							<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/part_assurance_report"; ?>">
+								<i class="fa fa-download"></i> Export Report
+							</a>
+						</div>
+						
+					<?php } ?>
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($reports_common)) { ?>
                         <p class="text-center">No Record Available.</p>
                     <?php } else { ?>
                         
-                        <table class="table table-hover table-light" id='make-data-table' border=1 style='border-collapse:collapse'>
+                        <table class="table table-hover table-light" id='make-data-table1' border=1 style='border-collapse:collapse'>
                             <tr>
                                 <td><b>Product Name : </b></td>
                                 <td><?php echo $reports_common['product_name']; ?></td>
@@ -276,7 +239,9 @@
 
                             <tr>
                                 <td><b>Month : </b></td>
-                                <td><?php $date = strtotime($this->input->post('year')."-".$this->input->post('month')."-15");
+                                <td>
+									<?php 
+											$date = strtotime($this->input->post('year')."-".$this->input->post('month')."-15");
                                           echo date("M'Y", $date);
                                     ?>
                                 </td>
@@ -293,6 +258,8 @@
                                 <td><?php echo $judgement; ?></td>
                                 <td><b>Event : </b></td>
                                 <td><?php echo $reports_event['name']; ?></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 
                             </tr>
 
@@ -303,16 +270,7 @@
             </div>
             
             <div class="portlet light bordered">
-                <!--<div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-reorder"></i>Part Assurance Report
-                    </div>
-                    <div class="actions">
-                        <a class="button normals btn-circle" href="<?php echo base_url()."tests/add_ptc_mapping"; ?>">
-                            <i class="fa fa-plus"></i> Add New Part-Test-Chamber Mapping
-                        </a>
-                    </div>
-                </div>-->
+                
                 <div class="portlet-body">
                     <?php if(empty($reports)) { ?>
                         <p class="text-center">No Record Available.</p>
@@ -346,24 +304,29 @@
                                         <td><?php echo $report['method']; ?></td>
                                         <td><?php echo $report['judgement']; ?></td>
                                         <td><?php echo $report['samples']; ?></td>
-                                        <td><?php //echo $report['start_date']; 
-										echo date('d M Y h:i A', strtotime($report['start_date']));
-										
-										?></td>
-                                        <td><?php //echo $report['end_date']; 
-										echo date('d M Y h:i A', strtotime($report['end_date']));
-										
-										?></td>
-										 <td><?php echo strtoupper($report['observation_result']); ?></td>
+                                        <td>
+											<?php //echo $report['start_date']; 
+											echo date('d M Y h:i A', strtotime($report['start_date']));
+											
+											?>
+										</td>
+                                        <td>
+											<?php //echo $report['end_date']; 
+											echo date('d M Y h:i A', strtotime($report['end_date']));
+											
+											?>
+										</td>
+										<td><?php echo strtoupper($report['observation_result']); ?></td>
                                         
                                         <td>
-										<?php if(!empty($report['test_img'])){	?>	
-											
-											<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive">					
-											
-										<?php }else{
-											echo 'No Img';
-										} ?>
+											<?php if(!empty($report['test_img'])){	?>	
+												
+												<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>					
+												
+											<?php }
+											else{
+												echo 'No Img';
+											} ?>
 										</td>
                                        
                                        <td><?php echo $report['skip_remark']; ?></td>
@@ -384,12 +347,12 @@
             </div>
 
         </div>
-    </div>
+   
     <!-- END PAGE CONTENT-->
 </div>
 
-<!--Popup Start-->
+<!--Popup Start
 <div class="modal fade bs-modal-lg" id="view-test-modal" tabindex="-1" role="dialog" aria-hidden="true">
     
 </div>
-<!--Popup End-->
+Popup End-->

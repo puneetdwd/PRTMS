@@ -24,7 +24,7 @@
 				</div>
 				<hr />
 				<table class="table table-hover table-light" border=0 style='border-collapse:collapse;width:100%'>
-								<tr>
+								<tr border="1" >
 									<td><b>Start Date:</b></td>
 									<td><?php echo date('jS M, Y h:i A', strtotime($test['start_date'])); ?></td>
 									<td><b>End Date:</b></td>
@@ -34,33 +34,27 @@
 										<?php } ?></td>
 									
 								</tr>
-								<tr>
+								<tr border="1" >
 									<td><b>Observation Frequency:</b></td>
 									<td><?php echo $test['observation_frequency'].' hrs'; ?></td>
 									<td><b>No of Samples:</b></td>
 									<td><?php echo $test['samples']; ?></td>                                
 								</tr>
-								<!--<tr>
-									<td><b>LOT/ASN NO:</b></td>
-									<td><?php echo $test['lot_no']; ?></td>
-									<td><b>Chamber Category:</b></td>
-									<td><?php echo $test['chamber_category']; ?></td>
-									
-								</tr-->
+								
 				</table>
 							
 				<hr />
 				   
 				<table class="table table-hover table-light" border=0 style='border-collapse:collapse;width:100%'>
 								
-								<tr>
+								<tr border="1" >
 									<td><b>LOT/ASN NO:</b></td>
 									<td><?php echo $test['lot_no']; ?></td>
 									<td><b>Chamber Category:</b></td>
 									<td><?php echo $test['chamber_category']; ?></td>
 									
 								</tr>
-								<tr>
+								<tr border="1" >
 									<td><b>Chamber Spec:</b></td>
 									<td><?php echo $test['observation_frequency'].' hrs'; ?></td>
 									<td><b>No of Samples:</b></td>
@@ -70,34 +64,33 @@
 							
 				<hr />
 				   
-				<table class="table table-hover table-light" border=0 style='border-collapse:collapse;width:100%'>
-								
-								<tr>
-									<td><b>Product Name:</b></td>
-									<td><?php echo $test['product_name']; ?></td>
-									<td><b>Supplier Name:</b></td>
-									<td>  <?php echo $test['part_num']; ?></td>                                
-								</tr>
-								<tr>
-									<td><b>Part Name:</b></td>
-									<td> <?php echo $test['part_name']; ?></td>
-									<td><b>Part No:</b></td>
-									<td><?php echo $test['chamber_category']; ?></td>
-									
-								</tr>
+				<table class="table table-hover table-light" border=0 style='border-collapse:collapse;width:100%'>				
+					<tr border="1" >
+						<td><b>Product Name:</b></td>
+						<td><?php echo $test['product_name']; ?></td>
+						<td><b>Supplier Name:</b></td>
+						<td>  <?php echo $test['part_num']; ?></td>                                
+					</tr>
+					<tr border="1" >
+						<td><b>Part Name:</b></td>
+						<td> <?php echo $test['part_name']; ?></td>
+						<td><b>Part No:</b></td>
+						<td><?php echo $test['chamber_category']; ?></td>
+						
+					</tr>
 				</table>
 					
 				<hr />
 				<table class="table table-hover table-light" border=0 style='border-collapse:collapse;width:100%'>
 								
-								<tr>
+								<tr border="1" >
 									<td><b>Test Name:</b></td>
 									<td><?php echo $test['test_name']; ?></td>
 									<td><b>Test Duration:</b></td>
 									<td><?php echo $test['duration'].' hrs'; ?></td>
 									
 								</tr>
-								<tr>
+								<tr border="1" >
 									<td><b>Test Method:</b></td>
 									<td> <?php echo $test['test_method']; ?></td>
 									<td><b>Test Judgement:</b></td>
@@ -105,12 +98,12 @@
 								</tr>
 				</table>
 					
-				<hr />
 				
 				<?php if(!empty($test['retest_remark'])){ ?>
+				<hr />
 				<table class="table table-hover table-light" border=0 style='border-collapse:collapse;width:100%'>
 								
-								<tr>
+								<tr border="1" >
 									<td><b>Retest Remark:</b></td>
 									<td><?php echo $test['retest_remark']; ?></td>
 									
@@ -118,25 +111,21 @@
 								
 				</table>
 				<hr />
-				<?php } ?>
-					
+				<?php } ?>	
 				
 				
 				<?php if(!empty($test['skip_remark'])){ ?>
 				<table class="table table-hover table-light" border=0 style='border-collapse:collapse;width:100%'>                
-								<tr>
+								<tr border="1" >
 									<td><b>Skip Test Remark:</b></td>
 									<td> <?php echo $test['skip_remark']; ?></td>                                
 								</tr>							
 				</table>
 				<hr />
 				<?php } ?>
-				
-				<p><b>Observations :</b></p>
-				
-			    <div class="table-responsive">
-					<table class="table table-bordered table-condensed" border="1" style='border-collapse:collapse'>
-						<tr>
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed" border="1" style='border-collapse:collapse;width:100%'>
+						<tr border="1" >
 							<td rowspan="4" class="merged-col" style="width:0px;">Plan</td>
 							<td style="width:100px;">Day</td>
 
@@ -144,19 +133,19 @@
 								<td colspan="<?php echo $test['samples']; ?>" class="text-center"><?php echo $i; ?></td>
 							<?php } ?>
 						</tr>
-						<tr>
+						<tr border="1" >
 							<td>Samples</td>
 							<?php foreach($observations['sample'] as $ob) { ?>
 								<td><?php echo $ob; ?></td>
 							<?php } ?>
 						</tr>
-						<tr>
+						<tr border="1" >
 							<td>Date</td>
 							<?php foreach($observations['observation_at'] as $ob) { ?>
 								<td><?php echo $ob; ?></td>
 							<?php } ?>
 						</tr>
-						<tr>
+						<tr border="1" >
 							<td class="merged-col">Result</td>
 
 							<?php foreach($observations['observation_result'] as $ob) { ?>
@@ -165,7 +154,7 @@
 						</tr>
 
 						<?php if($category == 'Electrical') { ?>
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Check Items</td>
 								<td>Unit</td>
 
@@ -174,7 +163,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Appearance</td>
 								<td>Visual</td>
 
@@ -183,7 +172,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Current</td>
 								<td>Amp</td>
 
@@ -192,7 +181,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td rowspan="2" class="merged-col">Voltage</td>
 								<td>Set Volt</td>
 
@@ -200,7 +189,7 @@
 									<td><?php echo $test['set_volt']; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td>Test Volt</td>
 
 								<?php foreach($observations['act_volt'] as $ob) { ?>
@@ -208,7 +197,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Power/Wattage</td>
 								<td>Watt</td>
 
@@ -219,7 +208,7 @@
 						<?php } ?>
 
 						<?php if($category == 'Environmental' || $category == 'Heat & Humid') { ?>
-							<tr>
+							<tr border="1" >
 								<td rowspan="2" class="merged-col">Display Temperature (&#8451;)</td>
 								<td>Set</td>
 
@@ -227,14 +216,14 @@
 									<td><?php echo $test['display_temp_set']; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td>Actual</td>
 
 								<?php foreach($observations['display_temp_act'] as $ob) { ?>
 									<td><?php echo $ob; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td rowspan="2" class="merged-col">Humidity (%RH)</td>
 								<td>Set</td>
 
@@ -242,7 +231,7 @@
 									<td><?php echo $test['humidity_set']; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td>Actual</td>
 
 								<?php foreach($observations['humidity_act'] as $ob) { ?>
@@ -250,7 +239,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Visual</td>
 								<td>Test Volt</td>
 
@@ -261,7 +250,7 @@
 						<?php } ?>
 
 						<?php if($category == 'Salt Spray') { ?>
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Check Points</td>
 								<td>Unit</td>
 
@@ -270,7 +259,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td rowspan="2" class="merged-col">Display Temperature (&#8451;)</td>
 								<td>Set</td>
 
@@ -278,7 +267,7 @@
 									<td><?php echo $test['display_temp_set']; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td>Actual</td>
 
 								<?php foreach($observations['display_temp_act'] as $ob) { ?>
@@ -286,7 +275,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td rowspan="2" class="merged-col">Pressure</td>
 								<td>Set</td>
 
@@ -294,7 +283,7 @@
 									<td><?php echo $test['pressure_set']; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td>Actual</td>
 
 								<?php foreach($observations['pressure_act'] as $ob) { ?>
@@ -302,7 +291,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">PH</td>
 								<td>Actual PH</td>
 
@@ -311,7 +300,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Fog Collection</td>
 								<td>Actual Fog</td>
 
@@ -320,7 +309,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Salt Water Level</td>
 								<td>Actual</td>
 
@@ -329,7 +318,7 @@
 								<?php } ?>
 							</tr>
 
-							<tr>
+							<tr border="1" >
 								<td rowspan="2" class="merged-col">Voltage</td>
 								<td>Set Volt</td>
 
@@ -337,7 +326,7 @@
 									<td><?php echo $test['set_volt']; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td>Test Volt</td>
 
 								<?php foreach($observations['act_volt'] as $ob) { ?>
@@ -348,7 +337,7 @@
 
 						<?php if($category != 'Salt Spray') { ?>
 							<?php if($category == 'Electrical') { ?>
-								<tr>
+								<tr border="1" >
 									<td class="merged-col">Torque</td>
 									<td>RPM</td>
 
@@ -357,7 +346,7 @@
 									<?php } ?>
 								</tr>
 							<?php } else { ?>
-								<tr>
+								<tr border="1" >
 									<td class="merged-col">Rust</td>
 									<td>Visual</td>
 
@@ -367,7 +356,7 @@
 								</tr>
 							<?php } ?>
 
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Colour</td>
 								<td>&#916;E</td>
 
@@ -375,7 +364,7 @@
 									<td><?php echo $ob; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Crack/Damage</td>
 								<td>Visual</td>
 
@@ -383,7 +372,7 @@
 									<td><?php echo $ob; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Adhesion Peel-Off</td>
 								<td>Visual</td>
 
@@ -392,7 +381,7 @@
 								<?php } ?>
 							</tr>
 						<?php } else { ?>
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Visual</td>
 								<td>Test Volt</td>
 
@@ -400,7 +389,7 @@
 									<td><?php echo $ob; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Rust</td>
 								<td>White/Red</td>
 
@@ -408,7 +397,7 @@
 									<td><?php echo $ob; ?></td>
 								<?php } ?>
 							</tr>
-							<tr>
+							<tr border="1" >
 								<td class="merged-col">Adhesion Peel-Off</td>
 								<td>Visual</td>
 
@@ -418,7 +407,7 @@
 							</tr>
 						<?php } ?>
 
-						<tr>
+						<tr border="1" >
 							<td colspan="2" class="merged-col">Assistant Name</td>
 
 							<?php foreach($observations['assistant_name'] as $ob) { ?>

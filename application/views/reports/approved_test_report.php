@@ -226,20 +226,7 @@ echo array_search(2,$_SESSION['product_ids']); */
                 </div>
             </div>
         </div>
-     <div class="portlet-title">
-		<?php if(!empty($reports)) { ?>
-		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/approved_test_report"; ?>">
-				<i class="fa fa-download"></i> Export Report
-			</a>
-		</div>
-		<!--div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" onclick="printPage('appr_report_table');" href="javascript:void(0);">
-				<i class="fa fa-print"></i> Print
-			</a>
-		</div-->
-		<?php } ?>
-	</div>
+     
         <div class="col-md-12" id='appr_report_table'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
@@ -247,6 +234,14 @@ echo array_search(2,$_SESSION['product_ids']); */
                         <i class="fa fa-reorder"></i><b>Approved Test Report</b>
                     </div>
                     
+					<?php if(!empty($reports)) { ?>
+						<div class="actions" style='margin: 5px;'>
+							<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/approved_test_report"; ?>">
+								<i class="fa fa-download"></i> Export Report
+							</a>
+						</div>					
+					<?php } ?>
+					
                 </div>
                 <div class="portlet-body" style='overflow-x: AUTO;'>
                     <?php if(empty($reports)) { ?>

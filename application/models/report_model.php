@@ -143,7 +143,7 @@ class report_model extends CI_Model {
         
         return $this->db->query($sql, $end_date)->result_array();
     }
-    function get_inprogress_test_report_mail($filters = array()){
+    /* function get_inprogress_test_report_mail($filters = array()){
         //print_r($filters);exit;
         $sql = "SELECT t.id as test_record_id,
 		t.appr_test_remark,t.retest_remark,t.skip_remark,t.skip_remark,
@@ -157,7 +157,35 @@ class report_model extends CI_Model {
                 LEFT JOIN suppliers s ON s.id = t.supplier_id 
                 LEFT JOIN tests ts ON ts.id = t.test_id 
                 LEFT JOIN stages st ON st.id = t.stage_id
-                WHERE t.completed = 0 and t.aborted = 0";
+                WHERE t.completed = 0 and t.aborted = 0  ";
+				
+		
+		if(!empty($filters['end_date'])) {
+            $sql .= ' AND t.end_date >= ?';			
+            $end_date = $filters['end_date'];
+        }
+        $date = array($end_date);
+        $sql .= "  GROUP BY t.id,pp.id ";
+        //echo $sql; exit;
+        
+        return $this->db->query($sql, $date)->result_array();
+    }
+     */
+	 function get_inprogress_test_report_mail($filters = array()){
+        //print_r($filters);exit;
+        $sql = "SELECT t.id as test_record_id,
+		t.appr_test_remark,t.retest_remark,t.skip_remark,t.skip_remark,
+		t.code,ts.test_set, c.name as chamber_name, t.start_date, t.end_date, t.lot_no, 	o.assistant_name,o.observation_result,t.is_approved,t.approved_by, c.category as chamber_category, 
+                pp.part_no, p.name as product_name,p.code as product_code, pp.name as part_name, s.name as supplier_name, ts.name as test_name, st.name as stage_name
+                FROM `test_records` t 
+                LEFT JOIN chambers c ON c.id = t.chamber_id 
+                LEFT JOIN test_observations o ON t.id = o.test_id 
+                LEFT JOIN products p ON p.id = t.product_id 
+                LEFT JOIN product_parts pp ON pp.id = t.part_id 
+                LEFT JOIN suppliers s ON s.id = t.supplier_id 
+                LEFT JOIN tests ts ON ts.id = t.test_id 
+                LEFT JOIN stages st ON st.id = t.stage_id
+                WHERE t.completed = 0 and t.aborted = 0 AND p.name is not null AND pp.id is not null ";
 				
 		/*if(!empty($filters['start_date'])) {
             $sql .= ' AND t.end_date >= ?';			
@@ -168,7 +196,7 @@ class report_model extends CI_Model {
             $end_date = $filters['end_date'];
         }
         $date = array($end_date);
-        $sql .= "  GROUP BY t.id,pp.id";
+        $sql .= "  GROUP BY t.id,pp.id order by product_name asc";
         //echo $sql; exit;
         
         return $this->db->query($sql, $date)->result_array();

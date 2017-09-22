@@ -170,28 +170,25 @@ $CI->load->model('plan_model');
                 </div>
             </div>
         </div>
-    <div class="portlet-title">
-		<?php if(!empty($plan)) { ?>
-		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/no_lot_report"; ?>">
-				<i class="fa fa-download"></i> Export Report
-			</a>
-		</div>
-		<div class="actions" style='float: left;margin: 5px;'>
-			<a class="button normals btn-circle" onclick="printPage('no_lot_report');" href="javascript:void(0);">
-				<i class="fa fa-print"></i> Print
-			</a>
-		</div>
-		<?php } ?>
-	</div>
+    
         <div class="col-md-9" id='no_lot_report'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-reorder"></i>No lot Report
                     </div>
-                    <div class="actions">
-                    </div>
+                    <?php if(!empty($plan)) { ?>
+						<div class="actions" style='margin: 5px;'>
+							<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel/no_lot_report"; ?>">
+								<i class="fa fa-download"></i> Export Report
+							</a>
+						</div>
+						<!--div class="actions" style='margin: 5px;'>
+							<a class="button normals btn-circle" onclick="printPage('no_lot_report');" href="javascript:void(0);">
+								<i class="fa fa-print"></i> Print
+							</a>
+						</div-->
+					<?php } ?>
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($plan)) { ?>

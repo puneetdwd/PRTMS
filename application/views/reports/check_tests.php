@@ -29,20 +29,7 @@
                <?php echo $this->session->flashdata('success');?>
             </div>
         <?php } ?>
-		<div class="portlet-title">
-			<?php if(!empty($reports)) { ?>
-			<div class="actions" style='float: left;margin: 5px;'>
-				<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel_check_tests/".$chamber_id; ?>">
-					<i class="fa fa-download"></i> Export Report
-				</a>
-			</div>
-			<div class="actions" style='float: left;margin: 5px;'>
-				<a class="button normals btn-circle" onclick="printPage('chamber_report_check_table');" href="javascript:void(0);">
-					<i class="fa fa-print"></i> Print
-				</a>
-			</div>
-			<?php } ?>
-		</div>
+		
         <div class="col-md-12" id='chamber_report_check_table'>
             <div class="portlet light bordered">
                 <div class="portlet-title">
@@ -50,12 +37,17 @@
                         <i class="fa fa-reorder"></i>Chamber Wise Test Count Report
                     </div>
                     <?php if(!empty($reports)) { ?>
-                    <!--div class="actions">
-                        <a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel_check_tests/".$chamber_id; ?>">
-                            <i class="fa fa-download"></i> Export Report
-                        </a>
-                    </div-->
-                    <?php } ?>
+						<div class="actions" style='margin: 5px;'>
+							<a class="button normals btn-circle" href="<?php echo base_url()."reports/export_excel_check_tests/".$chamber_id; ?>">
+								<i class="fa fa-download"></i> Export Report
+							</a>
+						</div>
+						<!--div class="actions" style='float: left;margin: 5px;'>
+							<a class="button normals btn-circle" onclick="printPage('chamber_report_check_table');" href="javascript:void(0);">
+								<i class="fa fa-print"></i> Print
+							</a>
+						</div-->
+					<?php } ?>
                 </div>
                 <div class="portlet-body">
                     <?php if(empty($reports)) { ?>
