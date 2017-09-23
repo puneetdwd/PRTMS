@@ -461,7 +461,9 @@ class reports extends Admin_Controller {
 			$this->load->model('Plan_model');
         
             $filters = @$_SESSION['pts_filters'] ;
-            //print_r($filters);exit;
+			$data['f'] = $filters;
+			//print_r($filters);
+            //print_r($data['f']);exit;
             $this->load->model('report_model');
 			/* if()
 			$data['reports'] = $this->report_model->get_part_based_test_report_count($filters);

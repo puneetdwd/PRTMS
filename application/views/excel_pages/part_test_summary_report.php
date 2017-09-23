@@ -29,7 +29,8 @@
                                     <th style='border: 1px solid black;'>Part Name</th>
                                     <th style='border: 1px solid black;'>Part No.</th>
                                     <th style='border: 1px solid black;'>Event</th>
-                                    <th style='border: 1px solid black;'>Test Count</th>
+                                    <!--th style='border: 1px solid black;'>Planned Test Count</th-->
+                                    <th style='border: 1px solid black;'>Approved Test Count</th>
                                     <th style='border: 1px solid black;'>No Lot Count</th>
                                 </tr>
                             </thead>
@@ -37,7 +38,8 @@
                                 <?php 
 								$CI =& get_instance();
 								$CI->load->model('Plan_model');
-								//print_r($_SESSION['pts_filters']);exit;
+								//$f = $_SESSION['pts_filters'];
+								// print_r($f);exit;
 								foreach($reports as $report) { ?>
                                     <tr>
                                         <td style='border: 1px solid black;'><?php echo $report['product']; ?></td>
@@ -45,10 +47,25 @@
 										echo $report['part_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['part_no']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['st_name']; ?></td>
+										<!--td style='border: 1px solid black;'>
+											<?php 
+											//echo $report['part_no'];
+												$res = $CI->Plan_model->get_total_test_by_part($report['part_no'],$f['start_date'],$f['end_date']);
+												
+												 if(!empty($res))
+												 {
+													 echo $res['tot_planned_test'];
+													 //print_r($res);
+												 }
+												else
+													echo '0'; 
+											?>
+										</td-->
+										
                                         <td style='border: 1px solid black;'><?php echo $report['test_cnt']; ?></td>
                                         <td style='border: 1px solid black;'><?php //echo $report['no_inspection'];											
 											//$CI->load->model('Plan_model');
-											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],$this->input->post('start_date'),$this->input->post('end_date'));
+											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],$f['start_date'],$f['end_date']);
 											if(!empty($res))
 												echo $res['insp_cnt'];
 											else

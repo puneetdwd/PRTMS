@@ -1,5 +1,7 @@
 <!--Popup Start-->
-<?php $category = $test['chamber_category']; ?>
+<?php $category = $test['chamber_category']; 
+//print_r($test);exit;
+?>
 
     <div class="modal-dialog modal-lg" >
         <div class="modal-content" >
@@ -55,9 +57,9 @@
 									
 								</tr>
 								<tr border="1" >
+									<td><b>Chamber Name:</b></td>
+									<td><?php echo $test['chamber_name']; ?></td>
 									<td><b>Chamber Spec:</b></td>
-									<td><?php echo $test['observation_frequency'].' hrs'; ?></td>
-									<td><b>No of Samples:</b></td>
 									<td><?php echo $test['chamber_spec']; ?></td>                                
 								</tr>
 				</table>
@@ -69,13 +71,13 @@
 						<td><b>Product Name:</b></td>
 						<td><?php echo $test['product_name']; ?></td>
 						<td><b>Supplier Name:</b></td>
-						<td>  <?php echo $test['part_num']; ?></td>                                
+						<td>  <?php echo $test['supplier_name']; ?></td>                                
 					</tr>
 					<tr border="1" >
 						<td><b>Part Name:</b></td>
 						<td> <?php echo $test['part_name']; ?></td>
 						<td><b>Part No:</b></td>
-						<td><?php echo $test['chamber_category']; ?></td>
+						<td><?php echo $test['part_num']; ?></td>
 						
 					</tr>
 				</table>

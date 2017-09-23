@@ -159,6 +159,15 @@ class Plan_model extends CI_Model {
 		
         return $this->db->query($sql, $pass_array)->result_array();
     }
+	function get_total_test_by_part($part_no,$start_date,$end_date){
+		//echo "123";$part_no;
+		$sql = "SELECT COUNT(planned_part_no) as tot_planned_test,planned_part_no FROM `monthly_plan` WHERE `planned_part_no` LIKE ? AND (`schedule_date` BETWEEN ? AND ? ) ";
+        $sql .= " GROUP by planned_part_no ";
+        $pass_array = array($part_no,$start_date,$end_date);
+            
+        return $res = $this->db->query($sql, $pass_array)->row_array();
+		//$this->db->last_query();exit;
+    }
 	
 	function mark_no_inspection($id,$s){
 			$data = array('no_inspection' => $s);

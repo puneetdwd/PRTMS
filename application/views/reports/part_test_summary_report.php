@@ -171,24 +171,37 @@
                                     <th>Part Name</th>
                                     <th>Part No.</th>
                                     <th>Event</th>
-                                    <th>Test Count</th>
+                                    <!--th>Planed Test Count</th-->
+                                    <th>Approved Test Count</th>
                                     <th>No Lot Count</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php 
 								$CI =& get_instance();
-								$CI->load->model('Plan_model');	
+								$CI->load->model('Plan_model');
+								$f = $_SESSION['pts_filters'];
+																
 								foreach($reports as $report) { ?>
                                     <tr>
                                         <td><?php echo $report['product']; ?></td>
                                         <td><?php echo $report['part_name']; ?></td>
                                         <td><?php echo $report['part_no']; ?></td>
                                         <td><?php echo $report['st_name']; ?></td>
-                                        <td><?php echo $report['test_cnt']; ?></td>
-                                        <td>
+                                        <!--td style='text-align:center'>
+											<?php 
+												$res = $CI->Plan_model->get_total_test_by_part($report['part_no'],$this->input->post('start_date'),$this->input->post('end_date'));
+												
+												 if(!empty($res))
+													echo $res['tot_planned_test'];
+												else
+													echo '0'; 
+											?>
+										</td-->
+                                        <td  style='text-align:center'><?php echo $report['test_cnt']; ?></td>
+                                        <td  style='text-align:center'>
 										<?php 
-											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],$this->input->post('start_date'),$this->input->post('end_date'));
+											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],,$this->input->post('start_date'),$this->input->post('end_date'));
 											if(!empty($res))
 												echo $res['insp_cnt'];
 											else
