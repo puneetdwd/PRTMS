@@ -214,11 +214,16 @@ class User_model extends CI_Model {
 		$this->db->where('master_type', $master_type);
 		$get_cnt = $this->db->count_all_results('uploaded_files');		
 		//print_r($get_cnt);exit;
-		if($get_cnt > 2)
-		{
-			$sql = "delete from uploaded_files where master_type like '".$master_type."' order by created ASC limit 1";
-			$this->db->query($sql);
-		}	
+		
+		if($master_type != 'Plan Month')
+		{	
+			if($get_cnt > 2)
+			{
+				$sql = "delete from uploaded_files where master_type like '".$master_type."' order by created ASC limit 1";
+				$this->db->query($sql);
+			}
+		}
+		
 		$upload_data['username'] = $username;
 		$upload_data['user_type'] = $user_type;
 		$upload_data['master_type'] = $master_type;

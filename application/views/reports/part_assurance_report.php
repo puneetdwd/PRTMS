@@ -319,14 +319,25 @@
 										<td><?php echo strtoupper($report['observation_result']); ?></td>
                                         
                                         <td>
-											<?php if(!empty($report['test_img'])){	?>	
-												
-												<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>					
-												
-											<?php }
+										
+											<?php 
+											if(!empty($report['test_img'])){		
+												//echo $report['test_img'] = "download.jpg";
+												$file_path = FCPATH."assets \ test_images \ ".$report['test_img']; 
+												$file_path = str_replace(' ','',$file_path);
+												//echo FCPATH;
+												if(file_exists($file_path))
+												{
+													?>
+														<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>
+													<?php 
+												}
+												else
+													echo 'No Img';
+											} 										
 											else{
 												echo 'No Img';
-											} ?>
+											}  ?>
 										</td>
                                        
                                        <td><?php echo $report['skip_remark']; ?></td>

@@ -134,7 +134,14 @@
 										}else{ echo 'Completed'; } ?></td>
 										
 										<td class="text-center" style="vertical-align:middle">
-											 <?php if(!empty($completed_test["test_img"])){ ?>
+											 <?php if(!empty($completed_test["test_img"])){
+
+												$file_path = FCPATH."assets \ test_images \ ".$completed_test['test_img']; 
+												$file_path = str_replace(' ','',$file_path);
+												//echo FCPATH;
+												if(file_exists($file_path))
+												{
+											 ?>
 										
 											<button type="button" class="button small gray" data-toggle="modal" data-target="#myModal_img_<?php echo $completed_test['code'];?>">Test Image</button>
 
@@ -155,7 +162,13 @@
 											  </div>
 											</div>
 											
-											 <?php }else{ 
+											 <?php 
+												 }else{ 
+													echo "No Image";
+													//echo $completed_test['code'];
+												  }
+											 }												  
+											 else{ 
 												echo "No Image";
 												//echo $completed_test['code'];
 											  } 

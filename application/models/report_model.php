@@ -50,11 +50,6 @@ class report_model extends CI_Model {
                 LEFT JOIN stages st ON st.id = t.stage_id
                 WHERE t.completed = 1";
 				
-				/*  ,
-				CASE 
-					WHEN MAX(o.observation_result) = 'OK' THEN 'OK'
-					WHEN MAX(o.observation_result) = 'NG' THEN 'NG'
-				END as result */
 				
         $pass_array = array();
         
@@ -196,7 +191,7 @@ class report_model extends CI_Model {
             $end_date = $filters['end_date'];
         }
         $date = array($end_date);
-        $sql .= "  GROUP BY t.id,pp.id order by product_name asc";
+        $sql .= "  GROUP BY t.id,pp.id order by p.id asc";
         //echo $sql; exit;
         
         return $this->db->query($sql, $date)->result_array();
@@ -744,7 +739,7 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['end_date'];
         }
         
-        $sql .= '  group by pp.id';
+        $sql .= '  group by pp.id order by p.id';
 		//echo $sql;
         return $this->db->query($sql, $pass_array)->result_array();
 	}
@@ -791,7 +786,7 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['end_date'];
         }
         
-        $sql .= '  group by pp.id';
+        $sql .= '  group by pp.id order by p.id ';
 		//echo $sql;
         return $this->db->query($sql, $pass_array)->result_array();
 	}

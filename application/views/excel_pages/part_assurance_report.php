@@ -120,14 +120,37 @@
                                         <td width="5%" align="center" style="vertical-align:middle;"><?php echo $report['samples']; ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('d M y', strtotime($report['start_date'])); ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo date('d M y', strtotime($report['end_date'])); ?></td>
-                                        <td width="10%" height='100' align="center" style="vertical-align:middle;">
+                                        <!--td width="10%" height='100' align="center" style="vertical-align:middle;">
 										<?php if(!empty($report['test_img'])){	?>	
 											
 											<img width='8%' height='100'  src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>'>					
 											
 										<?php }else{
 											echo 'No Img';
-										} ?></td>
+										} ?></td-->
+										<td width="10%" height='100' align="center" style="vertical-align:middle;">
+										
+										
+											<?php 
+											if(!empty($report['test_img'])){		
+												//echo $report['test_img'] = "download.jpg";
+												$file_path = FCPATH."assets \ test_images \ ".$report['test_img']; 
+												$file_path = str_replace(' ','',$file_path);
+												//echo FCPATH;
+												if(file_exists($file_path))
+												{
+													?>
+														<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>
+													<?php 
+												}
+												else
+													echo 'No Img';
+											} 										
+											else{
+												echo 'No Img';
+											}  ?>
+										</td>
+                                       
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo strtoupper($report['observation_result']); ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo $report['skip_remark']; ?></td>
                                         <td width="10%" align="center" style="vertical-align:middle;"><?php echo $report['retest_remark']; ?></td>

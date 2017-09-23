@@ -174,6 +174,7 @@
                                     <!--th>Planed Test Count</th-->
                                     <th>Approved Test Count</th>
                                     <th>No Lot Count</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -192,7 +193,7 @@
 											<?php 
 												$res = $CI->Plan_model->get_total_test_by_part($report['part_no'],$this->input->post('start_date'),$this->input->post('end_date'));
 												
-												 if(!empty($res))
+												if(!empty($res))
 													echo $res['tot_planned_test'];
 												else
 													echo '0'; 
@@ -201,13 +202,14 @@
                                         <td  style='text-align:center'><?php echo $report['test_cnt']; ?></td>
                                         <td  style='text-align:center'>
 										<?php 
-											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],,$this->input->post('start_date'),$this->input->post('end_date'));
+											$res = $CI->Plan_model->get_no_inspection_by_part($report['part_no'],$this->input->post('start_date'),$this->input->post('end_date'));
 											if(!empty($res))
 												echo $res['insp_cnt'];
 											else
 												echo '0';
 										?>
 										</td>
+										<td>&nbsp;</td>
 								    </tr>
                                 <?php } ?>
                             </tbody>

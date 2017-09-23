@@ -284,10 +284,31 @@ echo array_search(2,$_SESSION['product_ids']); */
                                         <td><?php echo date('d M Y H:i:s', strtotime($report['end_date'])); ?></td>
                                         <td><?php echo $report['chamber_category']; ?></td>
                                         <td><?php echo $report['chamber_name']; ?></td>
-                                        <td>
+                                        <!--td>
 											<a href="<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>" target="_blank" >
 												<img src='<?php echo base_url()."assets/test_images/".$report["test_img"]; ?>' class="img-responsive">
 											</a>
+										</td-->
+										<td>
+										
+											<?php 
+											if(!empty($report['test_img'])){		
+											//echo $report['test_img'] = "download.jpg";
+											$file_path = FCPATH."assets \ test_images \ ".$report['test_img']; 
+											$file_path = str_replace(' ','',$file_path);
+											//echo FCPATH;
+												if(file_exists($file_path))
+												{
+													?>
+														<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>
+													<?php 
+												}
+												else
+													echo 'No Img';
+											} 										
+											else{
+												echo 'No Img';
+											}  ?>
 										</td>
 										<td>
 										<?php 
