@@ -104,7 +104,7 @@ class report_model extends CI_Model {
         }
         
         //echo $sql; exit;
-        $sql .= " GROUP BY t.id,pp.id";
+        $sql .= " GROUP BY t.id,pp.id  order by st.id,p.id asc";
         
         return $this->db->query($sql, $pass_array)->result_array();
     }
@@ -133,7 +133,7 @@ class report_model extends CI_Model {
             $end_date = $filters['end_date'];
         }
         
-        $sql .= "  GROUP BY t.id,pp.id";
+        $sql .= "  GROUP BY t.id,pp.id order by st.id,p.id asc";
         //echo $sql; exit;
         
         return $this->db->query($sql, $end_date)->result_array();
@@ -191,7 +191,7 @@ class report_model extends CI_Model {
             $end_date = $filters['end_date'];
         }
         $date = array($end_date);
-        $sql .= "  GROUP BY t.id,pp.id order by p.id asc";
+        $sql .= "  GROUP BY t.id,pp.id order by st.id,p.id asc";
         //echo $sql; exit;
         
         return $this->db->query($sql, $date)->result_array();
@@ -300,7 +300,7 @@ class report_model extends CI_Model {
         }
         
         //echo $sql; exit;
-        $sql .= " GROUP BY t.id,pp.id";
+        $sql .= " GROUP BY t.id,pp.id order by st.id,p.id asc";
         
         return $this->db->query($sql, $pass_array)->result_array();
     }
@@ -337,7 +337,7 @@ class report_model extends CI_Model {
         WHERE mp.no_inspection != 'NO' AND mp.schedule_date <= ? ";
 		
 		$sql .= " GROUP BY mp.`month_year`, mp.product_id, mp.part_id, mp.`supplier_id`, mp.test_id
-        ORDER BY pp.name, s.name, t.name) as res WHERE res.status = 'Pending'";
+        ORDER BY pp.name, s.name, t.name asc) as res WHERE res.status = 'Pending'";
         
 		/*$sql = "SELECT DISTINCT monthly_plan.part_id,
 				monthly_plan.* FROM monthly_plan
@@ -739,7 +739,7 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['end_date'];
         }
         
-        $sql .= '  group by pp.id order by p.id';
+        $sql .= '  group by pp.id order by p.id asc';
 		//echo $sql;
         return $this->db->query($sql, $pass_array)->result_array();
 	}
@@ -786,7 +786,7 @@ class report_model extends CI_Model {
             $pass_array[] = $filters['end_date'];
         }
         
-        $sql .= '  group by pp.id order by p.id ';
+        $sql .= '  group by pp.id order by p.id asc';
 		//echo $sql;
         return $this->db->query($sql, $pass_array)->result_array();
 	}
@@ -889,7 +889,7 @@ class report_model extends CI_Model {
         }
         
         $sql .= "GROUP BY mp.`month_year`, mp.product_id, mp.part_id, mp.`supplier_id`, mp.test_id
-        ORDER BY pp.name, s.name, t.name";
+        ORDER BY pp.name, s.name, t.name asc";
         
         return $this->db->query($sql, $pass_array)->result_array();
     }

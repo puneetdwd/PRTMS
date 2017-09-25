@@ -1,7 +1,7 @@
 <html>
 <body>
 <p style="font-size: 16px;"><b>
-<h3>Completed Test Report</h3></br>
+<h3>Completed Test Report : Totat Count(<?php echo $count_comp_test; ?> Records)</h3></br>
 Date: <?php echo $yesterday; ?>
 </b></p>
 <p style="font-size: 20px;"><b>

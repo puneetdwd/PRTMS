@@ -73,12 +73,12 @@
                         </table>
                         <table class="table table-hover table-light" border="1">
                             <tr>
-                                <td colspan="7"><b>Judgement &nbsp;&nbsp;: </b>
+                                <td colspan="12"><b>Judgement &nbsp;&nbsp;: </b>
                                     <?php echo $judgement; ?>
                                 </td>
-								<td colspan="5"><b>Event &nbsp;&nbsp;: </b>
+								<!--td colspan="5"><b>Event &nbsp;&nbsp;: </b>
                                     <?php echo $reports_event['name'];  ?>
-                                </td>
+                                </td-->
                             </tr>
                         </table>
                     <?php } ?>

@@ -25,10 +25,10 @@
                         <table class="table table-hover table-light" style='border: 1px solid black;border-collapse: collapse;'>
                             <thead style='background-color:"#D3D3D3"'>
                                 <tr>
+                                    <th style='border: 1px solid black;'>Event</th>
                                     <th style='border: 1px solid black;'>Product</th>
                                     <th style='border: 1px solid black;'>Part Name</th>
                                     <th style='border: 1px solid black;'>Part No.</th>
-                                    <th style='border: 1px solid black;'>Event</th>
                                     <!--th style='border: 1px solid black;'>Planned Test Count</th-->
                                     <th style='border: 1px solid black;'>Approved Test Count</th>
                                     <th style='border: 1px solid black;'>No Lot Count</th>
@@ -42,11 +42,11 @@
 								// print_r($f);exit;
 								foreach($reports as $report) { ?>
                                     <tr>
+                                        <td style='border: 1px solid black;'><?php echo $report['st_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['product']; ?></td>
                                         <td style='border: 1px solid black;'><?php 
 										echo $report['part_name']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $report['part_no']; ?></td>
-                                        <td style='border: 1px solid black;'><?php echo $report['st_name']; ?></td>
 										<!--td style='border: 1px solid black;'>
 											<?php 
 											//echo $report['part_no'];

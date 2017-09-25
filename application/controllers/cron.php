@@ -75,6 +75,8 @@ class cron extends CI_Controller{
 		//$filters['start_date'] = '%'.date('Y-m-01').'%';
 		$filters['end_date'] = '%'.date('Y-m-d',time() - 60 * 60 * 24).'%';
 		$data['reports'] = $this->report_model->get_completed_test_report_mail($filters);
+		//echo $this->db->last_query();exit;
+		$data['count_comp_test'] = sizeof($data['reports']);
 		$data['yesterday'] = date('jS M, Y', strtotime(date('Y-m-d',time() - 60 * 60 * 24)));
 		$mail_content = $this->load->view('emails/completed_test_report_mail', $data,true);
 		$this->load->library('email');
@@ -97,6 +99,8 @@ class cron extends CI_Controller{
 		//$filters['start_date'] = date('Y-m-d',time() - 60 * 60 * 24);
 		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
 		$data['reports'] = $this->report_model->get_approved_test_report_mail($filters);
+		$data['count_apprv_test'] = sizeof($data['reports']);
+		//echo $this->db->last_query();
 		$data['yesterday'] = date('jS M, Y', strtotime($filters['end_date']));
 		$mail_content = $this->load->view('emails/approved_test_report_mail', $data,true);
 		$this->load->library('email');
@@ -117,6 +121,7 @@ class cron extends CI_Controller{
 		$filters['start_date'] = date('Y-m-01');
 		$filters['end_date'] = date('Y-m-d',time() - 60 * 60 * 24);
 		$data['reports'] = $this->report_model->get_inprogress_test_report_mail($filters);
+		$data['count_inprogress_test'] = sizeof($data['reports']);
 		
 		//echo $this->db->last_query(); exit;
 		
@@ -141,7 +146,17 @@ class cron extends CI_Controller{
         $filters = array();
 		$admins = $this->user_model->get_users_admins_chambers();
 		$data['pending_tests'] = $this->plan_model->get_month_plan_mail(date('Y-m-01'), array());
-		
+		$pt = $data['pending_tests'];
+		$count_pending_test = 0;
+		foreach($pt as $p) { 
+			$resss = $this->plan_model->get_part_plan($p['planned_part_no'],$p['schedule_date']);
+			if($resss['no_inspection'] == 'NO')
+			{ 
+				continue;
+			}
+			$count_pending_test++;
+		}
+		$data['count_pending_test'] = $count_pending_test;
 		//echo $this->db->last_query(); exit;
 		
 		$data['today'] = date('jS M, Y', strtotime(date('Y-m-d')));

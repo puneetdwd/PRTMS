@@ -41,7 +41,7 @@
         </td>
         <td class="text-center">
             <?php 
-                if($on_going_test['no_of_observations'] == $on_going_test['observation_done']) {
+                if($on_going_test['no_of_observations'] == ($on_going_test['observation_done']*$on_going_test['samples'])){
                     $class = 'fa fa-smile-o text-success';
                     $div_class = '';
                 } else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {

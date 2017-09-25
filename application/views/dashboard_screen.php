@@ -46,20 +46,20 @@
     
     <div class="row">
         <div class="col-md-12">
-            <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption">
+            <div class="portlet light bordered"> 
+                <div class="portlet-title" >
+                    <div class="caption" style='float:left'>
                         <i class="icon-share font-red-sunglo"></i>
                         <span class="caption-subject font-red-sunglo bold uppercase">On Going Tests</span>
                     </div>
 					
-					<div class="col-md-5 col-md-offset-7" style="margin-top: -28px;width: 36%;">
+					<div class="col-md-5 col-md-offset-7" style="width: 41%; margin-top: -50px; margin-right: 0px;"  id="dashboard_screen_smiley">
 							<div class="smile-stats">
 								<div class="smile-stats-icon">
 									<i class="fa fa-smile-o text-success"></i>
 								</div>
 								
-								<span class="smile-stats-text" id="smile-count"> = 2</span></br>
+								<span class="smile-stats-text" id="smile-count"> = <?php echo $s; ?></span></br>
 								<span class="smile-text">Result Updated</span>
 							</div>
 							<div class="smile-stats">
@@ -67,7 +67,7 @@
 									<i class="fa fa-meh-o text-warning"></i>
 								</div>
 								
-								<span class="smile-stats-text" id="warning-count"> = 2</span></br>
+								<span class="smile-stats-text" id="warning-count"> = <?php echo $w; ?></span></br>
 								<span class="smile-text">Result Need to Update</span>
 							</div>
 							<div class="smile-stats">
@@ -75,16 +75,16 @@
 									<i class="fa fa-frown-o text-danger"></i>
 								</div>
 								
-								<span class="smile-stats-text" id="danger-count"> = 2</span></br>
+								<span class="smile-stats-text" id="danger-count"> = <?php echo $d; ?></span></br>
 								<span class="smile-text">Result Update Delayed</span>
 							</div>
-						</div>
+					</div>
 					
-                    <div class="actions">
+                    <div class="actions" style='float:right;margin-top:-50px'>
                         <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
                     </div>
                 </div>
-				<div id="dashboard-test-stats" class="ribbon-content">
+				<div id="dashboard-test-stats1" class="ribbon-content">
                 
                 <div class="portlet-body">
                     <?php if(empty($on_going_tests)) { ?>
@@ -144,8 +144,7 @@
                                         </td>
                                         <td class="text-center">
                                             <?php 
-                                                if($on_going_test['no_of_observations'] == $on_going_test['observation_done'])
-												{
+                                                if($on_going_test['no_of_observations'] == ($on_going_test['observation_done']*$on_going_test['samples'])){
                                                     $class = 'fa fa-smile-o text-success';
                                                     $div_class = '';
                                                 } else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
@@ -216,7 +215,6 @@
         if(next > total) {
             next = 1;
         }
-        
         $.ajax({
             type: 'POST',
             url: base_url+'dashboard/dashboard_screen/'+next,

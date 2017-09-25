@@ -255,7 +255,7 @@ class Plan_model extends CI_Model {
          */
 
         $sql .= " GROUP BY mp.`month_year`, mp.product_id, mp.part_id, mp.`supplier_id`, mp.test_id
-        ORDER BY pp.name, s.name, t.name ) as res WHERE res.status = 'Pending'";
+        ORDER BY pp.name, s.name, t.name ) as res WHERE res.status = 'Pending' order by res.product_id ";
         
         return $this->db->query($sql, $pass_array)->result_array();
     }

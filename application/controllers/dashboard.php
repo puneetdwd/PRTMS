@@ -57,11 +57,64 @@ class Dashboard extends Admin_Controller {
         $per_page = 9;
         $limit = ' LIMIT '.($page-1)*$per_page.', '.$per_page;
         $data['on_going_tests'] = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), '', $limit);
-		$count = $this->Apps_model->on_going_test_count($this->chamber_ids);
-        //echo $this->db->last_query();exit;
-        //echo "<pre>";print_r($data['on_going_tests']);exit;
-        //echo $this->db->last_query();exit;
-        if (!$this->input->is_ajax_request()) {
+        $gt = $this->Apps_model->on_going_test($this->chamber_ids, date('Y-m-d'), '', '');
+		//to calculate smiley status
+		$s=0;$w=0;$d=0;
+		foreach($gt as $on_going_test) { 
+			if($on_going_test['no_of_observations'] == ($on_going_test['observation_done']*$on_going_test['samples']))
+			{
+				//echo 1;
+				$class = 'fa fa-smile-o text-success';
+				$div_class = '';
+				$s++;
+			} else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
+				//echo 2;
+				$class = 'fa fa-frown-o text-danger';
+				$div_class = 'dashboard-noti-danger';
+				$d++;
+			} else if($on_going_test['max_index'] === '0' && empty($on_going_test['max_observation_at'])) {
+				//echo 3;
+				$class = 'fa fa-frown-o text-danger';
+				$div_class = 'dashboard-noti-danger';
+				$d++;
+			} else {
+				//echo 4;
+				$color = '';
+				
+				$key = $on_going_test['max_index'];				
+				$key = floor($key/$on_going_test['samples']);
+				
+				$dur = ($on_going_test['observation_frequency']*($key+1)); 
+				$ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours',strtotime($on_going_test['start_date'])));
+				
+				$diff = strtotime($ob_time)- strtotime(date('Y-m-d H:i:s'));
+				//echo $ob_time.' '.($diff/3600).' ';
+				//echo $on_going_test['observation_frequency'].' '.$key;
+				if($diff < 0) {
+					$class = 'fa fa-frown-o text-danger';
+					$div_class = 'dashboard-noti-danger';
+					$d++;
+				} else {
+					$diff = $diff/3600;
+					if($diff < 2) {
+						$class = 'fa fa-meh-o text-warning';
+						$div_class = 'dashboard-noti-warning';
+						$w++;
+					} else {
+						
+						$class = 'fa fa-smile-o text-success';
+						$div_class = '';
+						$s++;
+					}
+				}
+			}
+		}
+		$data['d'] = $d;
+		$data['s'] = $s;
+		$data['w'] = $w;
+		//to calculate smiley status
+		
+		if (!$this->input->is_ajax_request()) {
             $count = $this->Apps_model->on_going_test_count($this->chamber_ids);
             //echo $this->db->last_query();exit;
             $data['total'] = ceil($count/$per_page);

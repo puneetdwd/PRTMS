@@ -1,13 +1,11 @@
 <?php 
-$CI =& get_instance();
-$CI->load->model('plan_model');
+	$CI =& get_instance();
+	$CI->load->model('plan_model');
 ?>
-
-
 <html>
 <body>
 <p style="font-size: 16px;"><b>
-<h3>Pending Test Report</h3></br>
+<h3>Pending Test Report : Totat Count - <?php echo $count_pending_test; ?> Records)</h3></br>
 Date: <?php echo $today; ?>
 </b></p>
 <p style="font-size: 20px;"><b>
@@ -24,6 +22,7 @@ Date: <?php echo $today; ?>
                                     <th>Part Name</th>
                                     <th>Part Number</th>                                  
                                     <th>Test Item</th>
+                                    <th>Supplier</th>
                                     <th>Schedule Date</th>
                                     <th class="text-center" style='padding:0px 10px 0px 10px;'>Status</th>
                                 </tr>
@@ -45,6 +44,7 @@ Date: <?php echo $today; ?>
                                         <td style='border: 1px solid black;'><?php echo $pending_test['part']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $pending_test['planned_part_no']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $pending_test['test']; ?></td>
+                                        <td style='border: 1px solid black;'><?php echo $pending_test['supplier']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $pending_test['schedule_date'] ? date('jS M', strtotime($pending_test['schedule_date'])) : '--'; ?></td>                                 
                                         <td style='border: 1px solid black;'><?php echo $pending_test['status']; ?></td>
 									</tr>
