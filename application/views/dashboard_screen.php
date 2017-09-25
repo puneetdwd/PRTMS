@@ -22,6 +22,25 @@
         font-size: 14px;
         font-weight: 700;
     }
+	 .smile-stats-icon {
+        width:45px;
+        padding:5px;
+        display:inline-block;
+    }
+    .smile-stats-icon > i {
+        font-size: 40px;
+        font-weight: bold;
+        line-height:40px !important;
+    }
+    .smile-stats-text {
+        font-size:28px;
+    }
+    .smile-stats {
+        display:inline-block;
+    }
+    .smile-stats + .smile-stats {
+        margin-left:30px;
+    }
 </style>
 <div class="page-content">
     
@@ -33,10 +52,40 @@
                         <i class="icon-share font-red-sunglo"></i>
                         <span class="caption-subject font-red-sunglo bold uppercase">On Going Tests</span>
                     </div>
+					
+					<div class="col-md-5 col-md-offset-7" style="margin-top: -28px;width: 36%;">
+							<div class="smile-stats">
+								<div class="smile-stats-icon">
+									<i class="fa fa-smile-o text-success"></i>
+								</div>
+								
+								<span class="smile-stats-text" id="smile-count"> = 2</span></br>
+								<span class="smile-text">Result Updated</span>
+							</div>
+							<div class="smile-stats">
+								<div class="smile-stats-icon dashboard-noti-warning">
+									<i class="fa fa-meh-o text-warning"></i>
+								</div>
+								
+								<span class="smile-stats-text" id="warning-count"> = 2</span></br>
+								<span class="smile-text">Result Need to Update</span>
+							</div>
+							<div class="smile-stats">
+								<div class="smile-stats-icon dashboard-noti-danger">
+									<i class="fa fa-frown-o text-danger"></i>
+								</div>
+								
+								<span class="smile-stats-text" id="danger-count"> = 2</span></br>
+								<span class="smile-text">Result Update Delayed</span>
+							</div>
+						</div>
+					
                     <div class="actions">
                         <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"> </a>
                     </div>
                 </div>
+				<div id="dashboard-test-stats" class="ribbon-content">
+                
                 <div class="portlet-body">
                     <?php if(empty($on_going_tests)) { ?>
                         <div style="font-size: 20px;text-align:center;">No on going test</div>
@@ -95,7 +144,8 @@
                                         </td>
                                         <td class="text-center">
                                             <?php 
-                                                if($on_going_test['no_of_observations'] == $on_going_test['observation_done']) {
+                                                if($on_going_test['no_of_observations'] == $on_going_test['observation_done'])
+												{
                                                     $class = 'fa fa-smile-o text-success';
                                                     $div_class = '';
                                                 } else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
@@ -139,6 +189,7 @@
                             </tbody>
                         </table>
                     <?php } ?>
+                </div>
                 </div>
             </div>
         </div>

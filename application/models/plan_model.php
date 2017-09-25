@@ -152,7 +152,7 @@ class Plan_model extends CI_Model {
 	function get_plan_by_part($part_id,$month_year){
 		// print_r($filters);exit;
         $sql = "SELECT * FROM monthly_plan mp      
-        WHERE mp.part_id = ? AND mp.month_year = ?";
+        WHERE mp.part_id = ? AND mp.month_year = ? ";
         
         $sql .= " GROUP BY mp.`month_year`, mp.product_id, mp.part_id, mp.`supplier_id`, mp.test_id";
         $pass_array = array($part_id,$month_year);
@@ -160,7 +160,6 @@ class Plan_model extends CI_Model {
         return $this->db->query($sql, $pass_array)->result_array();
     }
 	function get_total_test_by_part($part_no,$start_date,$end_date){
-		//echo "123";$part_no;
 		$sql = "SELECT COUNT(planned_part_no) as tot_planned_test,planned_part_no FROM `monthly_plan` WHERE `planned_part_no` LIKE ? AND (`schedule_date` BETWEEN ? AND ? ) ";
         $sql .= " GROUP by planned_part_no ";
         $pass_array = array($part_no,$start_date,$end_date);
@@ -175,8 +174,6 @@ class Plan_model extends CI_Model {
             $data['modified'] = date("Y-m-d H:i:s");
             
             return (($this->db->update('monthly_plan', $data)) ? $id : False);
-        
-		
     }
 	function get_no_inspection_by_part($part_no,$start_date,$end_date){
 		
@@ -262,4 +259,5 @@ class Plan_model extends CI_Model {
         
         return $this->db->query($sql, $pass_array)->result_array();
     }
+
 }
