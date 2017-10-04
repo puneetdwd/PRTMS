@@ -78,7 +78,10 @@ $CI->load->model('plan_model');
                                         <td><?php echo $pl['supplier']; ?></td>
                                         <td><?php echo $pl['test']; ?></td>
                                         <td><?php echo $pl['schedule_date'] ? date('jS M', strtotime($pl['schedule_date'])) : '--'; 
-										$res = $CI->plan_model->get_part_plan($pl['planned_part_no'],$pl['schedule_date']);
+										//$res = $CI->plan_model->get_part_plan($pl['planned_part_no'],$pl['schedule_date']);
+										$res = $CI->plan_model->get_part_plan_new($pl['planned_part_no'],$pl['schedule_date'],$pl['supplier_id'],$pl['product_id']);
+												
+										
 										?></td>
                                         <td class="text-center <?php if($res['no_inspection'] != 'NO')
 												{ echo $class; } ?>">
