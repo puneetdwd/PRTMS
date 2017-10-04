@@ -140,7 +140,7 @@
 												if(file_exists($file_path))
 												{
 													?>
-														<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>
+														<img height="100" width="10%" src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>
 													<?php 
 												}
 												else

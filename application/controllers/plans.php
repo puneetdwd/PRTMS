@@ -239,9 +239,9 @@ class Plans extends Admin_Controller {
 	public function submit_inspection_status() {
 		//s=>NO => for NO Part in Company means NO Inspection
 		//s=>YES => for Part in Company means there is Inspection
-		/* echo $this->input->post('id');
-		echo $this->input->post('s');exit;
-		 */
+		// echo $this->input->post('id');
+		//echo $this->input->post('s');
+		 
 		 if($this->input->post('id')) {
             $this->load->model('Plan_model');
             $res = $this->Plan_model->mark_no_inspection($this->input->post('id'),$this->input->post('s'));

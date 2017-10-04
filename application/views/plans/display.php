@@ -205,7 +205,7 @@ $CI->load->model('plan_model');
                             </thead>
                             <tbody>
                                 <?php 
-								// echo '<pre>';print_r($plan);exit;
+								 //echo '<pre>';print_r($plan);exit;
 								foreach($plan as $pl) { ?>
                                     <tr>
                                         <td><?php echo $pl['product']; ?></td>
@@ -215,8 +215,8 @@ $CI->load->model('plan_model');
                                         <td><?php echo $pl['test']; ?></td>
                                         <td><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
                                         <td><?php 
-												$res = $CI->plan_model->get_part_plan($pl['planned_part_no'],$pl['schedule_date']);
-												//print_r($res['no_inspection']);
+												$res = $CI->plan_model->get_part_plan_new($pl['planned_part_no'],$pl['schedule_date'],$pl['supplier_id'],$pl['product_id']);
+												//print_r($res);
 												
 												if($res['no_inspection'] == 'NO')
 												{ echo 'No Lot'; 

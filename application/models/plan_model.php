@@ -190,9 +190,17 @@ class Plan_model extends CI_Model {
 	function get_part_plan($planned_part_no,$schedule_date){
 		//echo $planned_part_no.'kkk'.$schedule_date;
 		$a = array($planned_part_no, $schedule_date);
-		$sql = "SELECT * FROM monthly_plan WHERE planned_part_no like ? AND schedule_date like ?";
+		$sql = "SELECT * FROM monthly_plan WHERE planned_part_no like ? AND schedule_date like ? ";
 		return $res = $this->db->query($sql,$a)->row_array();
-		
+		//echo $this->db->last_query();
+			
+	}
+	function get_part_plan_new($planned_part_no,$schedule_date,$product_id,$supplier_id){
+		//echo $planned_part_no.'kkk'.$schedule_date;
+		$a = array($planned_part_no, $schedule_date,$supplier_id,$product_id);
+		$sql = "SELECT * FROM monthly_plan WHERE planned_part_no like ? AND schedule_date like ? AND product_id = ? AND supplier_id = ? order by no_inspection desc limit 0,1 ";
+		return $res = $this->db->query($sql,$a)->row_array();
+		//echo $this->db->last_query();
 			
 	}
 	

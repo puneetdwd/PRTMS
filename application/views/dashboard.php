@@ -154,8 +154,7 @@
                                         <td><?php echo $on_going_test['part_no']; ?></td>
                                         <td><?php echo $on_going_test['supplier_name']; ?></td>
                                         <td><?php echo $on_going_test['chamber_name']; ?></td>
-                                        <td><?php echo $on_going_test['test_name']; ?></td>
-                                        
+                                        <td><?php echo $on_going_test['test_name']; ?></td>                                    
                                         <td><?php echo date('jS M, Y h:i A', strtotime($on_going_test['start_date'])); ?></td>
                                         <td nowrap>
                                             <?php echo date('jS M, Y h:i A', strtotime($on_going_test['end_date'])); ?>
@@ -186,9 +185,9 @@
                                         </td>
                                         <td class="text-center">
                                             <?php 
-                                                if($on_going_test['no_of_observations'] == ($on_going_test['observation_done']*$on_going_test['samples']))
+											
+											    if($on_going_test['no_of_observations'] == ($on_going_test['observation_done']/$on_going_test['samples']))
 												{
-                                                    //echo "1".$on_going_test['no_of_observations']."-".$on_going_test['observation_done'];
                                                     $class = 'fa fa-smile-o text-success';
                                                     $div_class = '';
                                                 } else if($on_going_test['max_index'] !== '0' && $on_going_test['observation_done'] != ($on_going_test['max_index'] + 1)) {
@@ -227,7 +226,7 @@
                                                             $class = 'fa fa-meh-o text-warning';
                                                             $div_class = 'dashboard-noti-warning';
                                                         } else {
-															
+															//echo '1';
                                                             $class = 'fa fa-smile-o text-success';
                                                             $div_class = '';
                                                         }

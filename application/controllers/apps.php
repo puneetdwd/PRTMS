@@ -691,7 +691,7 @@ class Apps extends Admin_Controller {
 					    $this->load->model('Product_model');
 					    $this->load->model('user_model');
                         $phone_numbers = $this->Product_model->get_all_phone_numbers($on_going['supplier_id']);
-						print_r($phone_numbers);
+						//print_r($phone_numbers);
 						$sms = $on_going['supplier_name']."\nPRTMS - Inspn Rslt NG. Part No. -".$on_going['part_no']."(".$on_going['test_name'];
                         $sms .= ").\nDefect-".$on_going['test_judgement'];
                             
@@ -748,26 +748,42 @@ class Apps extends Admin_Controller {
 								<html>
 									<body>
 									<b>PRTMS Inspection Result - NG mail</b>	<br><br><br>							
-									<table style='text-align:left'>
+									<table>
 										<tr>
-											<th>Part No.</th> 
+											<th style='text-align:left;width:170px'>Product Name</th> 
+											<td>".$on_going['product_name']."</td>
+										</tr>
+										<tr>
+											<th style='text-align:left;width:170px'>Part Name</th> 
+											<td>".$on_going['part_name']."</td>
+										</tr>
+										<tr>
+											<th style='text-align:left;width:170px'>Part No.</th> 
 											<td>".$on_going['part_no']."</td>
 										</tr>									  
 										<tr>									  
-											<th>Supplier </th>
+											<th style='text-align:left;width:170px'>Supplier </th>
 											<td>".$on_going['supplier_name']."</td>
 										</tr>
 										<tr>
-											 <th>Inspector </th>
+											 <th style='text-align:left;width:170px'>Inspector </th>
 											<td>".$user['first_name']." ".$user['first_name']."</td>
 										</tr>
 										<tr>
-											<th>Test Name </th>
+											<th style='text-align:left;width:170px'>Test Name </th>
 											<td>".$on_going['test_name']."</td>
 										</tr>
 										<tr>
-											<th>Test Judgment </th>
+											<th style='text-align:left;width:170px'>Test Judgment </th>
 											<td>".$on_going['test_judgement']."</td>									   
+										</tr>
+										<tr>
+											<th style='text-align:left;width:170px'>Start Date </th>
+											<td>".$on_going['start_date']."</td>
+										</tr>
+										<tr>
+											<th style='text-align:left;width:170px'>End Date </th>
+											<td>".$on_going['end_date']."</td>									   
 										</tr>
 									</table>
 								</body>
@@ -775,6 +791,7 @@ class Apps extends Admin_Controller {
 								"."<br><br>Thanks,<br>PRTMS Administrator,<br>LG Electronics, Pune<br><br><br><br>
 								<i>(This is system genrated mail. Please do not reply.)</i>
 								";
+								//echo $mail_content;exit;
 								$this->sendMail($toemail,$subject,$mail_content);
 								//echo $mail_content;exit;
 							}

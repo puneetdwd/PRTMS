@@ -60,7 +60,7 @@
 											
 											<?php } ?>
 										</td-->
-										<td height='70'>									
+										<td height='70' width='100'>									
 										
 											<?php 
 											if(!empty($report['test_img'])){		
@@ -71,7 +71,7 @@
 												if(file_exists($file_path))
 												{
 													?>
-														<img style='width:100px;height:100px' src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>
+														<img height="70" width="100" src='<?php echo base_url()."assets/test_images/".$report['test_img']; ?>' class="img-responsive" ></img>
 													<?php 
 												}
 												else
