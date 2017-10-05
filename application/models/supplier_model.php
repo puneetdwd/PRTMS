@@ -140,6 +140,13 @@ class Supplier_model extends CI_Model {
         
         return $this->db->query($sql, array($part_id))->result_array();
     }
+     function get_suppliers_by_part_insp($part_id) {
+		$month_year = date("Y-m-01");
+        
+        $sql = "select * from (SELECT mp.month_year,mp.part_id,s.id,s.name,s.supplier_no, mp.`no_inspection` FROM `monthly_plan` mp inner join suppliers s on mp.supplier_id = s.id inner join product_parts pp on mp.part_id = pp.id WHERE s.is_deleted = 0 AND mp.`month_year` = ? AND mp.`part_id` = ? group by s.id,mp.part_id) as rr where (rr.`no_inspection` = 'YES' OR rr.no_inspection is NULL)";
+        
+        return $this->db->query($sql, array($month_year,$part_id))->result_array();
+    }
     
     function insert_sp_mappings($data) {
 		

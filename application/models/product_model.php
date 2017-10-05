@@ -46,6 +46,7 @@ class Product_model extends CI_Model {
         ORDER BY pp.name ";        
         return $this->db->query($sql, array($product_id))->result_array();
     }
+	
 	function get_all_product_parts_new($product_id) {
         $sql = "SELECT pp.*
         FROM product_parts pp
@@ -56,6 +57,16 @@ class Product_model extends CI_Model {
     }
 	function get_all_product_parts_new1($product_id,$m,$y) {
 		$month_year = $y."-".$m."-01";
+        $sql = "SELECT pp.*
+        FROM product_parts pp
+		inner join monthly_plan mp on pp.id = mp.part_id
+        WHERE pp.is_deleted = 0 AND mp.month_year = ?
+        AND pp.product_id = ? group BY pp.name, pp.product_id 
+        ORDER BY pp.name ";        
+        return $this->db->query($sql, array($month_year,$product_id))->result_array();
+    }
+	function get_all_product_parts_insp($product_id) {
+		$month_year = date("Y-m-01");
         $sql = "SELECT pp.*
         FROM product_parts pp
 		inner join monthly_plan mp on pp.id = mp.part_id

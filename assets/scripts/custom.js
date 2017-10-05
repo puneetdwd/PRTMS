@@ -49,6 +49,7 @@ $(document).ready(function() {
         var product = $('#product-part-selector :selected').val();
 		//alert(product);
 		var part_assurance = $('#part_assurance').val();
+		var start_moni = $('#start_moni').val();
 		//alert(part_assurance); 
 		if(part_assurance == 'part_assurance')
 		{ 
@@ -80,29 +81,55 @@ $(document).ready(function() {
 			});
 		}
 		else{
-			//alert(0123);
-				$.ajax({
-				type: 'POST',
-				url: base_url+'products/get_parts_by_product',
-				data: { product: product},
-				dataType: 'json',
-				success: function(resp) {
-					if($('#part-selector :selected').val() != '') {
-						$('#part-selector').select2('val', null);
+			if(start_moni == 'start_moni'){
+					//alert('komal');
+					$.ajax({
+					type: 'POST',
+					url: base_url+'products/get_parts_by_product_insp',
+					data: { product: product},
+					dataType: 'json',
+					success: function(resp) {
+						if($('#part-selector :selected').val() != '') {
+							$('#part-selector').select2('val', null);
+						}
+						
+						$('#part-selector').html('');
+						
+						$('#part-selector').append('<option value=""></option>');
+						$.each(resp.parts, function (i, item) {
+							$('#part-selector').append($('<option>', { 
+								value: item.name,
+								text : item.name, 
+							}));
+						});
+						App.unblockUI('#'+portlet_id);
 					}
-					
-					$('#part-selector').html('');
-					
-					$('#part-selector').append('<option value=""></option>');
-					$.each(resp.parts, function (i, item) {
-						$('#part-selector').append($('<option>', { 
-							value: item.name,
-							text : item.name, 
-						}));
-					});
-					App.unblockUI('#'+portlet_id);
-				}
-			});
+				});
+			}
+			else{
+					$.ajax({
+					type: 'POST',
+					url: base_url+'products/get_parts_by_product',
+					data: { product: product},
+					dataType: 'json',
+					success: function(resp) {
+						if($('#part-selector :selected').val() != '') {
+							$('#part-selector').select2('val', null);
+						}
+						
+						$('#part-selector').html('');
+						
+						$('#part-selector').append('<option value=""></option>');
+						$.each(resp.parts, function (i, item) {
+							$('#part-selector').append($('<option>', { 
+								value: item.name,
+								text : item.name, 
+							}));
+						});
+						App.unblockUI('#'+portlet_id);
+					}
+				});
+			}
 		}
     });
 	
@@ -219,29 +246,56 @@ $(document).ready(function() {
         });
         
         var part = $('#part-selector_number :selected').val();
+		var start_moni = $('#start_moni').val();
         /* alert(part);
 		alert(product); */
-        $.ajax({
-            type: 'POST',
-            url: base_url+'products/get_suppliers_by_part',
-            data: { part: part},
-            dataType: 'json',
-            success: function(resp) {
-                if($('#part-selector_supplier :selected').val() != '') {
-                    $('#part-selector_supplier').select2('val', null);
-                }
-                
-                $('#part-selector_supplier').html('');
-                $('#part-selector_supplier').append('<option value=""></option>');
-				$.each(resp.parts, function (i, item) {
-                    $('#part-selector_supplier').append($('<option>', { 
-                        value: item.id,
-                        text : item.name, 
-                    }));
-                });
-                App.unblockUI('#'+portlet_id);
-            }
-        });
+        if(start_moni == 'start_moni'){
+			$.ajax({
+				type: 'POST',
+				url: base_url+'products/get_suppliers_by_part_insp',
+				data: { part: part},
+				dataType: 'json',
+				success: function(resp) {
+					if($('#part-selector_supplier :selected').val() != '') {
+						$('#part-selector_supplier').select2('val', null);
+					}
+					
+					$('#part-selector_supplier').html('');
+					$('#part-selector_supplier').append('<option value=""></option>');
+					$.each(resp.parts, function (i, item) {
+						$('#part-selector_supplier').append($('<option>', { 
+							value: item.id,
+							text : item.name, 
+						}));
+					});
+					App.unblockUI('#'+portlet_id);
+				}
+			});
+		}else{
+			
+			$.ajax({
+				type: 'POST',
+				url: base_url+'products/get_suppliers_by_part',
+				data: { part: part},
+				dataType: 'json',
+				success: function(resp) {
+					if($('#part-selector_supplier :selected').val() != '') {
+						$('#part-selector_supplier').select2('val', null);
+					}
+					
+					$('#part-selector_supplier').html('');
+					$('#part-selector_supplier').append('<option value=""></option>');
+					$.each(resp.parts, function (i, item) {
+						$('#part-selector_supplier').append($('<option>', { 
+							value: item.id,
+							text : item.name, 
+						}));
+					});
+					App.unblockUI('#'+portlet_id);
+				}
+			});
+		
+		}
     });
 	//End Part-supplier
 	
@@ -735,13 +789,14 @@ function printPage(id) {
 	function no_inspection(id) {
 			var c = document.getElementById('no_inspec');
 			//var id = $('#no_inspec').attr('data-index');  
-			//alert(id);exit;			
+			//alert(id);			
 			//alert(base_url+'plans/submit_inspection_status/'+id);
 			if(c.checked){
-			var s = 'NO';
+			var s = 'YES';//inspection
+			//alert(s);
 			$.ajax({
 				type: 'POST',
-				url: 'submit_inspection_status/'+id,
+				url: 'submit_inspection_status',
 				data: { id : id ,s:s},
 				dataType: 'json',
 				success: function() {
@@ -749,14 +804,15 @@ function printPage(id) {
 				},
 			});
 		}else{
-			var s = 'YES';
+			var s = 'NO';//No inspection
+			//alert(s);
 			$.ajax({
 				type: 'POST',
-				url: 'submit_inspection_status/'+id,
+				url: 'submit_inspection_status',
 				data: { id : id ,s:s},
 				dataType: 'json',
 				success: function() {
-					//alert('no insp');
+					//alert('insp');
 				},
 			});
 		}

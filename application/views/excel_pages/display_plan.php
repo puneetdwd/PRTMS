@@ -56,7 +56,7 @@ $CI->load->model('plan_model');
                                         <td><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
                                         <td> 
 												<?php 
-												$res = $CI->plan_model->get_part_plan($pl['planned_part_no'],$pl['schedule_date']);
+												$res = $CI->plan_model->get_part_plan_new($pl['planned_part_no'],$pl['schedule_date'],$pl['supplier_id'],$pl['product_id']);
 												//print_r($res['no_inspection']);
 												
 												if($res['no_inspection'] == 'NO')

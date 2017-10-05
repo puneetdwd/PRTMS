@@ -187,7 +187,7 @@
                                     <th>Supplier</th>
                                     <!--th>Test Item</th>
                                     <th>Schedule Date</th>
-                                    <!--th>Status</th-->
+                                    <th>Status</th>-->
                                     <th>No Inspection</th>
                                     <th class="no_sort" style="width:100px;"></th>
                                 </tr>
@@ -211,8 +211,6 @@
 										</td-->
                                         <td style='text-align: center;'>											
 												<input <?php if($pl['no_inspection'] == 'NO'){ echo 'checked'; } ?> data-index="<?php echo $pl['id']; ?>" type="checkbox" name="no_inspec[]" id="no_inspec" onchange="return no_inspection(<?php echo $pl['id']; ?>);" />
-											
-												
 										</td>
                                         <td nowrap>
                                            											

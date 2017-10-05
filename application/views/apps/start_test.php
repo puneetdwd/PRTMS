@@ -57,6 +57,7 @@
                             <?php } ?>
                             
                             <div class="row">
+							  <input name = 'start_moni' id = 'start_moni' value = 'start_moni' type = 'hidden' />
                                 <div class="col-md-6">
                                     <div class="form-group" id="monitoring-form-stage-error">
                                         <label class="control-label" for="stage_id">Event:

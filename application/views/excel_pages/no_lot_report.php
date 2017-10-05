@@ -12,7 +12,7 @@
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-reorder"></i>No lots Report
+                        <i class="fa fa-reorder"></i><h1>No lots Report</h1>
                     </div>
                     <div class="actions">
                     </div>
@@ -27,7 +27,6 @@
                                     <th style='border: 1px solid black;'>Part Name</th>
                                     <th style='border: 1px solid black;'>Part Number</th>
                                     <th style='border: 1px solid black;'>Supplier</th>
-                                    <th style='border: 1px solid black;'>Test Item</th>
                                     <th style='border: 1px solid black;'>Schedule Date</th>
                                     <th style='border: 1px solid black;'>Status</th>
                                     <!--th class="no_sort" style="width:100px;border: 1px solid black;"></th-->
@@ -41,9 +40,10 @@
                                         <td style='border: 1px solid black;'><?php echo $pl['part']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $pl['planned_part_no']; ?></td>
                                         <td style='border: 1px solid black;'><?php echo $pl['supplier']; ?></td>
-                                        <td style='border: 1px solid black;'><?php echo $pl['test']; ?></td>
-                                        <td style='border: 1px solid black;'><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
+                                       <td style='border: 1px solid black;'><?php echo date('jS M', strtotime($pl['schedule_date'])); ?></td>
                                         <td style='border: 1px solid black;'><?php 
+										//$res = $CI->plan_model->get_part_plan_new($pl['planned_part_no'],$pl['schedule_date'],$pl['supplier_id'],$pl['product_id']);
+												
 												if($pl['no_inspection'] == 'NO')
 													{ echo 'No Lot'; }
 												else {	echo $pl['status']; }
