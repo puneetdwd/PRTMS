@@ -53,7 +53,7 @@
                 } else {
                     $color = '';
                     $key = floor($on_going_test['max_index']/$on_going_test['samples']);
-                    $key = floor($key / $on_going_test['samples']);
+                   // $key = floor($key / $on_going_test['samples']);
 													
                     $dur = ($on_going_test['observation_frequency']*($key+1)); 
                     $ob_time = date('Y-m-d H:i:s', strtotime('+'.$dur.' hours', 
