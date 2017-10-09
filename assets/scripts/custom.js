@@ -85,7 +85,7 @@ $(document).ready(function() {
 					//alert('komal');
 					$.ajax({
 					type: 'POST',
-					url: base_url+'products/get_parts_by_product_insp',
+					url: base_url+'products/get_parts_by_product',
 					data: { product: product},
 					dataType: 'json',
 					success: function(resp) {
@@ -786,30 +786,38 @@ function printPage(id) {
     printWin.close();
 }
 
-	function no_inspection(id) {
+	function no_inspection(myear,sid,pid,ppid) {
 			var c = document.getElementById('no_inspec');
-			//var id = $('#no_inspec').attr('data-index');  
-			//alert(id);			
+			//var id = $('#no_inspec').attr('data-index'); 
+
+			
+			var checkbox_span_class = $('#no_inspec').parent().prop('className');
+
+			// alert(checkbox_span_class);			
+			// alert(c.checked);	exit;		
+			/*alert(sid);			
+			alert(pid);			
+			alert(ppid);	 */		
 			//alert(base_url+'plans/submit_inspection_status/'+id);
 			if(c.checked){
-			var s = 'YES';//inspection
+			var s = 'NO';//NO inspection
 			//alert(s);
 			$.ajax({
 				type: 'POST',
 				url: 'submit_inspection_status',
-				data: { id : id ,s:s},
+				data: { myear : myear , sid : sid , pid : pid , ppid :ppid, s : s},
 				dataType: 'json',
 				success: function() {
 					//alert('no insp');
 				},
 			});
 		}else{
-			var s = 'NO';//No inspection
+			var s = 'YES';//inspection
 			//alert(s);
 			$.ajax({
 				type: 'POST',
 				url: 'submit_inspection_status',
-				data: { id : id ,s:s},
+				data: { myear : myear , sid : sid , pid : pid , ppid :ppid, s : s},
 				dataType: 'json',
 				success: function() {
 					//alert('insp');

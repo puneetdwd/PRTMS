@@ -315,12 +315,24 @@ class Products extends Admin_Controller {
 		echo json_encode($data);
     }
 	
-	 public function get_suppliers_by_part() {
+	public function get_suppliers_by_part() {
         $data = array('suppliers' => array());
         
         if($this->input->post('part')) {
             $this->load->model('Supplier_model');
             $data['parts'] = $this->Supplier_model->get_suppliers_by_part($this->input->post('part'));
+
+			//echo $this->db->last_query(); exit;
+           }
+        
+        echo json_encode($data);
+    }
+	public function get_suppliers_by_part_insp() {
+        $data = array('suppliers' => array());
+        
+        if($this->input->post('part')) {
+            $this->load->model('Supplier_model');
+            $data['parts'] = $this->Supplier_model->get_suppliers_by_part_insp($this->input->post('part'));
 
 			//echo $this->db->last_query(); exit;
            }

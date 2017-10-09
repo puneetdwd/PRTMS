@@ -194,9 +194,10 @@
                             </thead>
                             <tbody>
                                 <?php 
-								//print_r($plan);exit;
 								foreach($plan as $pl) { 
-                                    if($pl['status'] == 'Pending'){ ?>
+                                    if($pl['status'] == 'Pending'){ 
+									//print_r($pl); 
+									$myear = "'".$pl['month_year']."'"; ?>
 									<tr>
                                         <td><?php echo $pl['part']; ?></td>
                                         <td><?php echo $pl['planned_part_no']; ?></td>
@@ -210,7 +211,7 @@
 											?>
 										</td-->
                                         <td style='text-align: center;'>											
-												<input <?php if($pl['no_inspection'] == 'NO'){ echo 'checked'; } ?> data-index="<?php echo $pl['id']; ?>" type="checkbox" name="no_inspec[]" id="no_inspec" onchange="return no_inspection(<?php echo $pl['id']; ?>);" />
+												<input <?php if($pl['no_inspection'] == 'NO'){ echo 'checked'; } ?> data-index="<?php echo $pl['id']; ?>" type="checkbox" name="no_inspec[]" id="no_inspec" onchange="return no_inspection(<?php echo $myear.','.$pl['supplier_id'].','.$pl['product_id'].','.$pl['part_id']; ?>);" />
 										</td>
                                         <td nowrap>
                                            											

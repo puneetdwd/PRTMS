@@ -231,9 +231,19 @@ class Plan_model extends CI_Model {
 		//$this->db->last_query();exit;
     }
 	
-	function mark_no_inspection($id,$s){
+	/* function mark_no_inspection($id,$s){
 			$data = array('no_inspection' => $s);
             $this->db->where('id', $id);
+            $data['modified'] = date("Y-m-d H:i:s");
+            
+            return (($this->db->update('monthly_plan', $data)) ? $id : False);
+    } */
+	function mark_no_inspection($myear,$sid,$pid,$ppid,$s){
+			$data = array('no_inspection' => $s);
+            $this->db->where('month_year', $myear);
+            $this->db->where('supplier_id', $sid);
+            $this->db->where('product_id', $pid);
+            $this->db->where('part_id', $ppid);
             $data['modified'] = date("Y-m-d H:i:s");
             
             return (($this->db->update('monthly_plan', $data)) ? $id : False);

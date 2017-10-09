@@ -242,9 +242,10 @@ class Plans extends Admin_Controller {
 		// echo $this->input->post('id');
 		//echo $this->input->post('s');
 		 
-		 if($this->input->post('id')) {
+		 if($this->input->post()) {
             $this->load->model('Plan_model');
-            $res = $this->Plan_model->mark_no_inspection($this->input->post('id'),$this->input->post('s'));
+            $res = $this->Plan_model->mark_no_inspection($this->input->post('myear'),$this->input->post('sid'),$this->input->post('pid'),$this->input->post('ppid'),$this->input->post('s'));
+			//echo $this->db->last_query();exit;
 		}
 		exit;
     }
