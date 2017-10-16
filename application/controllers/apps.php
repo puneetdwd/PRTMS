@@ -710,7 +710,7 @@ class Apps extends Admin_Controller {
                                     $sms1= urlencode($sms);
                                     $to1 = urlencode($to);
                                     $data = array('to' => $to1, 'sms' => $sms1);
-                                    $url = "http://10.101.0.80:90/PRTMS/apps/send_sms_redirect";    	
+                                    $url = "http://10.101.32.169/PRTMS/apps/send_sms_redirect";    	
                                     //$url = "http://localhost/PRTMS_NEW/apps/send_sms_redirect";    	
 
                                     $ch = curl_init();
@@ -733,12 +733,14 @@ class Apps extends Admin_Controller {
                                 $this->send_sms($to, $sms);
                             }
                         }
+					
 							///NG mail MAil
 							//echo 'hi';exit;
 							$users = $this->user_model->get_users_admins_productwise($on_going['product_id'],$this->session->userdata('username'));
 							/*  echo $tdis->db->last_query();
 							print_r($users);exit; 
-							  */foreach($users as $user) {
+							  */
+							foreach($users as $user) {
 								
 								$toemail = $user['email_id'];
 								$subject = "PRTMS - NG Part - ".$on_going['part_no'];
