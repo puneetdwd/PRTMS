@@ -888,7 +888,7 @@ class Apps extends Admin_Controller {
                                     $sms1= urlencode($sms);
                                     $to1 = urlencode($to);
                                     $data = array('to' => $to1, 'sms' => $sms1);
-                                    $url = "http://10.101.0.80:90/PRTMS/apps/send_sms_redirect";    	
+                                    $url = "http://10.101.32.169/PRTMS/apps/send_sms_redirect";    	
                                     //$url = "http://localhost/PRTMS_NEW/apps/send_sms_redirect";    	
 
                                     $ch = curl_init();
