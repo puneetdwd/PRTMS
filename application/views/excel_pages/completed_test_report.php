@@ -32,6 +32,7 @@
                                     <th>Supplier</th>
                                     <th>Inspector</th>
                                     <th>Sample/ASN No.</th>
+                                    <th>Quantity</th>
                                     <th>Result</th>
 									<th>Approver Remark</th>
                                     <th>Retest Remark</th>
@@ -95,6 +96,7 @@
 										<td><?php echo $report['supplier_name']; ?></td>
                                         <td><?php echo $report['assistant_name']; ?></td>
                                         <td><?php echo $report['lot_no']; ?></td>
+                                        <td><?php echo $report['samples']; ?></td>
                                         <td><?php echo $report['observation_result']; ?></td>
 										<td><?php echo $report['appr_test_remark']; ?></td>
                                         <td><?php echo $report['retest_remark']; ?></td>
